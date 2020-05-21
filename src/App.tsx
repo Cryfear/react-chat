@@ -1,13 +1,12 @@
-import React from 'react';
-import 'antd/dist/antd.css';
-import TypicalButton from './components/TypicalButton';
+import React from "react";
+import "antd/dist/antd.css";
+import Auth from "./pages/Auth/Auth";
+import "./styles/global.scss";
 
 function App() {
-  let str: string = 'hello world';
   return (
     <div className="App">
-      {str}
-      <TypicalButton children="hello" />
+      <Auth />
     </div>
   );
 }
