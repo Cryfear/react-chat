@@ -13,13 +13,21 @@
 
   .auth__loginTitle {
     margin-bottom: 35px;
+    color: #7a7a7a;
   }
 
   .auth__registrationTitle {
     margin-top: 20px;
+    a {
+      color: #7a7a7a;
+    }
+    a:hover {
+      transition: 0.2s;
+      color: #202020;
+    }
   }
 
-  .auth__wrapper {
+  .loginF__wrapper {
     height: 400px;
     width: 300px;
   }
@@ -32,11 +40,17 @@
     align-content: center;
     margin-bottom: 10px;
     width: 100%;
+    input {
+      height: 30px;
+    }
   }
 
   .form__password {
     margin-bottom: 20px;
     align-content: center;
     width: 100%;
+    input {
+      height: 30px;
+    }
   }
 }

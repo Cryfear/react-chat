@@ -1,23 +1,26 @@
 import React from "react";
-import TypicalButton from "../../components/Button/TypicalButton";
-import AuthForm from "./AuthForm";
 import "./Auth.scss";
+import { Route } from "react-router-dom";
+import Registration from "./Registration/Registration";
+import Login from "./Login/Login";
 
 const Auth = (props) => {
   return (
     <div className="auth">
-      <div className="auth__wrapper">
-        <h1 className="auth__mainTitle">Войти в аккаунт</h1>
-        <h4 className="auth__loginTitle">Пожалуйста, войдите в свой аккаунт</h4>
-        <AuthForm />
-        <TypicalButton
-          classes="auth__button-active"
-          children="Войти в аккаунт"
-        />
-        <h3 className="auth__registrationTitle">
-          <a href="/">Зарегистрироваться</a>
-        </h3>
-      </div>
+      <Route
+        exact
+        path="/"
+        render={() => {
+          return <Login />;
+        }}
+      />
+      <Route
+        exact
+        path="/registration"
+        render={() => {
+          return <Registration />;
+        }}
+      />
     </div>
   );
 };
