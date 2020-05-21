@@ -3,7 +3,7 @@ import { Form } from "antd";
 import { Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-const AuthForm: React.FC = (props) => {
+const AuthForm = () => {
   return (
     <div className="auth__form">
       <Form name="normal_login">
