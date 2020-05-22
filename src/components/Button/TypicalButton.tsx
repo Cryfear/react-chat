@@ -4,8 +4,8 @@ import "./Button.scss";
 import classNames from "classnames";
 
 interface ButtonProps {
-  children: string;
-  classes: string;
+  children: React.ReactNode;
+  classes?: string;
 }
 
 const TypicalButton = (props: ButtonProps) => (

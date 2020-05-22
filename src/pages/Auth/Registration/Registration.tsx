@@ -12,14 +12,16 @@ const Registration = () => {
       <h4 className="auth__loginTitle">
         Для входа в чат, вам нужно зарегистрироваться
       </h4>
-      <RegistrationForm />
-      <TypicalButton
-        classes="auth__button-active"
-        children="Зарегистрироваться"
-      />
-      <h4 className="auth__registrationTitle">
-        <Link to="/">Войти в аккаунт</Link>
-      </h4>
+      <div className="auth__wrapper">
+        <RegistrationForm />
+        <TypicalButton
+          classes="auth__button-active"
+          children="Зарегистрироваться"
+        />
+        <h4 className="auth__registrationTitle">
+          <Link to="/">Войти в аккаунт</Link>
+        </h4>
+      </div>
     </div>
   ) : (
     <RegistrationSucces />

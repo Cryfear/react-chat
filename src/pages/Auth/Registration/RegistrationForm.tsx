@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 
-const RegistrationForm: React.FC = (props) => {
+const RegistrationForm = () => {
   return (
     <Form name="normal_login">
       <Form.Item name="username" className="form__username">
