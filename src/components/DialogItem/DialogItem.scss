@@ -1,0 +1,65 @@
+.guyItem {
+  cursor: pointer;
+
+  &__unreadedCount-span {
+    margin-top: -3px;
+    font-size: 12px;
+  }
+
+  &__avatar {
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+  }
+
+  &__info-wrapper {
+    display: inline-block;
+    width: 80%;
+  }
+
+  &__name {
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  &__date {
+    text-align: right;
+    float: right;
+    font-size: 12px;
+  }
+
+  &__avatar::after {
+    width: 15px;
+    height: 15px;
+    content: "";
+    display: inline-block;
+    background-color: #00c980;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-sizing: border-box;
+    margin-left: -10px;
+    vertical-align: bottom;
+  }
+
+  &__avatar-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+  }
+
+  &__text {
+    display: inline-block;
+  }
+
+  &__unreadedCount {
+    float: right;
+    color: white;
+    background-color: #f46b6b;
+    border-radius: 50%;
+    padding: 3px;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    font-weight: bold;
+  }
+}

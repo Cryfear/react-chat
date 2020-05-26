@@ -29,7 +29,13 @@ const Home = (props: HomePageProps) => {
             </div>
           </div>
           <div className="dialogs__items-wrapper">
-            <DialogItem />
+            <DialogItem
+              avatar="https://sun1.beltelecom-by-minsk.userapi.com/c845323/v845323310/181d46/JP_q_sNhiH0.jpg?ava=1"
+              username="Alexander Kit"
+              date="Сейчас"
+              lastMessage="иди поспи лучше чувак серьезно"
+              unreadedCount={5}
+            />
           </div>
         </div>
       </div>
