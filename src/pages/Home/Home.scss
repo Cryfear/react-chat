@@ -1,0 +1,68 @@
+.messages {
+  height: 1000px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: 0;
+  display: inline-block;
+  &__header {
+    padding: 8px;
+    border-bottom: 1px solid #cac6c6;
+  }
+
+  &__wrapper {
+    padding: 15px;
+  }
+
+  &__header-online::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #00c980;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-top: 5px;
+    vertical-align: baseline;
+  }
+}
+
+.dialogs {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  height: 1000px;
+
+  &__search {
+    margin-bottom: 25px;
+  }
+
+  &__search-guys {
+    padding: 15px;
+    border-right: 1px solid #cac6c6;
+  }
+
+  &__edit {
+    padding: 15px;
+    height: 60px;
+    border-bottom: 1px solid #cac6c6;
+    border-right: 1px solid #cac6c6;
+    &-user,
+    &-button {
+      vertical-align: middle;
+    }
+    &-button {
+      float: right;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+    &-user {
+      margin-right: 5px;
+      float: left;
+      margin-top: 2px;
+    }
+  }
+}
+
+.messages__header {
+  text-align: center;
+}
