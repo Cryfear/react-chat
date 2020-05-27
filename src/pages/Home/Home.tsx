@@ -32,9 +32,18 @@ const Home = (props: HomePageProps) => {
             <DialogItem
               avatar="https://sun1.beltelecom-by-minsk.userapi.com/c845323/v845323310/181d46/JP_q_sNhiH0.jpg?ava=1"
               username="Alexander Kit"
-              date="Сейчас"
+              date={new Date()}
               lastMessage="иди поспи лучше чувак серьезно"
-              unreadedCount={5}
+              unreadedCount={12}
+              isOnline={true}
+            />
+            <DialogItem
+              avatar="https://sun9-63.userapi.com/c858136/v858136504/1bd5a1/Zge8Cv_uG4g.jpg?ava=1"
+              username="Alexander Linberg"
+              date={new Date()}
+              lastMessage="дадаааааааааааааааааааааааа"
+              unreadedCount={4}
+              isOnline={true}
             />
           </div>
         </div>
@@ -49,12 +58,12 @@ const Home = (props: HomePageProps) => {
         </div>
         <div className="messages__wrapper">
           <Message
-            date={new Date(2020, 4, 24, 15)}
+            date={new Date(2020, 4, 27, 16)}
             avatar="https://sun9-47.userapi.com/c857520/v857520118/13765d/yWNm9_uF_XM.jpg"
             message_text="Салам, Брут! Чё, как, уничтожил флот галлов? 🖐🏻"
           />
           <Message
-            date={new Date(2020, 4, 24, 16)}
+            date={new Date(new Date(2020, 4, 27))}
             avatar="https://sun9-61.userapi.com/c856016/v856016589/150055/pMbRBQCR-o0.jpg"
             message_text="Мы тут недавно войска Ариовиста разбили, чуваки хотели закрепиться на галльских землях, лол 🌝"
             isMe={true}

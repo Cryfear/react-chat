@@ -1,5 +1,6 @@
 .guyItem {
   cursor: pointer;
+  margin-bottom: 10px;
 
   &__unreadedCount-span {
     margin-top: -3px;
@@ -28,7 +29,7 @@
     font-size: 12px;
   }
 
-  &__avatar::after {
+  &__avatar-online::after {
     width: 15px;
     height: 15px;
     content: "";
