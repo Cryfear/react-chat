@@ -1,0 +1,50 @@
+.Typing {
+  width: 70px;
+  height: 46px;
+  background: #e5edff;
+  box-sizing: border-box;
+  border-radius: 12px 12px 12px 0px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-dots {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 46px;
+  width: 100%;
+  .loading-dots__dot {
+    height: 7px;
+    width: 7px;
+    background-color: #a6bdf0;
+    border-radius: 50%;
+    animation: loading-dot 2s linear infinite;
+    @for $i from 1 to 10 {
+      &:nth-child(#{$i}) {
+        animation-delay: $i * 0.2s;
+      }
+    }
+  }
+}
+
+@keyframes loading-dot {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

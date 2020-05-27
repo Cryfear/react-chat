@@ -11,7 +11,7 @@ export const dateFormatter = ({ date, withConverting }: dateFormatterProps) => {
   // withConverting это значит нужно ли упрощать дату
   // (сейчас, 1ч назад, 1д назад) и т.д
   if (withConverting) {
-    
+    // функция пока еще не реализована
     return formatDistanceStrict(date, new Date(2020, 4, 28),{
       addSuffix: true,
       locale: ruLocale,
