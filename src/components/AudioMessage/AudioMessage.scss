@@ -1,0 +1,54 @@
+.audioMessage__toggle {
+  z-index: 10;
+  cursor: pointer;
+  width: 25px;
+  &-img-stop {
+    width: 20px;
+  }
+  &-img-play {
+    width: 10px;
+  }
+}
+
+.audioMessage {
+  position: relative;
+  &__progress {
+    position: absolute;
+    max-width: 111%;
+    top: -13px;
+    height: 58px;
+    background-color: rgb(190, 184, 184);
+    opacity: 0.7;
+    left: -13px;
+    border-radius: 12px 12px 0px 12px;
+    overflow: hidden;
+    transition: linear 0.3s;
+    z-index: 1;
+  }
+  &__not-mineAudio {
+    position: absolute;
+    max-width: 111%;
+    top: -13px;
+    height: 56px;
+    opacity: 0.5;
+    left: -13px;
+    overflow: hidden;
+    transition: linear 0.3s;
+    background-color: #9cbbda;
+    border-radius: 12px 0px 0px 0px;
+    z-index: 1;
+  }
+  &__data {
+    line-height: 35px;
+  }
+}
+
+.myAudioMessage__content {
+  line-height: 30px;
+  justify-content: space-around;
+  width: 250px;
+  display: flex;
+  audio {
+    display: none;
+  }
+}

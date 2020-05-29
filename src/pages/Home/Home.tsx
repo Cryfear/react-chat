@@ -77,6 +77,13 @@ const Home = (props: HomePageProps) => {
             isReaded={true}
             isTyping={true}
           />
+          <Message
+            date={new Date(new Date(2020, 4, 30, 2))}
+            avatar="https://sun9-61.userapi.com/c856016/v856016589/150055/pMbRBQCR-o0.jpg"
+            message_text="Мы тут недавно войска Ариовиста разбили, чуваки хотели закрепиться на галльских землях, лол 🌝"
+            isMe={false}
+            audio={true}
+          />
         </div>
         <div className="messages__input-wrapper"></div>
       </div>
