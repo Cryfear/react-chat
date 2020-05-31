@@ -1,6 +1,7 @@
 .message {
   color: white;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
   &__wrapper {
     display: flex;
   }
@@ -32,6 +33,8 @@
 
 .myMessage {
   color: #202020;
+  margin-top: 10px;
+  margin-bottom: 15px;
   &__wrapper {
     display: flex;
     flex-flow: row-reverse;

@@ -1,7 +1,14 @@
 import React from "react";
 import Message from "../../components/Message/Messsage";
 import "./Home.scss";
-import { UserSwitchOutlined, FormOutlined } from "@ant-design/icons";
+import {
+  TeamOutlined,
+  FormOutlined,
+  SmileOutlined,
+  CameraOutlined,
+  AudioOutlined,
+  SendOutlined,
+} from "@ant-design/icons";
 import { Input } from "antd";
 import DialogItem from "../../components/DialogItem/DialogItem";
 
@@ -15,7 +22,7 @@ const Home = (props: HomePageProps) => {
       <div className="dialogs">
         <div className="dialogs__edit">
           <span className="dialogs__edit-user">
-            <UserSwitchOutlined style={{ fontSize: "22px" }} />
+            <TeamOutlined style={{ fontSize: "22px" }} />
           </span>
           <span className="dialogs__edit-title">Список диалогов</span>
           <span className="dialogs__edit-button">
@@ -38,11 +45,27 @@ const Home = (props: HomePageProps) => {
               isOnline={true}
             />
             <DialogItem
-              avatar="https://sun9-63.userapi.com/c858136/v858136504/1bd5a1/Zge8Cv_uG4g.jpg?ava=1"
-              username="Alexander Linberg"
+              avatar="https://sun1.beltelecom-by-minsk.userapi.com/c845323/v845323310/181d46/JP_q_sNhiH0.jpg?ava=1"
+              username="Alexander Kit"
               date={new Date()}
-              lastMessage="дадаааааааааааааааааааааааа"
-              unreadedCount={4}
+              lastMessage="иди поспи лучше чувак серьезно"
+              unreadedCount={12}
+              isOnline={true}
+            />
+            <DialogItem
+              avatar="https://sun1.beltelecom-by-minsk.userapi.com/c845323/v845323310/181d46/JP_q_sNhiH0.jpg?ava=1"
+              username="Alexander Kit"
+              date={new Date()}
+              lastMessage="иди поспи лучше чувак серьезно"
+              unreadedCount={12}
+              isOnline={true}
+            />
+            <DialogItem
+              avatar="https://sun1.beltelecom-by-minsk.userapi.com/c845323/v845323310/181d46/JP_q_sNhiH0.jpg?ava=1"
+              username="Alexander Kit"
+              date={new Date()}
+              lastMessage="иди поспи лучше чувак серьезно"
+              unreadedCount={12}
               isOnline={true}
             />
           </div>
@@ -63,11 +86,11 @@ const Home = (props: HomePageProps) => {
             message_text="Салам, Брут! Чё, как, уничтожил флот галлов? 🖐🏻"
           />
           <Message
-            date={new Date(new Date(2020, 4, 27))}
+            date={new Date(new Date(2020, 4, 30, 2))}
             avatar="https://sun9-61.userapi.com/c856016/v856016589/150055/pMbRBQCR-o0.jpg"
             message_text="Мы тут недавно войска Ариовиста разбили, чуваки хотели закрепиться на галльских землях, лол 🌝"
             isMe={true}
-            isReaded={true}
+            audio={true}
           />
           <Message
             date={new Date(new Date(2020, 4, 27))}
@@ -75,17 +98,32 @@ const Home = (props: HomePageProps) => {
             message_text="Мы тут недавно войска Ариовиста разбили, чуваки хотели закрепиться на галльских землях, лол 🌝"
             isMe={true}
             isReaded={true}
-            isTyping={true}
           />
           <Message
             date={new Date(new Date(2020, 4, 30, 2))}
             avatar="https://sun9-61.userapi.com/c856016/v856016589/150055/pMbRBQCR-o0.jpg"
             message_text="Мы тут недавно войска Ариовиста разбили, чуваки хотели закрепиться на галльских землях, лол 🌝"
-            isMe={false}
+            isMe={true}
             audio={true}
           />
         </div>
-        <div className="messages__input-wrapper"></div>
+        <div className="messages__input-wrapper">
+          <div className="input__stikers">
+            <SmileOutlined style={{ fontSize: "17px" }} />
+          </div>
+          <div className="messages__input-text">
+            <input className="message_yeap" type="text" />
+          </div>
+          <div className="messages__photos">
+            <CameraOutlined style={{ fontSize: "17px" }} />
+          </div>
+          <div className="messages__microphone">
+            <AudioOutlined style={{ fontSize: "17px" }} />
+          </div>
+          <div className="messages__sendMessage">
+            <SendOutlined style={{ fontSize: "17px" }} />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,68 @@
 .messages {
-  height: 1000px;
+  &__input-text input {
+    caret-color: rgba(185, 56, 56, 0.849);
+    width: 698px;
+    height: 43px;
+    border: none;
+    padding-left: 40px;
+    outline: none;
+    transition: 2s;
+  }
+
+  &__input-wrapper:hover {
+    border: 1px solid rgb(54, 54, 223);
+    outline: none;
+  }
+
+  &__input-text input:focus {
+    border: 1px solid rgb(54, 54, 223);
+    outline: none;
+  }
+
+  .input__stikers,
+  &__photos,
+  &__microphone,
+  &__sendMessage {
+    position: absolute;
+    top: 11px;
+    cursor: pointer;
+    height: 100%;
+    transition: 0.2s;
+  }
+
+  .input__stikers:hover,
+  &__photos:hover,
+  &__microphone:hover,
+  &__sendMessage:hover {
+    color: blue;
+  }
+
+  .input__stikers {
+    left: 10px;
+  }
+  &__photos {
+    right: 50px;
+  }
+  &__microphone {
+    right: 30px;
+  }
+  &__sendMessage {
+    right: 10px;
+  }
+  &__input-wrapper {
+    overflow: hidden;
+    width: 700px;
+    display: flex;
+    position: sticky;
+    bottom: 0;
+    background: #ffffff;
+    border: 1px solid #cac6c6;
+    box-sizing: border-box;
+    border-radius: 4px;
+    height: 45px;
+    box-sizing: border-box;
+  }
+  height: 100%;
   width: 80%;
   margin-left: auto;
   margin-right: 0;
@@ -30,7 +93,9 @@
   width: 20%;
   display: inline-block;
   vertical-align: top;
-  height: 1000px;
+  height: 100%;
+  border-bottom: 1px solid #cac6c6;
+  border-right: 1px solid #cac6c6;
 
   &__search {
     margin-bottom: 25px;
@@ -38,14 +103,12 @@
 
   &__search-guys {
     padding: 15px;
-    border-right: 1px solid #cac6c6;
   }
 
   &__edit {
     padding: 15px;
     height: 60px;
     border-bottom: 1px solid #cac6c6;
-    border-right: 1px solid #cac6c6;
     &-user,
     &-button {
       vertical-align: middle;
