@@ -11,12 +11,15 @@ import {
 } from "@ant-design/icons";
 import { Input } from "antd";
 import DialogItem from "../../components/DialogItem/DialogItem";
-
+import api from "../../api/api";
 const { Search } = Input;
 
 interface HomePageProps {}
 
 const Home = (props: HomePageProps) => {
+  const getDialog = () => {
+    api.getDialog();
+  };
   return (
     <div>
       <div className="dialogs">
@@ -32,7 +35,7 @@ const Home = (props: HomePageProps) => {
         <div className="dialogs__search-guys">
           <div className="dialogs__search">
             <div className="search__input">
-              <Search placeholder="тестовый инпут" onSearch={value => console.log(value)} />
+              <Search placeholder="тестовый инпут" onSearch={getDialog} />
             </div>
           </div>
           <div className="dialogs__items-wrapper">
