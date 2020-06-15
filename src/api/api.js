@@ -5,7 +5,7 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-const DialogsApi = {
+export const DialogsApi = {
   getDialog() {
     return instance.get('/dialogs/5eddc4ef4b67d023085a45df')
       .then((response) => {
@@ -15,4 +15,16 @@ const DialogsApi = {
   },
 }
 
-export default DialogsApi;
+export const UsersApi = {
+  async createUser(values) {
+    instance.post('/users/create', {
+      email: values.email,
+      fullName: values.username,
+      password: values.password,
+      repeatPassword: values.repeatPassword
+    }).then(data => {
+      console.log(values)
+      console.log(data)
+    })
+  }
+}

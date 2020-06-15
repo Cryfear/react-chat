@@ -11,6 +11,7 @@ const Login = () => {
       <div className="auth__wrapper">
         <LoginForm />
         <TypicalButton
+          onSubmit={() => console.log("dasda")}
           classes="auth__button-active"
           children="Войти в аккаунт"
         />

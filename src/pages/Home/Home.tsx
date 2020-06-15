@@ -11,14 +11,14 @@ import {
 } from "@ant-design/icons";
 import { Input } from "antd";
 import DialogItem from "../../components/DialogItem/DialogItem";
-import api from "../../api/api";
+import { DialogsApi } from "../../api/api";
 const { Search } = Input;
 
 interface HomePageProps {}
 
 const Home = (props: HomePageProps) => {
   const getDialog = () => {
-    api.getDialog();
+    DialogsApi.getDialog();
   };
   return (
     <div>

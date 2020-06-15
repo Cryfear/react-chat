@@ -23,9 +23,7 @@ const DialogItem = (props: DialogItemProps) => {
       <div className="guyItem__info-wrapper">
         <div className="guyItem__name-date">
           <div className="guyItem__name">{props.username}</div>
-          <div className="guyItem__date">
-            {dateFormatter({ date: props.date, withConverting: true })}
-          </div>
+          <div className="guyItem__date">{dateFormatter({ date: props.date })}</div>
         </div>
         <div className="guyItem__text-unreadedCount">
           <div className="guyItem__text">

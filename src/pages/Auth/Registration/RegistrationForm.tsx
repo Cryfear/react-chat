@@ -2,17 +2,48 @@ import React from "react";
 import { Form, Input } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { withFormik } from "formik";
+import TypicalButton from "../../../components/Button/TypicalButton";
+import { UsersApi } from "../../../api/api";
 
-const RegistrationForm = (props: any) => {
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
-  console.log(touched);
+// interface RegistrationFormTypes {
+//   values: {
+//     email: string;
+//     username: string;
+//     password: string;
+//     repeatPassword: string;
+//   };
+//   touched: {
+//     email: Boolean;
+//     username: Boolean;
+//     password: Boolean;
+//     repeatPassword: Boolean;
+//   };
+//   errors: {
+//     email: string;
+//     username: string;
+//     password: string;
+//     repeatPassword: string;
+//   };
+//   handleChange: any;
+//   handleBlur: any;
+//   handleSubmit: any;
+// }
+
+const RegistrationForm = ({
+  values,
+  touched,
+  errors,
+  handleChange,
+  handleBlur,
+  handleSubmit,
+}: any) => {
   return (
     <Form onFinish={handleSubmit} name="normal_login">
       <Form.Item
         hasFeedback
         className="form__username"
-        validateStatus={errors.email && touched.email ? "error" : "success"}
-        help={errors.email && touched.email ? errors.email : ""}
+        validateStatus={errors.email ? "error" : "success"}
+        help={errors.email || touched.email ? errors.email : ""}
       >
         <Input
           name="email"
@@ -23,11 +54,11 @@ const RegistrationForm = (props: any) => {
           onBlur={handleBlur}
           value={values.email}
         />
-        {errors.email && touched.email && <span></span>}
+        <span></span>
       </Form.Item>
       <Form.Item
-        validateStatus={errors.username && touched.username ? "error" : "success"}
-        help={errors.username && touched.username ? errors.username : ""}
+        validateStatus={errors.username ? "error" : "success"}
+        help={errors.username || touched.username ? errors.username : ""}
         id="username"
         className="form__username"
       >
@@ -39,11 +70,11 @@ const RegistrationForm = (props: any) => {
           onBlur={handleBlur}
           value={values.username}
         />
-        {errors.username && touched.username && <span></span>}
+        <span></span>
       </Form.Item>
       <Form.Item
-        validateStatus={errors.password && touched.password ? "error" : "success"}
-        help={errors.password && touched.password ? errors.password : ""}
+        validateStatus={errors.password ? "error" : "success"}
+        help={errors.password || touched.password ? errors.password : ""}
         className="form__username"
         rules={[
           {
@@ -60,11 +91,11 @@ const RegistrationForm = (props: any) => {
           onBlur={handleBlur}
           value={values.password}
         />
-        {errors.password && touched.password && <span></span>}
+        <span></span>
       </Form.Item>
       <Form.Item
-        validateStatus={errors.repeatPassword && touched.repeatPassword ? "error" : "success"}
-        help={errors.repeatPassword && touched.repeatPassword ? errors.repeatPassword : ""}
+        validateStatus={errors.repeatPassword ? "error" : "success"}
+        help={errors.repeatPassword || touched.repeatPassword ? errors.repeatPassword : ""}
         className="form__password"
         rules={[
           {
@@ -81,51 +112,49 @@ const RegistrationForm = (props: any) => {
           onBlur={handleBlur}
           value={values.repeatPassword}
         />
-        {errors.repeatPassword && touched.repeatPassword && <span></span>}
+        <span></span>
       </Form.Item>
+      <TypicalButton
+        onSubmit={handleSubmit}
+        classes="auth__button-active"
+        children="Зарегистрироваться"
+      />
     </Form>
   );
 };
 
 export default withFormik({
-  // Custom sync validation
   validate: values => {
     let re = /.+@.+\..+/i;
     let pa = /^(?=.*[0-9])[a-zA-Z0-9]{6,16}$/;
-    const errors = {
-      email: "",
-      username: "",
-      password: "",
-      repeatPassword: "",
-    };
+    const errors: any = {};
 
     if (!values.email) {
-      errors.email = "Required";
+      errors.email = "Это обязательное поле";
     } else if (!re.test(values.email)) {
       errors.email = "inccorect email";
-    } else {
-      errors.email = "";
     }
 
     if (!values.username) {
-      errors.username = "Required";
+      errors.username = "Это обязательное поле";
     }
-
-    if (!pa.test(values.password)) {
+    if (!values.password) {
+      errors.password = "Придумайте пароль!";
+    } else if (!pa.test(values.password)) {
       errors.password = "Пароль слишком легкий";
     }
 
-    if (values.repeatPassword !== values.password) {
+    if (!values.repeatPassword) {
+      errors.repeatPassword = "Придумайте пароль!";
+    } else if (values.repeatPassword !== values.password) {
       errors.repeatPassword = "Пароли не совпадают!";
     }
+
     return errors;
   },
 
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
+  handleSubmit: values => {
+    UsersApi.createUser(values);
   },
 
   displayName: "RegistrationForm",
