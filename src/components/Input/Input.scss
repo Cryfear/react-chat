@@ -1,0 +1,14 @@
+.simpleInput {
+  position: relative;
+  .input__icon {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+  }
+  .simpleInput__error {
+    color: rgb(194, 53, 53);
+    margin-top: -7px;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+}
