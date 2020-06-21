@@ -9,19 +9,20 @@ import {
   emailValidate,
   passwordValidate,
   repeatePasswordValidate,
+  emailisHere,
 } from "../../../assets/validations.jsx";
 import { UsersApi } from "../../../api/api";
 
 class RegistrationForm extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      JSON.stringify(this.props) !== JSON.stringify(nextProps) ||
-      JSON.stringify(this.state) !== JSON.stringify(nextState)
-    );
-  }
-
   submit = values => {
-    UsersApi.createUser(values);
+    UsersApi.getUserByEmail(values).then(data => {
+      console.log(data);
+    });
+    UsersApi.createUser(values).then(err => {
+      document.querySelector('input[name="email"]').nextSibling.innerHTML = emailisHere(
+        err.data.errmsg
+      );
+    });
   };
 
   render() {

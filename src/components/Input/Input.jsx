@@ -14,7 +14,7 @@ export const Input = ({ input, meta, placeholder, type, classes, prefix, id }) =
         type={type}
         className={classes + (hasError ? " input-error" : "")}
       />
-      {hasError && <div className="simpleInput__error">{meta.error}</div>}
+      {<div className="simpleInput__error">{hasError && meta.error}</div>}
     </div>
   );
 };

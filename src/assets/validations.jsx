@@ -5,6 +5,13 @@ export const requiredPassword = value => {
   return value || typeof value === "number" ? undefined : "Придумайте пароль!";
 };
 
+export const emailisHere = value => {
+  if (value && value.indexOf("duplicate key error collection") > 0) {
+    return "Такой email уже зарегистрирован!";
+  }
+  return "";
+};
+
 export const emailValidate = value => {
   let re = /.+@.+\..+/i;
   return re.test(value) ? undefined : "Невалидный E-mail";

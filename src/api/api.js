@@ -17,13 +17,32 @@ export const DialogsApi = {
 };
 
 export const UsersApi = {
+  async isLoginNow() {
+    return instance.get(`/auth`).then(data => {
+      return data;
+    });
+  },
   async getUser(id) {
-    instance.get(`/users/:${id}`).then(data => {
+    return instance.get(`/users/:${id}`).then(data => {
       console.log(data);
     });
   },
+  async loginUser(values) {
+    return instance
+      .post("/login", {
+        values,
+      })
+      .then(data => {
+        sessionStorage["userId"] = data.data.userId;
+        sessionStorage["userLogin"] = data.data.userLogin;
+        return data;
+      });
+  },
+  async logoutUser() {
+    return instance.delete("/logout");
+  },
   async createUser(values) {
-    instance
+    return instance
       .post("/users/create", {
         email: values.email,
         fullName: values.username,
@@ -31,9 +50,11 @@ export const UsersApi = {
         repeatPassword: values.repeatPassword,
       })
       .then(data => {
-        console.log(values);
-        console.log(data);
+        return data;
+      })
+      .catch(err => {
+        console.log(err);
+        return err;
       });
   },
-  async loginUser(values) {},
 };

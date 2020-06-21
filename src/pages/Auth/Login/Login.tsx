@@ -1,26 +1,28 @@
 import React from "react";
-import TypicalButton from "../../../components/Button/TypicalButton";
 import LoginForm from "./LoginForm";
 import { Link } from "react-router-dom";
+import { UsersApi } from "../../../api/api";
 
-const Login = () => {
-  return (
-    <div className="login__wrapper">
-      <h1 className="auth__mainTitle">Войти в аккаунт</h1>
-      <h4 className="auth__loginTitle">Пожалуйста, войдите в свой аккаунт</h4>
-      <div className="auth__wrapper">
-        <LoginForm />
-        <TypicalButton
-          onSubmit={() => console.log("dasda")}
-          classes="auth__button-active"
-          children="Войти в аккаунт"
-        />
-        <h4 className="auth__registrationTitle">
-          <Link to="registration">Зарегистрироваться</Link>
-        </h4>
+class Login extends React.Component {
+  componentDidMount() {
+    UsersApi.isLoginNow().then(data => {
+      console.log(data);
+    });
+  }
+  render() {
+    return (
+      <div className="login__wrapper">
+        <h1 className="auth__mainTitle">Войти в аккаунт</h1>
+        <h4 className="auth__loginTitle">Пожалуйста, войдите в свой аккаунт</h4>
+        <div className="auth__wrapper">
+          <LoginForm />
+          <h4 className="auth__registrationTitle">
+            <Link to="registration">Зарегистрироваться</Link>
+          </h4>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Login;

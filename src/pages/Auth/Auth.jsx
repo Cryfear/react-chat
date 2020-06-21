@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import Registration from "./Registration/Registration";
 import Login from "./Login/Login";
 
-const Auth = (props) => {
+const Auth = props => {
   return (
     <div className="auth">
       <Route

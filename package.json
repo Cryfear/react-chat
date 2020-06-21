@@ -12,6 +12,7 @@
     "@types/redux-form": "^8.2.6",
     "antd": "^4.2.4",
     "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
     "classnames": "^2.2.6",
     "date-fns": "^2.14.0",
     "install": "^0.13.0",
