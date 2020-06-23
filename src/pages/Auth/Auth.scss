@@ -7,23 +7,34 @@
   align-items: center;
   text-align: center;
 
-  .auth__mainTitle {
+  &__button {
+    background-color: rebeccapurple;
+    margin-top: 20px;
+    width: 100%;
+    height: 45px;
+    color: white;
+    border: 1px solid black;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &__mainTitle {
     margin-bottom: 0;
   }
 
-  .auth__wrapper {
+  &__wrapper {
     -webkit-box-shadow: 0px 0px 8px -1px rgba(105, 105, 105, 0.3);
     -moz-box-shadow: 0px 0px 8px -1px rgba(105, 105, 105, 0.3);
     box-shadow: 0px 0px 8px -1px rgba(105, 105, 105, 0.3);
     padding: 20px;
   }
 
-  .auth__loginTitle {
+  &__loginTitle {
     margin-bottom: 35px;
     color: #7a7a7a;
   }
 
-  .auth__registrationTitle {
+  &__registrationTitle {
     margin-top: 20px;
     a {
       color: #7a7a7a;
@@ -39,7 +50,7 @@
     width: 350px;
   }
 
-  .auth__form {
+  &__form {
     width: 100%;
   }
 
@@ -60,9 +71,4 @@
       height: 30px;
     }
   }
-}
-
-.ant-form-item-explain {
-  min-height: 0 !important;
-  text-align: left;
 }

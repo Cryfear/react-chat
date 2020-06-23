@@ -1,29 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Input } from "../../../components/Input/Input";
 import { Field, reduxForm } from "redux-form";
 import { required } from "../../../assets/validations.jsx";
 import { UsersApi } from "../../../api/api";
+import { Link } from "react-router-dom";
 
 const AuthForm = props => {
   let [isLogin, setLogin] = useState(false);
+  useEffect(() => {
+    if (sessionStorage.userEmail)
+      UsersApi.isLoginNow(sessionStorage.userEmail).then(data => {
+        setLogin(true);
+        console.log(data);
+      });
+  }, []);
+
+  const logout = () => {
+    UsersApi.logoutUser();
+    setLogin(false);
+  };
+
   const submit = values => {
+    let warningText = document.querySelector('input[name="password"]').nextSibling;
     UsersApi.loginUser(values).then(data => {
       console.log(data);
       if (data.data.isAccess) {
-        document.querySelector('input[name="password"]').nextSibling.innerHTML = "Вы вошли!";
-        document.querySelector('input[name="password"]').nextSibling.style.color = "green";
+        warningText.innerHTML = "Вы вошли!";
+        warningText.style.color = "green";
         setLogin(true);
       } else {
-        document.querySelector('input[name="password"]').nextSibling.innerHTML =
-          "Неправильный логин или пароль";
-        document.querySelector('input[name="password"]').nextSibling.style.color = "red";
+        warningText.innerHTML = "Неправильный логин или пароль";
+        warningText.style.color = "red";
         setLogin(false);
       }
     });
   };
   return isLogin ? (
-    "Вошел!!!"
+    <div>
+      <span>`Вошел!!!${sessionStorage.userEmail}`</span>
+      <div>
+        <button onClick={logout}>Выйти</button>
+      </div>
+    </div>
   ) : (
     <div className="auth__form">
       <form onSubmit={props.handleSubmit(submit)} name="normal_login">
@@ -49,6 +68,9 @@ const AuthForm = props => {
           Войти в аккаунт
         </button>
       </form>
+      <h4 className="auth__registrationTitle">
+        <Link to="registration">Зарегистрироваться</Link>
+      </h4>
     </div>
   );
 };

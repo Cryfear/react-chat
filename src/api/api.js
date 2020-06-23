@@ -17,10 +17,15 @@ export const DialogsApi = {
 };
 
 export const UsersApi = {
-  async isLoginNow() {
-    return instance.get(`/auth`).then(data => {
-      return data;
-    });
+  async isLoginNow(email) {
+    return instance
+      .post(`/login/me`, {
+        email: email,
+      })
+      .then(data => {
+        console.log(data);
+        return data;
+      });
   },
   async getUser(id) {
     return instance.get(`/users/:${id}`).then(data => {
@@ -34,12 +39,17 @@ export const UsersApi = {
       })
       .then(data => {
         sessionStorage["userId"] = data.data.userId;
-        sessionStorage["userLogin"] = data.data.userLogin;
+        sessionStorage["userEmail"] = data.data.userEmail;
         return data;
       });
   },
   async logoutUser() {
-    return instance.delete("/logout");
+    return instance.delete("/logout").then(data => {
+      console.log("Вы вышли!!");
+      console.log(data);
+      sessionStorage.removeItem("userId");
+      sessionStorage.removeItem("userEmail");
+    });
   },
   async createUser(values) {
     return instance
