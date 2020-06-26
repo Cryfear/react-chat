@@ -4,7 +4,7 @@ import { Input } from "../../../components/Input/Input";
 import { Field, reduxForm } from "redux-form";
 import { required } from "../../../assets/validations.jsx";
 import { UsersApi } from "../../../api/api";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const AuthForm = props => {
   let [isLogin, setLogin] = useState(false);
@@ -15,12 +15,7 @@ const AuthForm = props => {
         console.log(data);
       });
   }, []);
-
-  const logout = () => {
-    UsersApi.logoutUser();
-    setLogin(false);
-  };
-
+  
   const submit = values => {
     let warningText = document.querySelector('input[name="password"]').nextSibling;
     UsersApi.loginUser(values).then(data => {
@@ -37,12 +32,7 @@ const AuthForm = props => {
     });
   };
   return isLogin ? (
-    <div>
-      <span>`Вошел!!!${sessionStorage.userEmail}`</span>
-      <div>
-        <button onClick={logout}>Выйти</button>
-      </div>
-    </div>
+    <Redirect to="/im" />
   ) : (
     <div className="auth__form">
       <form onSubmit={props.handleSubmit(submit)} name="normal_login">

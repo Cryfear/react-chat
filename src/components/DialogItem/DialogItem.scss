@@ -5,6 +5,11 @@
   &__unreadedCount-span {
     margin-top: -3px;
     font-size: 12px;
+    padding-left: 0;
+  }
+  .guyItem__text-unreadedCount {
+    text-align: left;
+    padding-left: 4px;
   }
 
   &__avatar {
@@ -58,6 +63,7 @@
     background-color: #f46b6b;
     border-radius: 50%;
     padding: 3px;
+
     width: 18px;
     height: 18px;
     text-align: center;

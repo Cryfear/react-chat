@@ -17,6 +17,12 @@ export const DialogsApi = {
 };
 
 export const UsersApi = {
+  async getUsers(page) {
+    return instance.get(`/getUsers/${page}`).then(data => {
+      console.log(data);
+      return data;
+    });
+  },
   async isLoginNow(email) {
     return instance
       .post(`/login/me`, {

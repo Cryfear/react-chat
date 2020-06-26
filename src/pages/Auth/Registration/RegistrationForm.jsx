@@ -15,9 +15,6 @@ import { UsersApi } from "../../../api/api";
 
 class RegistrationForm extends React.Component {
   submit = values => {
-    UsersApi.getUserByEmail(values).then(data => {
-      console.log(data);
-    });
     UsersApi.createUser(values).then(err => {
       document.querySelector('input[name="email"]').nextSibling.innerHTML = emailisHere(
         err.data.errmsg
