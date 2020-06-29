@@ -107,6 +107,10 @@
   border-bottom: 1px solid #cac6c6;
   border-right: 1px solid #cac6c6;
   border-left: 1px solid #cac6c6;
+  &__items-wrapper {
+    height: 500px;
+    overflow-y: auto;
+  }
   &__search {
     margin-bottom: 25px;
   }

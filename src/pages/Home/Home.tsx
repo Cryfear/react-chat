@@ -7,34 +7,28 @@ import MessagesWrapper from "../../components/Home/Messages/MessagesWrapper";
 import MessagesInputWrapper from "../../components/Home/Messages/MessagesInputWrapper";
 import { UsersApi } from "../../api/api.js";
 
-class Home extends React.Component {
-  getUsers = (page: Number) => {
+interface HomeTypes {}
+
+const Home = (props: HomeTypes) => {
+  const getUsers = (page: Number) => {
     return UsersApi.getUsers(page).then(data => {
-      console.log(data);
       return data;
     });
   };
-  render() {
-    return (
-      <div className="home">
-        <div className="dialogs">
-          <DialogsEdit />
-          <DialogsSearchGuys
-            getUsers={() => {
-              this.getUsers(0).then(data => {
-                console.log(data);
-              });
-            }}
-          />
-        </div>
-        <div className="messages">
-          <Header />
-          <MessagesWrapper />
-          <MessagesInputWrapper />
-        </div>
+
+  return (
+    <div className="home">
+      <div className="dialogs">
+        <DialogsEdit />
+        <DialogsSearchGuys getUsers={getUsers} />
       </div>
-    );
-  }
-}
+      <div className="messages">
+        <Header />
+        <MessagesWrapper />
+        <MessagesInputWrapper />
+      </div>
+    </div>
+  );
+};
 
 export default Home;
