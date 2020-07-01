@@ -5753,11 +5753,6 @@ insert-css@^2.0.0:
   resolved "https://registry.yarnpkg.com/insert-css/-/insert-css-2.0.0.tgz#eb5d1097b7542f4c79ea3060d3aee07d053880f4"
   integrity sha1-610Ql7dUL0x56jBg067gfQU4gPQ=
 
-install@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/install/-/install-0.13.0.tgz#6af6e9da9dd0987de2ab420f78e60d9c17260776"
-  integrity sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==
-
 internal-ip@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-4.3.0.tgz#845452baad9d2ca3b69c635a137acb9a0dad0907"
@@ -6585,9 +6580,9 @@ jest@24.9.0:
     jest-cli "^24.9.0"
 
 js-base64@^2.1.8:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.6.0.tgz#cc0091315f85616ad766789e46ced20b5c989ed3"
-  integrity sha512-jmCv6u76N7XtpXoF+aS5tNUQLRAJe1DgN9JXO5csoCkEIAPPLwWy93OQo/RoydkD6vyTf1oKKgto8SH7LM+Ong==
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.6.2.tgz#cf9301bc5cc756892a9a6c8d7138322e5944fb0d"
+  integrity sha512-1hgLrLIrmCgZG+ID3VoLNLOSwjGnoZa8tyrUdEteMeIzsT6PH7PMLyUvbDwzNE56P3PNxyvuIOx4Uh2E5rzQIw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

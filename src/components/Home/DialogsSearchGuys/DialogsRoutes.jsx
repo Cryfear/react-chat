@@ -16,16 +16,23 @@ const DialogsRoutes = props => {
     </div>
   ) : (
     <div onScroll={props.onScroll} className="dialogs__items-wrapper" ref={props.wrapperRef}>
-      {props.data.map((item, index) => {
-        return (
-          <DialogItemClassic
-            key={index}
-            avatar={item.avatar}
-            username={item.fullName}
-            isOnline={item.isOnline}
-          />
-        );
-      })}
+      {props.data
+        .filter((item, index) => {
+          console.log(item.fullName.indexOf(props.value));
+          if (props.value === "") return true;
+          if (item.fullName.indexOf(props.value) > -1) return true;
+          return false;
+        })
+        .map((item, index) => {
+          return (
+            <DialogItemClassic
+              key={index}
+              avatar={item.avatar}
+              username={item.fullName}
+              isOnline={item.isOnline}
+            />
+          );
+        })}
     </div>
   );
 };

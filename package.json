@@ -15,7 +15,6 @@
     "bcryptjs": "^2.4.3",
     "classnames": "^2.2.6",
     "date-fns": "^2.14.0",
-    "install": "^0.13.0",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.16",
     "node": "^14.2.0",
