@@ -1,6 +1,8 @@
 import React from "react";
 import DialogItemClassic from "../../DialogItem/DialogItemClassic";
 import DialogItem from "../../DialogItem/DialogItem";
+import { NavLink } from "react-router-dom";
+import { DialogsApi } from "../../../api/api";
 
 const DialogsRoutes = props => {
   return !props.isSearch ? (
@@ -18,19 +20,28 @@ const DialogsRoutes = props => {
     <div onScroll={props.onScroll} className="dialogs__items-wrapper" ref={props.wrapperRef}>
       {props.data
         .filter((item, index) => {
-          console.log(item.fullName.indexOf(props.value));
           if (props.value === "") return true;
           if (item.fullName.indexOf(props.value) > -1) return true;
           return false;
         })
         .map((item, index) => {
           return (
-            <DialogItemClassic
+            <NavLink
+              onClick={() => {
+                DialogsApi.createDialog(sessionStorage["userId"], item.id).then(data => {
+                  console.log(data);
+                });
+              }}
               key={index}
-              avatar={item.avatar}
-              username={item.fullName}
-              isOnline={item.isOnline}
-            />
+              style={{ color: "rgba(0, 0, 0, 0.65)" }}
+              to={`/im/${item.id}`}
+            >
+              <DialogItemClassic
+                avatar={item.avatar}
+                username={item.fullName}
+                isOnline={item.isOnline}
+              />
+            </NavLink>
           );
         })}
     </div>

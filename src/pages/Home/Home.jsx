@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import "./Home.scss";
 import DialogsEdit from "../../components/Home/DialogsEdit/DialogsEdit";
 import DialogsSearchGuys from "../../components/Home/DialogsSearchGuys/DialogsSearchGuys";
-import Header from "../../components/Home/Header/Header";
-import MessagesWrapper from "../../components/Home/Messages/MessagesWrapper";
-import MessagesInputWrapper from "../../components/Home/Messages/MessagesInputWrapper";
 import { UsersApi } from "../../api/api.js";
 import debounce from "lodash/debounce";
+import { Route } from "react-router";
+import Messages from "../../components/Home/Messages/Messages";
 
 const Home = props => {
   const getUsers = () => {
@@ -14,10 +13,12 @@ const Home = props => {
       return data;
     });
   };
+
   const [page, setPage] = useState(0);
   const wrapperRef = React.useRef(null);
   const [isSearch, setSearch] = useState(false);
   const [users, setUsers] = useState({});
+
   const onScroll = () => {
     return debounce(e => {
       const isEnd =
@@ -53,11 +54,13 @@ const Home = props => {
           getUsers={getUsers}
         />
       </div>
-      <div className="messages">
-        <Header />
-        <MessagesWrapper />
-        <MessagesInputWrapper />
-      </div>
+      <Route
+        exact
+        path={`/im/5ef4260bb253992934c20def`}
+        render={() => {
+          return <Messages />;
+        }}
+      />
     </div>
   );
 };

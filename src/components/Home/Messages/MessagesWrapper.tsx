@@ -1,5 +1,5 @@
 import React from "react";
-import Message from "../../Message/Messsage";
+import Message from "../../Message/Message";
 
 const MessagesWrapper = () => {
   return (

@@ -14,6 +14,17 @@ export const DialogsApi = {
       })
       .catch(err => console.log(err));
   },
+  createDialog(id_1, id_2) {
+    return instance
+      .post("/dialogs/create", {
+        id_1: id_1,
+        id_2: id_2,
+      })
+      .then(data => {
+        console.log(data);
+        return data;
+      });
+  },
 };
 
 export const UsersApi = {
