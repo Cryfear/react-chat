@@ -4,8 +4,7 @@ import DialogsEdit from "../../components/Home/DialogsEdit/DialogsEdit";
 import DialogsSearchGuys from "../../components/Home/DialogsSearchGuys/DialogsSearchGuys";
 import { UsersApi } from "../../api/api.js";
 import debounce from "lodash/debounce";
-import { Route } from "react-router";
-import Messages from "../../components/Home/Messages/Messages";
+import UsersRouter from "./UsersRoutes";
 
 const Home = props => {
   const getUsers = () => {
@@ -14,10 +13,11 @@ const Home = props => {
     });
   };
 
-  const [page, setPage] = useState(0);
-  const wrapperRef = React.useRef(null);
-  const [isSearch, setSearch] = useState(false);
-  const [users, setUsers] = useState({});
+  const [dialogId, setDialog] = useState(""); // стейт выбранного диалога
+  const [page, setPage] = useState(0); // страница поиска, пока не до конца реализовано
+  const wrapperRef = React.useRef(null); // ссылка на обертку блока где лежат юзеры
+  const [isSearch, setSearch] = useState(false); // стейт на какой мы сейчас вкладке, диалогов или поиска пользователей
+  const [users, setUsers] = useState({}); // массив с пользователеями получаемый с сервера
 
   const onScroll = () => {
     return debounce(e => {
@@ -47,6 +47,7 @@ const Home = props => {
           isSearch={isSearch}
         />
         <DialogsSearchGuys
+          setDialog={setDialog}
           users={users}
           onScroll={onScroll}
           isSearch={isSearch}
@@ -54,13 +55,7 @@ const Home = props => {
           getUsers={getUsers}
         />
       </div>
-      <Route
-        exact
-        path={`/im/5ef4260bb253992934c20def`}
-        render={() => {
-          return <Messages />;
-        }}
-      />
+      <UsersRouter dialogId={dialogId} users={users} />
     </div>
   );
 };

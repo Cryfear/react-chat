@@ -10,7 +10,7 @@ export const DialogsApi = {
     return instance
       .get("/dialogs/5eddc4ef4b67d023085a45df")
       .then(response => {
-        console.log(response);
+        return response;
       })
       .catch(err => console.log(err));
   },
@@ -27,10 +27,33 @@ export const DialogsApi = {
   },
 };
 
+export const MessagesApi = {
+  async getDialogMessages(id1, id2) {
+    return instance
+      .post(`/messages/all`, {
+        id1,
+        id2,
+      })
+      .then(data => {
+        return data;
+      });
+  },
+  async createMessage(id1, id2, text) {
+    return instance
+      .post("/messages/create", {
+        id1,
+        id2,
+        data: text,
+      })
+      .then(data => {
+        return data;
+      });
+  },
+};
+
 export const UsersApi = {
   async getUsers(page) {
     return instance.get(`/getUsers/${page}`).then(data => {
-      console.log(data);
       return data;
     });
   },
@@ -45,8 +68,8 @@ export const UsersApi = {
       });
   },
   async getUser(id) {
-    return instance.get(`/users/:${id}`).then(data => {
-      console.log(data);
+    return instance.get(`/users/${id}`).then(data => {
+      return data;
     });
   },
   async loginUser(values) {

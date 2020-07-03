@@ -28,9 +28,8 @@ const DialogsRoutes = props => {
           return (
             <NavLink
               onClick={() => {
-                DialogsApi.createDialog(sessionStorage["userId"], item.id).then(data => {
-                  console.log(data);
-                });
+                props.setDialog(item.id);
+                return DialogsApi.createDialog(sessionStorage["userId"], item.id);
               }}
               key={index}
               style={{ color: "rgba(0, 0, 0, 0.65)" }}
