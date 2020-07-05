@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import RegistrationForm from "./RegistrationForm";
-import RegistrationSuccess from "./RegistationSucces";
+import React from "react";
+import RegistrationForm from "./RegistrationForm/RegistrationForm";
+import RegistrationSuccess from "./RegistrationSuccess/RegistationSucces";
 import { Link } from "react-router-dom";
+import "./Registration.scss";
 
-const Registration = () => {
-  let [successStatus, setSuccess] = useState(false);
-  if (false) setSuccess(false); // not realized functional
-  return successStatus ? (
+interface RegistrationTypes {
+  isSuccess: Boolean;
+}
+
+const Registration = (props: RegistrationTypes) => {
+  return props.isSuccess ? (
     <RegistrationSuccess />
   ) : (
     <div className="login__wrapper">

@@ -1,8 +1,8 @@
 import React from "react";
 import { Route } from "react-router";
-import Messages from "../../components/Home/Messages/Messages";
+import Messages from "../Messages/Messages";
 
-const UsersRouter = props => {
+const UsersRoutes = props => {
   return props.users.length > 0 ? (
     props.users.map((item, index) => {
       return (
@@ -21,4 +21,4 @@ const UsersRouter = props => {
   );
 };
 
-export default UsersRouter;
+export default UsersRoutes;

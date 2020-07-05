@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./Home.scss";
-import DialogsEdit from "../../components/Home/DialogsEdit/DialogsEdit";
-import DialogsSearchGuys from "../../components/Home/DialogsSearchGuys/DialogsSearchGuys";
+import DialogsEdit from "./DialogsEdit/DialogsEdit";
+import DialogsSearchGuys from "./DialogsSearchGuys/DialogsSearchGuys";
 import { UsersApi } from "../../api/api.js";
 import debounce from "lodash/debounce";
-import UsersRouter from "./UsersRoutes";
+import UsersRoutes from "./UsersRoutes/UsersRoutes";
 
 const Home = props => {
   const getUsers = () => {
@@ -55,7 +55,7 @@ const Home = props => {
           getUsers={getUsers}
         />
       </div>
-      <UsersRouter dialogId={dialogId} users={users} />
+      <UsersRoutes dialogId={dialogId} users={users} />
     </div>
   );
 };

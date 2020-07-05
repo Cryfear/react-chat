@@ -57,32 +57,41 @@ export const UsersApi = {
       return data;
     });
   },
+
   async isLoginNow(email) {
     return instance
-      .post(`/login/me`, {
-        email: email,
-      })
+      .post(
+        `/login/me`,
+        { email: "iwillknow@it.com" }, // will be fixed at next commit
+        {
+          headers: {
+            "auth-token": sessionStorage["auth-token"],
+          },
+        }
+      )
       .then(data => {
         console.log(data);
         return data;
       });
   },
+
   async getUser(id) {
     return instance.get(`/users/${id}`).then(data => {
       return data;
     });
   },
+
   async loginUser(values) {
     return instance
       .post("/login", {
         values,
       })
       .then(data => {
-        sessionStorage["userId"] = data.data.userId;
-        sessionStorage["userEmail"] = data.data.userEmail;
+        sessionStorage["auth-token"] = data.data;
         return data;
       });
   },
+
   async logoutUser() {
     return instance.delete("/logout").then(data => {
       console.log("Вы вышли!!");
@@ -91,13 +100,13 @@ export const UsersApi = {
       sessionStorage.removeItem("userEmail");
     });
   },
-  async createUser(values) {
+
+  async createUser(email, fullName, password) {
     return instance
       .post("/users/create", {
-        email: values.email,
-        fullName: values.username,
-        password: values.password,
-        repeatPassword: values.repeatPassword,
+        email: email,
+        fullName: fullName,
+        password: password,
       })
       .then(data => {
         return data;

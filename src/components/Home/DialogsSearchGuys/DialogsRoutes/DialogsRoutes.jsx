@@ -1,8 +1,8 @@
 import React from "react";
-import DialogItemClassic from "../../DialogItem/DialogItemClassic";
-import DialogItem from "../../DialogItem/DialogItem";
+import DialogItemClassic from "./DialogItem/DialogItemClassic";
+import DialogItem from "./DialogItem/DialogItem";
 import { NavLink } from "react-router-dom";
-import { DialogsApi } from "../../../api/api";
+import { DialogsApi } from "../../../../api/api";
 
 const DialogsRoutes = props => {
   return !props.isSearch ? (

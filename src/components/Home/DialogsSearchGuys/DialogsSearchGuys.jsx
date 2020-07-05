@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input } from "antd";
-import DialogsRoutes from "./DialogsRoutes.jsx";
+import DialogsRoutes from "./DialogsRoutes/DialogsRoutes.jsx";
 
 const { Search } = Input;
 

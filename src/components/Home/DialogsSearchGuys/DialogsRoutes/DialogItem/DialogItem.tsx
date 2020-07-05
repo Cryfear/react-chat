@@ -1,7 +1,7 @@
 import React from "react";
 import "./DialogItem.scss";
 import classnames from "classnames";
-import { dateFormatter } from "../../assets/dateFormatter";
+import { dateFormatter } from "../../../../../assets/dateFormatter";
 
 interface DialogItemProps {
   avatar: string;

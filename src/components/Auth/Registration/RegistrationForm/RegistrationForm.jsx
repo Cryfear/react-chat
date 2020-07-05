@@ -1,28 +1,23 @@
 import React from "react";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Field, reduxForm } from "redux-form";
-import { Input } from "../../../components/Input/Input";
-import "./Registration.scss";
+import { Input } from "../../../../components/Input/Input";
 import {
   required,
   requiredPassword,
   emailValidate,
   passwordValidate,
   repeatePasswordValidate,
-  emailisHere,
-} from "../../../assets/validations.jsx";
-import { UsersApi } from "../../../api/api";
+} from "../../../../assets/validations.jsx";
+import { UsersApi } from "../../../../api/api";
 
 class RegistrationForm extends React.Component {
   submit = values => {
-    UsersApi.createUser(values).then(err => {
-      document.querySelector('input[name="email"]').nextSibling.innerHTML = emailisHere(
-        err.data.errmsg
-      );
-    });
+    UsersApi.createUser(values.email, values.username, values.password);
   };
 
   render() {
+    console.log(this.props.error);
     return (
       <form onSubmit={this.props.handleSubmit(this.submit)}>
         <Field

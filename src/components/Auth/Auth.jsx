@@ -1,11 +1,10 @@
 import React from "react";
 import "./Auth.scss";
-import { Route, withRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Registration from "./Registration/Registration";
 import Login from "./Login/Login";
-import { connect } from "react-redux";
 
-const Auth = props => {
+const Auth = () => {
   return (
     <div className="auth">
       <Route
@@ -26,17 +25,4 @@ const Auth = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    login: state.auth.login,
-    email: state.auth.email,
-    id: state.auth.id,
-    isAuth: state.auth.isAuth,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Auth));
+export default Auth;
