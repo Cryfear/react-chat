@@ -12,8 +12,6 @@ class Messages extends React.Component {
     });
   }
   render() {
-    console.log(this.messages);
-    console.log(this.props.user);
     return (
       <div className="messages">
         <Header fullName={this.props.user.fullName} online={this.props.user.online} />

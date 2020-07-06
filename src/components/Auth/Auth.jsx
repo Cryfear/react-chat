@@ -1,28 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Auth.scss";
-import { Route } from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 import Registration from "./Registration/Registration";
 import Login from "./Login/Login";
+import { setIsLoginUserAction, setLoginUserAction } from "../../redux/login-reducer";
+import { connect } from "react-redux";
 
-const Auth = () => {
-  return (
+const Auth = props => {
+  useEffect(() => {
+    props.setIsLoginUserAction(sessionStorage["userEmail"]);
+  }, [props, props.isAuth]);
+
+  return props.isAuth ? (
+    <Redirect to="/im" />
+  ) : (
     <div className="auth">
       <Route
         exact
         path="/"
         render={() => {
-          return <Login />;
+          return <Login setLoginUserAction={props.setLoginUserAction} />;
         }}
       />
       <Route
         exact
         path="/registration"
         render={() => {
-          return <Registration />;
+          return <Registration isSuccess={props.isSuccess} />;
         }}
       />
     </div>
   );
 };
 
-export default Auth;
+function mapStateToProps(state) {
+  return {
+    isAuth: state.login.isAuth,
+    isSuccess: state.registration.isSuccess,
+  };
+}
+
+export default withRouter(
+  connect(mapStateToProps, { setIsLoginUserAction, setLoginUserAction })(Auth)
+);

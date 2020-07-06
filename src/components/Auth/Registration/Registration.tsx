@@ -1,7 +1,6 @@
 import React from "react";
 import RegistrationForm from "./RegistrationForm/RegistrationForm";
-import RegistrationSuccess from "./RegistrationSuccess/RegistationSucces";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./Registration.scss";
 
 interface RegistrationTypes {
@@ -10,7 +9,7 @@ interface RegistrationTypes {
 
 const Registration = (props: RegistrationTypes) => {
   return props.isSuccess ? (
-    <RegistrationSuccess />
+    <Redirect to="/" /> // <RegistrationSuccess /> когда будет регистрация с подтверждением через почту
   ) : (
     <div className="login__wrapper">
       <h1 className="auth__mainTitle">Зарегистрироваться</h1>

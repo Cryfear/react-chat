@@ -1,6 +1,6 @@
 import React from "react";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-import { Input } from "../../../components/Input/Input";
+import { Input } from "../../Input/Input";
 import { Field } from "redux-form";
 import { required } from "../../../assets/validations.jsx";
 import { Link } from "react-router-dom";

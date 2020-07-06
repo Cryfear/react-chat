@@ -10,13 +10,8 @@ const DialogsEdit = props => {
       <span className="dialogs__edit-title">Список диалогов</span>
       <span
         onClick={() => {
-          props.getUsers(props.page).then(data => {
-            if (props.page === 0) {
-              props.setUsers(data.data);
-              props.setPage(props.page + 1);
-            }
-            props.setSearch(!props.isSearch);
-          });
+          props.getUsers(props.page);
+          props.setSearch(!props.isSearch);
         }}
         className="dialogs__edit-button"
       >

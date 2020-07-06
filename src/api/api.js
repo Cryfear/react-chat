@@ -62,7 +62,7 @@ export const UsersApi = {
     return instance
       .post(
         `/login/me`,
-        { email: "iwillknow@it.com" }, // will be fixed at next commit
+        { email },
         {
           headers: {
             "auth-token": sessionStorage["auth-token"],
@@ -70,7 +70,6 @@ export const UsersApi = {
         }
       )
       .then(data => {
-        console.log(data);
         return data;
       });
   },
@@ -87,7 +86,9 @@ export const UsersApi = {
         values,
       })
       .then(data => {
-        sessionStorage["auth-token"] = data.data;
+        console.log(data);
+        sessionStorage["auth-token"] = data.data.token;
+        sessionStorage["userEmail"] = data.data.email;
         return data;
       });
   },

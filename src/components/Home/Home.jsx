@@ -1,61 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Home.scss";
 import DialogsEdit from "./DialogsEdit/DialogsEdit";
 import DialogsSearchGuys from "./DialogsSearchGuys/DialogsSearchGuys";
-import { UsersApi } from "../../api/api.js";
-import debounce from "lodash/debounce";
 import UsersRoutes from "./UsersRoutes/UsersRoutes";
 
 const Home = props => {
-  const getUsers = () => {
-    return UsersApi.getUsers(page).then(data => {
-      return data;
-    });
-  };
-
-  const [dialogId, setDialog] = useState(""); // стейт выбранного диалога
-  const [page, setPage] = useState(0); // страница поиска, пока не до конца реализовано
-  const wrapperRef = React.useRef(null); // ссылка на обертку блока где лежат юзеры
-  const [isSearch, setSearch] = useState(false); // стейт на какой мы сейчас вкладке, диалогов или поиска пользователей
-  const [users, setUsers] = useState({}); // массив с пользователеями получаемый с сервера
-
-  const onScroll = () => {
-    return debounce(e => {
-      const isEnd =
-        wrapperRef.current.scrollHeight - wrapperRef.current.scrollTop - 550 <=
-        wrapperRef.current.clientHeight;
-      if (isEnd) {
-        getUsers(page + 1).then(data => {
-          if (data.data.length > 0) {
-            setPage(page + 1);
-            setUsers(users.concat(data.data));
-          }
-        });
-      }
-    }, 200);
-  };
-
   return (
     <div className="home">
       <div className="dialogs">
         <DialogsEdit
-          setPage={setPage}
-          getUsers={getUsers}
-          setSearch={setSearch}
-          setUsers={setUsers}
-          page={page}
-          isSearch={isSearch}
+          setPage={props.setPage}
+          getUsers={props.getUsers}
+          setSearch={props.setSearch}
+          setUsers={props.setUsers}
+          page={props.page}
+          isSearch={props.isSearch}
+          switchPage={props.switchPage}
         />
         <DialogsSearchGuys
-          setDialog={setDialog}
-          users={users}
-          onScroll={onScroll}
-          isSearch={isSearch}
-          wrapperRef={wrapperRef}
-          getUsers={getUsers}
+          setDialog={props.setDialog}
+          users={props.users}
+          onScroll={props.onScroll}
+          isSearch={props.isSearch}
+          wrapperRef={props.wrapperRef}
+          getUsers={props.getUsers}
         />
       </div>
-      <UsersRoutes dialogId={dialogId} users={users} />
+      <UsersRoutes dialogId={props.dialogId} users={props.users} />
     </div>
   );
 };

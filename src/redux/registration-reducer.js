@@ -24,7 +24,7 @@ export const createUserAction = () => ({
 export const createUser = (email, fullName, password) => {
   return async dispatch => {
     let response = await UsersApi.createUser(email, fullName, password);
-    if (response.data.resultCode === "success") {
+    if (response.data.responseCode === "success") {
       dispatch(createUserAction());
     } else {
       let action = stopSubmit("registration", { _error: response.data.responseCode });

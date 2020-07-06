@@ -9,15 +9,16 @@ import {
   passwordValidate,
   repeatePasswordValidate,
 } from "../../../../assets/validations.jsx";
-import { UsersApi } from "../../../../api/api";
+import { connect } from "react-redux";
+import { createUser } from "../../../../redux/registration-reducer";
 
 class RegistrationForm extends React.Component {
   submit = values => {
-    UsersApi.createUser(values.email, values.username, values.password);
+    this.props.createUser(values.email, values.username, values.password);
   };
 
   render() {
-    console.log(this.props.error);
+    // console.log(this.props.error); // если вдруг регистрация не прошла, здесь будет ошибка
     return (
       <form onSubmit={this.props.handleSubmit(this.submit)}>
         <Field
@@ -30,6 +31,7 @@ class RegistrationForm extends React.Component {
           component={Input}
           validate={[required, emailValidate]}
         />
+        {this.props.error ? <div style={{ marginTop: "-18px" }}>E-Mail занят!</div> : null}
         <Field
           name="username"
           type="text"
@@ -70,4 +72,9 @@ let RegistrationReduxForm = reduxForm({
   form: "registration",
 })(RegistrationForm);
 
-export default RegistrationReduxForm;
+export default connect(
+  state => ({
+    isSuccess: state.registration.isSuccess,
+  }),
+  { createUser }
+)(RegistrationReduxForm);

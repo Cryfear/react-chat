@@ -10,14 +10,15 @@ let initialState = {
   isAuth: false,
 };
 
-
 const loginAction = (state = { ...initialState }, action) => {
   switch (action.type) {
     case LOGIN_USER: {
       return {
         ...state,
-        ...action.user,
         isAuth: true,
+        login: action.login,
+        email: action.userEmail,
+        id: action.id,
       };
     }
 
@@ -26,34 +27,41 @@ const loginAction = (state = { ...initialState }, action) => {
   }
 };
 
-export const loginUserAction = () => ({
+export const loginUserAction = (login, userEmail, id) => ({
   type: LOGIN_USER,
+  userEmail,
+  login,
+  id,
 });
 
-export const isLoginUserAction = email => {
+export const setIsLoginUserAction = email => {
   return async dispatch => {
     let response = await UsersApi.isLoginNow(email);
-    console.log(response);
-    if (response.data.resultCode === "success") {
-      dispatch(loginUserAction());
+
+    const { fullName, email: userEmail, id } = response.data;
+
+    if (response.data.responseCode === "success") {
+      dispatch(loginUserAction(fullName, userEmail, id));
     } else {
-      console.log(response);
-      let action = stopSubmit("login", { _error: "error" });
+      let action = stopSubmit("login", { _error: response.data.responseCode });
       dispatch(action);
     }
   };
 };
 
-// export const loginUser = (email, password, remember) => {
-//   return async dispatch => {
-//     let response = await AuthApi.login(email, password, remember);
-//     if (response.resultCode === 0) {
-//       dispatch(loginUserAction());
-//     } else {
-//       let action = stopSubmit("login", { _error: response.messages[0] });
-//       dispatch(action);
-//     }
-//   };
-// };
+export const setLoginUserAction = values => {
+  return async dispatch => {
+    let response = await UsersApi.loginUser(values);
+    console.log(response.data);
+    const { fullName, email, id } = response.data;
+
+    if (response.data.responseCode === "success") {
+      dispatch(loginUserAction(fullName, email, id));
+    } else {
+      let action = stopSubmit("login", { _error: response.data.responseCode });
+      dispatch(action);
+    }
+  };
+};
 
 export default loginAction;
