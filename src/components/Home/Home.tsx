@@ -1,21 +1,31 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import "./Home.scss";
 import DialogsEdit from "./DialogsEdit/DialogsEdit";
 import DialogsSearchGuys from "./DialogsSearchGuys/DialogsSearchGuys";
 import UsersRoutes from "./UsersRoutes/UsersRoutes";
 
-const Home = props => {
+interface HomeTypes {
+  setPage: Function;
+  getUsers: Function;
+  setSearch: Function;
+  page: Number;
+  isSearch: Boolean;
+  setDialog: Function;
+  users: Array<Object>;
+  onScroll: Function;
+  wrapperRef: ReactElement;
+  dialogId: String;
+}
+
+const Home = (props: HomeTypes) => {
   return (
     <div className="home">
       <div className="dialogs">
         <DialogsEdit
-          setPage={props.setPage}
           getUsers={props.getUsers}
           setSearch={props.setSearch}
-          setUsers={props.setUsers}
           page={props.page}
           isSearch={props.isSearch}
-          switchPage={props.switchPage}
         />
         <DialogsSearchGuys
           setDialog={props.setDialog}
@@ -23,7 +33,6 @@ const Home = props => {
           onScroll={props.onScroll}
           isSearch={props.isSearch}
           wrapperRef={props.wrapperRef}
-          getUsers={props.getUsers}
         />
       </div>
       <UsersRoutes dialogId={props.dialogId} users={props.users} />

@@ -5,11 +5,11 @@ import "./styles/global.scss";
 import { BrowserRouter, Route } from "react-router-dom";
 import HomeContainer from "./components/Home/HomeContainer";
 
-const App = () => {
+const App: React.FunctionComponent = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <Route exact path={["/", "/login", "/registration"]} render={Auth} />
+        <Route exact path={["/", "/login", "/registration"]} component={Auth} />
         <Route path="/im" render={() => <HomeContainer />} />
       </BrowserRouter>
     </div>

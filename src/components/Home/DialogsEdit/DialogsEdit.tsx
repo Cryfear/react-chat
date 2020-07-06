@@ -1,7 +1,14 @@
 import { TeamOutlined, FormOutlined } from "@ant-design/icons";
 import React from "react";
 
-const DialogsEdit = props => {
+interface DialogsEditTypes {
+  page: Number;
+  isSearch: Boolean;
+  getUsers: Function;
+  setSearch: Function;
+}
+
+const DialogsEdit = (props: DialogsEditTypes) => {
   return (
     <div className="dialogs__edit">
       <span className="dialogs__edit-user">

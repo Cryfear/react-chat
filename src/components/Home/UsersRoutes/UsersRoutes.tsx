@@ -2,9 +2,18 @@ import React from "react";
 import { Route } from "react-router";
 import Messages from "../Messages/Messages";
 
-const UsersRoutes = props => {
+interface UsersRouterTypes {
+  users: any;
+  dialogId: String;
+}
+
+interface itemTypes {
+  id: string;
+}
+
+const UsersRoutes = (props: UsersRouterTypes) => {
   return props.users.length > 0 ? (
-    props.users.map((item, index) => {
+    props.users.map((item: itemTypes, index: number) => {
       return (
         <Route
           key={index}

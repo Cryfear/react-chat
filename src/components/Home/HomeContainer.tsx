@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import debounce from "lodash/debounce";
+import * as lodash from "lodash";
 import { setIsLoginUserAction } from "../../redux/login-reducer";
 import {
   setActiveDialogAction,
@@ -17,7 +17,7 @@ interface HomeContainerTypes {
   getUsersAction: Function;
   page: Number;
   users: Array<Object>;
-  activeDialog: Function;
+  activeDialog: String;
   setActiveDialogAction: Function;
   setSearchPageAction: Function;
   setIsSearchAction: Function;
@@ -32,7 +32,7 @@ const HomeContainer = (props: HomeContainerTypes) => {
   const wrapperRef: any = React.useRef(null); // ссылка на обертку блока где лежат юзеры
 
   const onScroll = () => {
-    return debounce(() => {
+    return lodash.debounce(() => {
       const isEnd =
         wrapperRef?.current?.scrollHeight - wrapperRef?.current.scrollTop - 550 <=
         wrapperRef?.current.clientHeight;
@@ -48,7 +48,6 @@ const HomeContainer = (props: HomeContainerTypes) => {
       users={props.users}
       setPage={props.setActiveDialogAction}
       setSearch={props.setIsSearchAction}
-      switchPage={props.setSearchPageAction}
       page={props.page}
       setDialog={props.setActiveDialogAction}
       onScroll={onScroll}

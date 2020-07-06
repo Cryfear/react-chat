@@ -4,8 +4,8 @@ import MessagesWrapper from "./MessagesWrapper";
 import MessagesInputWrapper from "./MessagesInputWrapper";
 import { MessagesApi } from "../../../api/api";
 
-class Messages extends React.Component {
-  messages = {};
+class Messages extends React.Component<any> {
+  messages: any = {};
   componentDidMount() {
     MessagesApi.getDialogMessages(this.props.user.id, sessionStorage["userId"]).then(data => {
       this.messages = data;

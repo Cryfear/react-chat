@@ -1,8 +1,22 @@
 import React from "react";
 import Message from "../../Message/Message";
 
-const MessagesWrapper = props => {
-  let messages = {};
+interface MessagesWrapperTypes {
+  messages: Array<messageTypes>;
+}
+
+interface messageTypes {
+  data: string;
+  creater: string;
+  length: number;
+}
+
+interface messages {
+  length?: number;
+}
+
+const MessagesWrapper = (props: MessagesWrapperTypes) => {
+  let messages: messages = {};
   if (props.messages) {
     messages = props.messages.map((item, index) => {
       return (
@@ -19,7 +33,6 @@ const MessagesWrapper = props => {
   console.log(props.messages);
   return (
     <div className="messages__wrapper">
-      {messages.length > 0 ? messages : ""}
       {/* <Message
         date={new Date(2020, 4, 27, 16)}
         avatar="https://sun9-47.userapi.com/c857520/v857520118/13765d/yWNm9_uF_XM.jpg"

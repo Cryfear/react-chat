@@ -1,11 +1,20 @@
 import { UsersApi } from "../api/api";
+import { Dispatch } from "redux";
 
 const SET_PAGE = "SET_PAGE";
 const SET_ACTIVE_DIALOG = "SET_ACTIVE_DIALOG";
 const SET_SEARCH = "SET_SEARCH";
 const SET_USERS = "";
 
-let initialState = {
+interface StateTypes {
+  users: Array<any>;
+  dialogs: Array<Object>;
+  activeDialog: String;
+  searchPage: number;
+  isSearch: Boolean;
+}
+
+let initialState: StateTypes = {
   dialogs: [], // массив диалогов
   users: [], // массив юзеров в поиске
   activeDialog: "", // айди пользователя с кем ведется диалог
@@ -13,7 +22,13 @@ let initialState = {
   isSearch: false, // состояние поиска новых пользователей
 };
 
-const HomeAction = (state = { ...initialState }, action) => {
+interface Actions {
+  type: String;
+  users?: Array<any>;
+  id: String;
+}
+
+const HomeAction = (state = { ...initialState }, action: Actions) => {
   switch (action.type) {
     case SET_USERS: {
       return {
@@ -44,13 +59,13 @@ const HomeAction = (state = { ...initialState }, action) => {
   }
 };
 
-export const activeDialogAction = id => ({
+export const activeDialogAction = (id: String) => ({
   type: SET_ACTIVE_DIALOG,
   id,
 });
 
-export const setActiveDialogAction = id => {
-  return async dispatch => {
+export const setActiveDialogAction = (id: String) => {
+  return async (dispatch: Dispatch) => {
     dispatch(activeDialogAction(id));
   };
 };
@@ -60,7 +75,7 @@ export const searchPageAction = () => ({
 });
 
 export const setSearchPageAction = () => {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     dispatch(searchPageAction());
   };
 };
@@ -70,18 +85,18 @@ export const isSearchAction = () => ({
 });
 
 export const setIsSearchAction = () => {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     dispatch(isSearchAction());
   };
 };
 
-export const usersAction = users => ({
+export const usersAction = (users: Array<Object>) => ({
   type: SET_USERS,
   users,
 });
 
-export const getUsersAction = page => {
-  return async dispatch => {
+export const getUsersAction = (page: Number) => {
+  return async (dispatch: Dispatch<any>) => {
     const data = await UsersApi.getUsers(page);
     if (data?.data.length > 0) {
       dispatch(setSearchPageAction());

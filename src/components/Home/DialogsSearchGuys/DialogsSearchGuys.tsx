@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, ReactElement } from "react";
 import { Input } from "antd";
-import DialogsRoutes from "./DialogsRoutes/DialogsRoutes.jsx";
+import DialogsRoutes from "./DialogsRoutes/DialogsRoutes";
 
 const { Search } = Input;
 
-const DialogsSearchGuys = props => {
+interface DialogsSearchGuysTypes {
+  setDialog: Function;
+  onScroll: Function;
+  wrapperRef: ReactElement;
+  users: Array<Object>;
+  isSearch: Boolean;
+}
+
+const DialogsSearchGuys = (props: DialogsSearchGuysTypes) => {
   const [searchValue, setValue] = useState(""); // поисковая строка
   return (
     <div className="dialogs__search-guys">
@@ -23,7 +31,7 @@ const DialogsSearchGuys = props => {
         value={searchValue}
         onScroll={props.onScroll()}
         wrapperRef={props.wrapperRef}
-        data={props.users}
+        users={props.users}
         isSearch={props.isSearch}
       />
     </div>

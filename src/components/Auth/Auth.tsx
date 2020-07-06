@@ -6,7 +6,14 @@ import Login from "./Login/Login";
 import { setIsLoginUserAction, setLoginUserAction } from "../../redux/login-reducer";
 import { connect } from "react-redux";
 
-const Auth = props => {
+interface AuthTypes {
+  setIsLoginUserAction: Function;
+  setLoginUserAction: Function;
+  isAuth: Boolean;
+  isSuccess: Boolean;
+}
+
+const Auth = (props: AuthTypes) => {
   useEffect(() => {
     props.setIsLoginUserAction(sessionStorage["userEmail"]);
   }, [props, props.isAuth]);
@@ -19,7 +26,7 @@ const Auth = props => {
         exact
         path="/"
         render={() => {
-          return <Login setLoginUserAction={props.setLoginUserAction} />;
+          return <Login />;
         }}
       />
       <Route
@@ -33,7 +40,7 @@ const Auth = props => {
   );
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state: Storage) {
   return {
     isAuth: state.login.isAuth,
     isSuccess: state.registration.isSuccess,

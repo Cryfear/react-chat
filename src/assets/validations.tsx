@@ -1,29 +1,29 @@
-export const required = value =>
+export const required = (value: String) =>
   value || typeof value === "number" ? undefined : "Это обязательное поле.";
 
-export const requiredPassword = value => {
+export const requiredPassword = (value: String) => {
   return value || typeof value === "number" ? undefined : "Придумайте пароль!";
 };
 
-export const emailisHere = value => {
+export const emailisHere = (value: String) => {
   if (value && value.indexOf("duplicate key error collection") > 0) {
     return "Такой email уже зарегистрирован!";
   }
   return "";
 };
 
-export const emailValidate = value => {
+export const emailValidate = (value: string) => {
   let re = /.+@.+\..+/i;
   return re.test(value) ? undefined : "Невалидный E-mail";
 };
 
-export const passwordValidate = value => {
+export const passwordValidate = (value: string) => {
   let pa = /^(?=.*[0-9])[a-zA-Z0-9]{6,16}$/;
   return pa.test(value) ? undefined : "Слишком легкий пароль.";
 };
 
-export const repeatePasswordValidate = values => {
-  let password = document.getElementById("repeater");
+export const repeatePasswordValidate = (values: String) => {
+  let password: any = document.getElementById("repeater");
   if (password) {
     return values === password.value ? undefined : "Пароли не совпадают!";
   }

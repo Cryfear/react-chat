@@ -8,7 +8,7 @@ import {
   emailValidate,
   passwordValidate,
   repeatePasswordValidate,
-} from "../../../../assets/validations.jsx";
+} from "../../../../assets/validations";
 import { connect } from "react-redux";
 import { createUser } from "../../../../redux/registration-reducer";
 

@@ -4,7 +4,23 @@ import DialogItem from "./DialogItem/DialogItem";
 import { NavLink } from "react-router-dom";
 import { DialogsApi } from "../../../../api/api";
 
-const DialogsRoutes = props => {
+interface DialogsRoutesTypes {
+  isSearch: Boolean;
+  wrapperRef: any;
+  onScroll: any;
+  setDialog: Function;
+  value: String;
+  users: any;
+}
+
+interface itemTypes {
+  fullName: string;
+  id: string;
+  avatar: string;
+  isOnline: boolean;
+}
+
+const DialogsRoutes = (props: DialogsRoutesTypes) => {
   return !props.isSearch ? (
     <div onScroll={props.onScroll} className="dialogs__items-wrapper" ref={props.wrapperRef}>
       <DialogItem
@@ -18,13 +34,13 @@ const DialogsRoutes = props => {
     </div>
   ) : (
     <div onScroll={props.onScroll} className="dialogs__items-wrapper" ref={props.wrapperRef}>
-      {props.data
-        .filter((item, index) => {
+      {props.users
+        .filter((item: itemTypes) => {
           if (props.value === "") return true;
-          if (item.fullName.indexOf(props.value) > -1) return true;
+          if (item.fullName.indexOf(props.users) > -1) return true;
           return false;
         })
-        .map((item, index) => {
+        .map((item: itemTypes, index: number) => {
           return (
             <NavLink
               onClick={() => {

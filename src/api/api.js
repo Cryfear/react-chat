@@ -1,14 +1,16 @@
 import * as axios from "axios";
 
-const instance = axios.create({
+const config = {
   baseURL: "http://127.0.0.1:8888",
   withCredentials: true,
-});
+};
+
+const instance = axios.create(config);
 
 export const DialogsApi = {
-  getDialog() {
+  getDialog(id) {
     return instance
-      .get("/dialogs/5eddc4ef4b67d023085a45df")
+      .get(`/dialogs/${id}`)
       .then(response => {
         return response;
       })
