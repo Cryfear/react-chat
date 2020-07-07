@@ -1,18 +1,13 @@
-import { UsersApi } from "../api/api";
+import { UsersApi, DialogsApi } from "../api/api";
 import { Dispatch } from "redux";
+import { StateTypes } from "../components/Home/HomeTypes";
 
 const SET_PAGE = "SET_PAGE";
 const SET_ACTIVE_DIALOG = "SET_ACTIVE_DIALOG";
 const SET_SEARCH = "SET_SEARCH";
 const SET_USERS = "";
-
-interface StateTypes {
-  users: Array<any>;
-  dialogs: Array<Object>;
-  activeDialog: String;
-  searchPage: number;
-  isSearch: Boolean;
-}
+const SET_DIALOGS = "SET_DIALOGS";
+const CREATE_DIALOG = "CREATE_DIALOG";
 
 let initialState: StateTypes = {
   dialogs: [], // массив диалогов
@@ -24,16 +19,29 @@ let initialState: StateTypes = {
 
 interface Actions {
   type: String;
-  users?: Array<any>;
-  id: String;
+  users: Array<any>;
+  dialogId: String;
+  dialogs: Array<any>;
 }
 
 const HomeAction = (state = { ...initialState }, action: Actions) => {
   switch (action.type) {
+    case CREATE_DIALOG: {
+      return {
+        ...state,
+        activeDialog: action.dialogId,
+      };
+    }
     case SET_USERS: {
       return {
         ...state,
         users: [...state.users.concat(action.users)],
+      };
+    }
+    case SET_DIALOGS: {
+      return {
+        ...state,
+        dialogs: [...state.dialogs, action.dialogs],
       };
     }
     case SET_PAGE: {
@@ -45,7 +53,7 @@ const HomeAction = (state = { ...initialState }, action: Actions) => {
     case SET_ACTIVE_DIALOG: {
       return {
         ...state,
-        activeDialog: action.id,
+        activeDialog: action.dialogId,
       };
     }
     case SET_SEARCH: {
@@ -59,9 +67,28 @@ const HomeAction = (state = { ...initialState }, action: Actions) => {
   }
 };
 
-export const activeDialogAction = (id: String) => ({
+export const createDialogAction = (id: String, myId: String) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(activeDialogAction(id));
+    const dialog = await DialogsApi.createDialog(myId, id);
+    console.log(dialog);
+  };
+};
+
+export const dialogsAction = (dialogs: Array<any>) => ({
+  type: SET_DIALOGS,
+  dialogs,
+});
+
+export const setDialogsAction = (dialogs: Array<any>) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(dialogsAction(dialogs));
+  };
+};
+
+export const activeDialogAction = (dialogId: String) => ({
   type: SET_ACTIVE_DIALOG,
-  id,
+  dialogId,
 });
 
 export const setActiveDialogAction = (id: String) => {

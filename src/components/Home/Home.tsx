@@ -1,41 +1,26 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import "./Home.scss";
 import DialogsEdit from "./DialogsEdit/DialogsEdit";
 import DialogsSearchGuys from "./DialogsSearchGuys/DialogsSearchGuys";
-import UsersRoutes from "./UsersRoutes/UsersRoutes";
-
-interface HomeTypes {
-  setPage: Function;
-  getUsers: Function;
-  setSearch: Function;
-  page: Number;
-  isSearch: Boolean;
-  setDialog: Function;
-  users: Array<Object>;
-  onScroll: Function;
-  wrapperRef: ReactElement;
-  dialogId: String;
-}
+import { HomeTypes } from "./HomeTypes";
 
 const Home = (props: HomeTypes) => {
   return (
     <div className="home">
       <div className="dialogs">
-        <DialogsEdit
+        <DialogsEdit // переключатель диалогов и поиска пользователей
           getUsers={props.getUsers}
           setSearch={props.setSearch}
           page={props.page}
           isSearch={props.isSearch}
         />
-        <DialogsSearchGuys
-          setDialog={props.setDialog}
+        <DialogsSearchGuys // диалоги и поиск пользователей
+          getUsers={props.getUsers}
+          page={props.page}
           users={props.users}
-          onScroll={props.onScroll}
           isSearch={props.isSearch}
-          wrapperRef={props.wrapperRef}
         />
       </div>
-      <UsersRoutes dialogId={props.dialogId} users={props.users} />
     </div>
   );
 };

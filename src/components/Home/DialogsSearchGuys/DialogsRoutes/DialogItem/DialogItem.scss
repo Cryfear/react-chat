@@ -25,6 +25,9 @@
   &__name {
     font-weight: bold;
     display: inline-block;
+    &-date {
+      text-align: left;
+    }
   }
 
   &__date {

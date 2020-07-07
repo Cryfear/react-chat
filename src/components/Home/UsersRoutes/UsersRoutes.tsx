@@ -12,22 +12,20 @@ interface itemTypes {
 }
 
 const UsersRoutes = (props: UsersRouterTypes) => {
-  return props.users.length > 0 ? (
-    props.users.map((item: itemTypes, index: number) => {
-      return (
-        <Route
-          key={index}
-          exact
-          path={`/im/${item.id}`}
-          render={() => {
-            return <Messages user={item} dialogId={props.dialogId} />;
-          }}
-        />
-      );
-    })
-  ) : (
-    <div>"none"</div>
-  );
+  return props.users.length > 0
+    ? props.users.map((item: itemTypes, index: number) => {
+        return (
+          <Route
+            key={index}
+            exact
+            path={`/im/${item.id}`}
+            render={() => {
+              return <Messages user={item} dialogId={props.dialogId} />;
+            }}
+          />
+        );
+      })
+    : null;
 };
 
 export default UsersRoutes;
