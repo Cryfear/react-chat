@@ -1,10 +1,6 @@
 import React, { useRef } from "react";
 import { SmileOutlined, CameraOutlined, AudioOutlined, SendOutlined } from "@ant-design/icons";
-import { MessagesApi } from "../../../api/api";
-
-interface MessagesInputWrapperTypes {
-  dialogId: string;
-}
+import { MessagesInputWrapperTypes } from "../HomeTypes";
 
 const MessagesInputWrapper = (props: MessagesInputWrapperTypes) => {
   const input: any = useRef(null);
@@ -24,16 +20,7 @@ const MessagesInputWrapper = (props: MessagesInputWrapperTypes) => {
       </div>
       <div
         onClick={() => {
-          if (input && input.current) {
-            return MessagesApi.createMessage(
-              props.dialogId,
-              sessionStorage["userId"],
-              input.current?.value
-            ).then(data => {
-              console.log(data);
-              return data;
-            });
-          }
+          props.createMessage(props.dialogId, props.myId, input.current.value);
         }}
         className="messages__sendMessage"
       >

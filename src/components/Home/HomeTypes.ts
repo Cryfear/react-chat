@@ -5,6 +5,15 @@ export interface StateTypes {
   activeDialog: String;
   searchPage: number;
   isSearch: Boolean;
+  messages: Array<any>;
+}
+
+export interface HomeActions {
+  type: String;
+  users: Array<any>;
+  dialogId: String;
+  dialogs: Array<any>;
+  messages: Array<any>;
 }
 
 export interface HomeContainerTypes {
@@ -54,7 +63,8 @@ export interface SearchTypes {
   page: Number;
   setActiveDialogAction: Function;
   myId: String;
-  createDialogAction: Function
+  createDialogAction: Function;
+  dialogId: String;
 }
 
 export interface SearchitemTypes {
@@ -62,4 +72,38 @@ export interface SearchitemTypes {
   id: string;
   avatar: string;
   isOnline: boolean;
+}
+
+export interface MessagesInputWrapperTypes {
+  dialogId: string;
+  myId: string;
+  createMessage: Function;
+}
+
+export interface MessagesTypes {
+  getMessagesAction: Function;
+  dialogId: string;
+  myId: string;
+  users: Array<any>;
+  createMessageAction: Function;
+  messages: Array<any>;
+}
+
+export interface MessagesWrapperTypes {
+  messages: Array<messageTypes> | null;
+  myId: string;
+}
+
+interface messageTypes {
+  data: string;
+  creater: string;
+  length: number;
+}
+
+export interface UsersRouterTypes {
+  user: any;
+  dialogId: string;
+  messages: any;
+  myId: string;
+  createMessage: Function;
 }

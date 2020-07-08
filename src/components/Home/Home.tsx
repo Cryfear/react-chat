@@ -3,6 +3,7 @@ import "./Home.scss";
 import DialogsEdit from "./DialogsEdit/DialogsEdit";
 import DialogsSearchGuys from "./DialogsSearchGuys/DialogsSearchGuys";
 import { HomeTypes } from "./HomeTypes";
+import Messages from "./Messages/Messages";
 
 const Home = (props: HomeTypes) => {
   return (
@@ -20,6 +21,9 @@ const Home = (props: HomeTypes) => {
           users={props.users}
           isSearch={props.isSearch}
         />
+      </div>
+      <div className="messages">
+        <Messages /> {/* блок сообщений */}
       </div>
     </div>
   );

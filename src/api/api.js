@@ -23,7 +23,6 @@ export const DialogsApi = {
         id_2: id_2,
       })
       .then(data => {
-        console.log(data);
         return data;
       });
   },

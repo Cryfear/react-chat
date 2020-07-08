@@ -1,31 +1,21 @@
 import React from "react";
-import { Route } from "react-router";
-import Messages from "../Messages/Messages";
-
-interface UsersRouterTypes {
-  users: any;
-  dialogId: String;
-}
-
-interface itemTypes {
-  id: string;
-}
+import Header from "../Header/Header";
+import MessagesWrapper from "../Messages/MessagesWrapper";
+import MessagesInputWrapper from "../Messages/MessagesInputWrapper";
+import { UsersRouterTypes } from "../HomeTypes";
 
 const UsersRoutes = (props: UsersRouterTypes) => {
-  return props.users.length > 0
-    ? props.users.map((item: itemTypes, index: number) => {
-        return (
-          <Route
-            key={index}
-            exact
-            path={`/im/${item.id}`}
-            render={() => {
-              return <Messages user={item} dialogId={props.dialogId} />;
-            }}
-          />
-        );
-      })
-    : null;
+  return (
+    <div>
+      <Header fullName={props.user.fullName} online={props.user.online} />
+      <MessagesWrapper myId={props.myId} messages={props.messages} />
+      <MessagesInputWrapper
+        createMessage={props.createMessage}
+        myId={props.myId}
+        dialogId={props.dialogId}
+      />
+    </div>
+  );
 };
 
 export default UsersRoutes;

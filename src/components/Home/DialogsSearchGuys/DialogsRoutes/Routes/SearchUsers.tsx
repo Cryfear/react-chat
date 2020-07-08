@@ -1,7 +1,11 @@
 import React from "react";
 
-const SearchUsers = (props: any) => {
-  return props.users;
+interface SearchUsersTypes {
+  users: Array<Object>;
+}
+
+const SearchUsers = (props: SearchUsersTypes) => {
+  return <div>{props.users}</div>;
 };
 
 export default SearchUsers;

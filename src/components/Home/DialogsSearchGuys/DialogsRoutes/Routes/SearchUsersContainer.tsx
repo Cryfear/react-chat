@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import DialogItemClassic from "../DialogItem/DialogItemClassic";
 import { NavLink } from "react-router-dom";
-import { DialogsApi } from "../../../../../api/api";
 import { SearchitemTypes, SearchTypes } from "../../../HomeTypes";
 import SearchInput from "./SearchInput/SearchInput";
 import debounce from "lodash/debounce";

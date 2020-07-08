@@ -1,6 +1,6 @@
-import { UsersApi, DialogsApi } from "../api/api";
+import { UsersApi, DialogsApi, MessagesApi } from "../api/api";
 import { Dispatch } from "redux";
-import { StateTypes } from "../components/Home/HomeTypes";
+import { StateTypes, HomeActions } from "../components/Home/HomeTypes";
 
 const SET_PAGE = "SET_PAGE";
 const SET_ACTIVE_DIALOG = "SET_ACTIVE_DIALOG";
@@ -8,55 +8,71 @@ const SET_SEARCH = "SET_SEARCH";
 const SET_USERS = "";
 const SET_DIALOGS = "SET_DIALOGS";
 const CREATE_DIALOG = "CREATE_DIALOG";
+const SET_MESSAGES = "SET_MESSAGES";
+const ADD_MESSAGES = "ADD_MESSAGES";
 
 let initialState: StateTypes = {
   dialogs: [], // массив диалогов
   users: [], // массив юзеров в поиске
-  activeDialog: "", // айди пользователя с кем ведется диалог
+  messages: [], // массив сообщений активного диалога
+  activeDialog: "", // айди пользователя с кем ведется диалог, в свою очередь айди собеседника
   searchPage: 0, // страница поиска, поиск идет по 10 пользователей
   isSearch: false, // состояние поиска новых пользователей
 };
 
-interface Actions {
-  type: String;
-  users: Array<any>;
-  dialogId: String;
-  dialogs: Array<any>;
-}
-
-const HomeAction = (state = { ...initialState }, action: Actions) => {
+const HomeAction = (state = { ...initialState }, action: HomeActions) => {
   switch (action.type) {
+    case SET_MESSAGES: {
+      // создаем или добавляем в массив сообщений сообщения
+      return {
+        ...state,
+        messages: action.messages,
+      };
+    }
+    case ADD_MESSAGES: {
+      return {
+        ...state,
+        messages: [...state.messages, action.messages],
+      };
+    }
     case CREATE_DIALOG: {
+      // создание диалога с новым пользователем
       return {
         ...state,
         activeDialog: action.dialogId,
       };
     }
     case SET_USERS: {
+      // создаем или добавляем новых пользователей
       return {
         ...state,
         users: [...state.users.concat(action.users)],
       };
     }
     case SET_DIALOGS: {
+      // наш массив диалогов
       return {
         ...state,
         dialogs: [...state.dialogs, action.dialogs],
       };
     }
     case SET_PAGE: {
+      // добавляем единицу при скролле, для загрузки новых пользователей
       return {
         ...state,
         searchPage: state.searchPage + 1,
       };
     }
     case SET_ACTIVE_DIALOG: {
+      // активный диалог, собственно является id собеседника
       return {
         ...state,
         activeDialog: action.dialogId,
+        messages: [],
       };
     }
     case SET_SEARCH: {
+      // состояние поиска новых пользователей
       return {
         ...state,
         isSearch: !state.isSearch,
@@ -71,13 +87,42 @@ export const createDialogAction = (id: String, myId: String) => {
   return async (dispatch: Dispatch) => {
     dispatch(activeDialogAction(id));
     const dialog = await DialogsApi.createDialog(myId, id);
-    console.log(dialog);
+    // если дата success, то диалог уже есть и мы вернем сообщения
+    if (dialog.data !== "success") {
+      dispatch(messagesAction(dialog.data));
+    }
   };
 };
+
+export const getMessagesAction = (dialogId: String, myId: String) => {
+  return async (dispatch: Dispatch) => {
+    const messages = await MessagesApi.getDialogMessages(dialogId, myId);
+    if (messages.data !== "error!") {
+      dispatch(messagesAction(messages.data));
+    }
+  };
+};
+
+export const createMessageAction = (dialogId: string, myId: string, value: string) => {
+  return async (dispatch: Dispatch) => {
+    const messages: any = await MessagesApi.createMessage(dialogId, myId, value);
+    dispatch(addMessagesAction(messages.data));
+  };
+};
+
+export const addMessagesAction = (messages: Array<any>) => ({
+  type: ADD_MESSAGES,
+  messages,
+});
 
 export const dialogsAction = (dialogs: Array<any>) => ({
   type: SET_DIALOGS,
   dialogs,
+});
+
+export const messagesAction = (messages: Array<any>) => ({
+  type: SET_MESSAGES,
+  messages,
 });
 
 export const setDialogsAction = (dialogs: Array<any>) => {
