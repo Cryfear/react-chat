@@ -92,6 +92,7 @@ export interface MessagesTypes {
 export interface MessagesWrapperTypes {
   messages: Array<messageTypes> | null;
   myId: string;
+  avatar: string;
 }
 
 interface messageTypes {

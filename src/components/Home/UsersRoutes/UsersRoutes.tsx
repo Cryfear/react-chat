@@ -8,7 +8,7 @@ const UsersRoutes = (props: UsersRouterTypes) => {
   return (
     <div>
       <Header fullName={props.user.fullName} online={props.user.online} />
-      <MessagesWrapper myId={props.myId} messages={props.messages} />
+      <MessagesWrapper avatar={props.user.avatar} myId={props.myId} messages={props.messages} />
       <MessagesInputWrapper
         createMessage={props.createMessage}
         myId={props.myId}

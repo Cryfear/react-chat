@@ -88,6 +88,7 @@ export const createDialogAction = (id: String, myId: String) => {
     dispatch(activeDialogAction(id));
     const dialog = await DialogsApi.createDialog(myId, id);
     // если дата success, то диалог уже есть и мы вернем сообщения
+    console.log(dialog);
     if (dialog.data !== "success") {
       dispatch(messagesAction(dialog.data));
     }
@@ -98,6 +99,7 @@ export const getMessagesAction = (dialogId: String, myId: String) => {
   return async (dispatch: Dispatch) => {
     const messages = await MessagesApi.getDialogMessages(dialogId, myId);
     if (messages.data !== "error!") {
+      console.log(messages);
       dispatch(messagesAction(messages.data));
     }
   };
