@@ -1,5 +1,6 @@
 import { UsersApi } from "../api/api";
 import { stopSubmit } from "redux-form";
+import { Dispatch } from "redux";
 
 const TRUE_SUCCESS = "TRUE_SUCCESS";
 
@@ -7,7 +8,12 @@ let initialState = {
   isSuccess: false,
 };
 
-const registrationAction = (state = { ...initialState }, action) => {
+interface registrationAction {
+  isSuccess: Boolean;
+  type: string;
+}
+
+const registrationAction = (state = { ...initialState }, action: registrationAction) => {
   switch (action.type) {
     case TRUE_SUCCESS: {
       return { ...state, isSuccess: true };
@@ -21,8 +27,8 @@ export const createUserAction = () => ({
   type: TRUE_SUCCESS,
 });
 
-export const createUser = (email, fullName, password) => {
-  return async dispatch => {
+export const createUser = (email: string, fullName: string, password: string) => {
+  return async (dispatch: Dispatch) => {
     let response = await UsersApi.createUser(email, fullName, password);
     if (response.data.responseCode === "success") {
       dispatch(createUserAction());

@@ -1,5 +1,6 @@
 import { stopSubmit } from "redux-form";
 import { UsersApi } from "../api/api";
+import { Dispatch } from "redux";
 
 const LOGIN_USER = "LOGIN_USER";
 
@@ -10,7 +11,14 @@ let initialState = {
   isAuth: false,
 };
 
-const loginAction = (state = { ...initialState }, action) => {
+interface loginAction {
+  type: string;
+  login: string;
+  userEmail: string;
+  id: string;
+}
+
+const loginAction = (state = { ...initialState }, action: loginAction) => {
   switch (action.type) {
     case LOGIN_USER: {
       return {
@@ -27,15 +35,15 @@ const loginAction = (state = { ...initialState }, action) => {
   }
 };
 
-export const loginUserAction = (login, userEmail, id) => ({
+export const loginUserAction = (login: string, userEmail: string, id: string) => ({
   type: LOGIN_USER,
   userEmail,
   login,
   id,
 });
 
-export const setIsLoginUserAction = email => {
-  return async dispatch => {
+export const setIsLoginUserAction = (email: string) => {
+  return async (dispatch: Dispatch) => {
     let response = await UsersApi.isLoginNow(email);
 
     const { fullName, email: userEmail, id } = response.data;
@@ -49,8 +57,8 @@ export const setIsLoginUserAction = email => {
   };
 };
 
-export const setLoginUserAction = values => {
-  return async dispatch => {
+export const setLoginUserAction = (values: any) => {
+  return async (dispatch: Dispatch) => {
     let response = await UsersApi.loginUser(values);
     console.log(response.data);
     const { fullName, email, id } = response.data;

@@ -8,9 +8,9 @@ const config = {
 const instance = axios.create(config);
 
 export const DialogsApi = {
-  getDialog(id) {
+  getDialog(id, id2) {
     return instance
-      .get(`/dialogs/${id}`)
+      .get(`/dialogs/${id}&${id2}`)
       .then(response => {
         return response;
       })
