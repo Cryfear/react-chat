@@ -2,16 +2,16 @@ export interface StateTypes {
   // home-reducer
   users: Array<any>;
   dialogs: Array<Object>;
-  activeDialog: String;
+  activeDialog: string;
   searchPage: number;
   isSearch: Boolean;
   messages: Array<any>;
 }
 
 export interface HomeActions {
-  type: String;
+  type: string;
   users: Array<any>;
-  dialogId: String;
+  dialogId: string;
   dialogs: Array<any>;
   messages: Array<any>;
 }
@@ -20,7 +20,7 @@ export interface HomeContainerTypes {
   setIsLoginUserAction: Function;
   isAuth: Boolean;
   getUsersAction: Function;
-  page: Number;
+  page: number;
   users: Array<Object>;
   setActiveDialogAction: Function;
   setSearchPageAction: Function;
@@ -32,7 +32,7 @@ export interface HomeTypes {
   setPage: Function;
   getUsers: Function;
   setSearch: Function;
-  page: Number;
+  page: number;
   isSearch: Boolean;
   users: Array<Object>;
 }
@@ -41,30 +41,30 @@ export interface DialogsSearchGuysTypes {
   users: Array<Object>;
   isSearch: Boolean;
   getUsers: Function;
-  page: Number;
+  page: number;
 }
 
 export interface DialogsRoutesTypes {
   isSearch: Boolean;
   users: any;
   getUsers: Function;
-  page: Number;
+  page: number;
 }
 
 export interface DialogsTypes {
   getUsers: Function;
-  page: Number;
+  page: number;
 }
 
 export interface SearchTypes {
   isSearch: Boolean;
   users: any;
   getUsers: Function;
-  page: Number;
+  page: number;
   setActiveDialogAction: Function;
-  myId: String;
+  myId: string;
   createDialogAction: Function;
-  dialogId: String;
+  dialogId: string;
 }
 
 export interface SearchitemTypes {

@@ -2,7 +2,7 @@ import { TeamOutlined, FormOutlined } from "@ant-design/icons";
 import React from "react";
 
 interface DialogsEditTypes {
-  page: Number;
+  page: number;
   isSearch: Boolean;
   getUsers: Function;
   setSearch: Function;

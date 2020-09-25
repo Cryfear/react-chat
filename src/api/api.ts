@@ -1,14 +1,19 @@
-import * as axios from "axios";
+import axios from "axios";
 
 const config = {
   baseURL: "http://127.0.0.1:8888",
   withCredentials: true,
 };
 
+interface ValuesTypes {
+ token: string,
+ email: string
+}
+
 const instance = axios.create(config);
 
 export const DialogsApi = {
-  getDialog(id, id2) {
+  getDialog(id: string, id2: string) {
     return instance
       .get(`/dialogs/${id}&${id2}`)
       .then(response => {
@@ -16,7 +21,7 @@ export const DialogsApi = {
       })
       .catch(err => console.log(err));
   },
-  createDialog(id_1, id_2) {
+  createDialog(id_1: string, id_2: string) {
     return instance
       .post("/dialogs/create", {
         id_1: id_1,
@@ -29,7 +34,7 @@ export const DialogsApi = {
 };
 
 export const MessagesApi = {
-  async getDialogMessages(id1, id2) {
+  async getDialogMessages(id1: string, id2: string) {
     return instance
       .post(`/messages/all`, {
         id1,
@@ -39,7 +44,7 @@ export const MessagesApi = {
         return data;
       });
   },
-  async createMessage(id1, id2, text) {
+  async createMessage(id1: string, id2: string, text: string) {
     return instance
       .post("/messages/create", {
         id1,
@@ -53,13 +58,13 @@ export const MessagesApi = {
 };
 
 export const UsersApi = {
-  async getUsers(page) {
+  async getUsers(page: number) {
     return instance.get(`/getUsers/${page}`).then(data => {
       return data;
     });
   },
 
-  async isLoginNow(email) {
+  async isLoginNow(email: string) {
     return instance
       .post(
         `/login/me`,
@@ -75,13 +80,13 @@ export const UsersApi = {
       });
   },
 
-  async getUser(id) {
+  async getUser(id: string) {
     return instance.get(`/users/${id}`).then(data => {
       return data;
     });
   },
 
-  async loginUser(values) {
+  async loginUser(values: ValuesTypes) {
     return instance
       .post("/login", {
         values,
@@ -96,14 +101,14 @@ export const UsersApi = {
 
   async logoutUser() {
     return instance.delete("/logout").then(data => {
-      console.log("Вы вышли!!");
+      console.log("Вы вышли из аккаунта.");
       console.log(data);
       sessionStorage.removeItem("userId");
       sessionStorage.removeItem("userEmail");
     });
   },
 
-  async createUser(email, fullName, password) {
+  async createUser(email: string, fullName: string, password: string) {
     return instance
       .post("/users/create", {
         email: email,

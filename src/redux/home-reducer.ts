@@ -83,7 +83,7 @@ const HomeAction = (state = { ...initialState }, action: HomeActions) => {
   }
 };
 
-export const createDialogAction = (id: String, myId: String) => {
+export const createDialogAction = (id: string, myId: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(activeDialogAction(id));
     const dialog = await DialogsApi.createDialog(myId, id);
@@ -95,7 +95,7 @@ export const createDialogAction = (id: String, myId: String) => {
   };
 };
 
-export const getMessagesAction = (dialogId: String, myId: String) => {
+export const getMessagesAction = (dialogId: string, myId: string) => {
   return async (dispatch: Dispatch) => {
     const messages = await MessagesApi.getDialogMessages(dialogId, myId);
     if (messages.data !== "error!") {
@@ -133,12 +133,12 @@ export const setDialogsAction = (dialogs: Array<any>) => {
   };
 };
 
-export const activeDialogAction = (dialogId: String) => ({
+export const activeDialogAction = (dialogId: string) => ({
   type: SET_ACTIVE_DIALOG,
   dialogId,
 });
 
-export const setActiveDialogAction = (id: String) => {
+export const setActiveDialogAction = (id: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(activeDialogAction(id));
   };
@@ -169,7 +169,7 @@ export const usersAction = (users: Array<Object>) => ({
   users,
 });
 
-export const getUsersAction = (page: Number) => {
+export const getUsersAction = (page: number) => {
   return async (dispatch: Dispatch<any>) => {
     const data = await UsersApi.getUsers(page);
     if (data?.data.length > 0) {

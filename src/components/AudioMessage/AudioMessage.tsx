@@ -1,12 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./AudioMessage.scss";
 
-const AudioMessage = props => {
+interface AudioMessageTypes {
+  isMe: boolean,
+}
+
+const AudioMessage = (props : AudioMessageTypes) => {
   const [isPlay, setPlay] = useState(false);
   const [isStop, setStop] = useState(true);
   const [progress, setProgress] = useState(0);
   const [time, setTime] = useState("00:00");
-  const audioEl = useRef(null);
+  const audioEl: any = useRef(null);
 
   useEffect(() => {
     audioEl.current.volume = "0.01";
@@ -14,7 +18,7 @@ const AudioMessage = props => {
     audioEl.current.addEventListener("timeupdate", () => {
       setProgress((audioEl.current.currentTime / audioEl.current.duration) * 111);
       const mins = Math.floor(audioEl.current.currentTime / 60);
-      const secs = (audioEl.current.currentTime % 60).toFixed();
+      const secs: any = (audioEl.current.currentTime % 60).toFixed();
       setTime(`${mins < 10 ? "0" : ""}${mins}:${secs < 10 ? "0" : ""}${secs}`);
     });
 
@@ -30,7 +34,7 @@ const AudioMessage = props => {
     );
   }, []);
 
-  const music = bool => {
+  const music = () => {
     isStop ? audioEl.current.play() : audioEl.current.pause();
   };
 
@@ -39,13 +43,13 @@ const AudioMessage = props => {
       ? setPlay(false)
       : (() => {
           setPlay(true);
-          music(true);
+          music();
         })();
     isStop
       ? setStop(false)
       : (() => {
           setStop(true);
-          music(true);
+          music();
         })();
   };
   return (

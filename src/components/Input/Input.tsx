@@ -1,7 +1,11 @@
 import React from "react";
 import "./Input.scss";
 
-export const Input = ({ input, meta, placeholder, type, classes, prefix, id }) => {
+interface InputTypes {
+  // не забыть протипизировать
+}
+
+export const Input = ({ input, meta, placeholder, type, classes, prefix, id } : any) => {
   const hasError = meta.touched && meta.error;
   return (
     <div className="simpleInput">
