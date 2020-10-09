@@ -5,9 +5,9 @@ interface AudioMessageTypes {
   isMe: boolean,
 }
 
-const AudioMessage = (props : AudioMessageTypes) => {
+const AudioMessage = (props: AudioMessageTypes) => {
+
   const [isPlay, setPlay] = useState(false);
-  const [isStop, setStop] = useState(true);
   const [progress, setProgress] = useState(0);
   const [time, setTime] = useState("00:00");
   const audioEl: any = useRef(null);
@@ -27,7 +27,6 @@ const AudioMessage = (props : AudioMessageTypes) => {
       () => {
         setTime("00:00");
         setProgress(0);
-        setStop(true);
         setPlay(false);
       },
       false
@@ -35,23 +34,18 @@ const AudioMessage = (props : AudioMessageTypes) => {
   }, []);
 
   const music = () => {
-    isStop ? audioEl.current.play() : audioEl.current.pause();
+    !isPlay ? audioEl.current.play() : audioEl.current.pause();
   };
 
   const play = () => {
     isPlay
       ? setPlay(false)
       : (() => {
-          setPlay(true);
-          music();
-        })();
-    isStop
-      ? setStop(false)
-      : (() => {
-          setStop(true);
-          music();
-        })();
+        setPlay(true);
+        music();
+      })();
   };
+
   return (
     <div className="audioMessage">
       <div
@@ -72,7 +66,7 @@ const AudioMessage = (props : AudioMessageTypes) => {
         </div>
         <div
           onClick={play}
-          style={{ display: isStop ? "block" : "none" }}
+          style={{ display: !isPlay ? "block" : "none" }}
           className="audioMessage__toggle"
         >
           <img

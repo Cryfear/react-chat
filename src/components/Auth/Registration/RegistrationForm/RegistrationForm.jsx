@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { createUser } from "../../../../redux/registration-reducer";
 
 class RegistrationForm extends React.Component {
-  submit = values => {
+  submit = (values) => {
     this.props.createUser(values.email, values.username, values.password);
   };
 
@@ -31,7 +31,9 @@ class RegistrationForm extends React.Component {
           component={Input}
           validate={[required, emailValidate]}
         />
-        {this.props.error ? <div style={{ marginTop: "-18px" }}>E-Mail занят!</div> : null}
+        {this.props.error ? (
+          <div style={{ marginTop: "-18px" }}>E-Mail занят!</div>
+        ) : null}
         <Field
           name="username"
           type="text"
@@ -73,7 +75,7 @@ let RegistrationReduxForm = reduxForm({
 })(RegistrationForm);
 
 export default connect(
-  state => ({
+  (state) => ({
     isSuccess: state.registration.isSuccess,
   }),
   { createUser }

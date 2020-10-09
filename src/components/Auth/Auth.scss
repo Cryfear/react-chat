@@ -48,6 +48,9 @@
   .login__wrapper {
     height: 400px;
     width: 350px;
+    background-color: rgba(206, 202, 202, 0.075);
+    padding: 50px;
+    box-sizing: content-box;
   }
 
   &__form {
