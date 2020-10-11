@@ -6,8 +6,8 @@ const config = {
 };
 
 interface ValuesTypes {
- token: string,
- email: string
+  token: string;
+  email: string;
 }
 
 const instance = axios.create(config);
@@ -16,10 +16,8 @@ export const DialogsApi = {
   getDialog(id: string, id2: string) {
     return instance
       .get(`/dialogs/${id}&${id2}`)
-      .then(response => {
-        return response;
-      })
-      .catch(err => console.log(err));
+      .then((response) => response)
+      .catch((err) => console.log(err));
   },
   createDialog(id_1: string, id_2: string) {
     return instance
@@ -27,9 +25,15 @@ export const DialogsApi = {
         id_1: id_1,
         id_2: id_2,
       })
-      .then(data => {
+      .then((data) => {
         return data;
       });
+  },
+  getMyDialogs(id: string) {
+    return instance
+      .get(`/dialogs/my/${id}`)
+      .then((response) => response)
+      .catch((err) => console.log(err));
   },
 };
 
@@ -40,9 +44,7 @@ export const MessagesApi = {
         id1,
         id2,
       })
-      .then(data => {
-        return data;
-      });
+      .then((data) => data);
   },
   async createMessage(id1: string, id2: string, text: string) {
     return instance
@@ -51,15 +53,21 @@ export const MessagesApi = {
         id2,
         data: text,
       })
-      .then(data => {
-        return data;
-      });
+      .then((data) => data);
+  },
+  async getLastMessage(id1: any, id2: string) {
+    return instance
+      .post(`/messages/last`, {
+        id1,
+        id2,
+      })
+      .then((data) => data);
   },
 };
 
 export const UsersApi = {
   async getUsers(page: number) {
-    return instance.get(`/getUsers/${page}`).then(data => {
+    return instance.get(`/getUsers/${page}`).then((data) => {
       return data;
     });
   },
@@ -75,13 +83,13 @@ export const UsersApi = {
           },
         }
       )
-      .then(data => {
+      .then((data) => {
         return data;
       });
   },
 
   async getUser(id: string) {
-    return instance.get(`/users/${id}`).then(data => {
+    return instance.get(`/users/${id}`).then((data) => {
       return data;
     });
   },
@@ -91,7 +99,7 @@ export const UsersApi = {
       .post("/login", {
         values,
       })
-      .then(data => {
+      .then((data) => {
         console.log(data);
         sessionStorage["auth-token"] = data.data.token;
         sessionStorage["userEmail"] = data.data.email;
@@ -100,7 +108,7 @@ export const UsersApi = {
   },
 
   async logoutUser() {
-    return instance.delete("/logout").then(data => {
+    return instance.delete("/logout").then((data) => {
       console.log("Вы вышли из аккаунта.");
       console.log(data);
       sessionStorage.removeItem("userId");
@@ -115,10 +123,10 @@ export const UsersApi = {
         fullName: fullName,
         password: password,
       })
-      .then(data => {
+      .then((data) => {
         return data;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         return err;
       });

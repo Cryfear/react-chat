@@ -2,6 +2,7 @@ export interface StateTypes {
   // home-reducer
   users: Array<any>;
   dialogs: Array<Object>;
+  myDialogs: any;
   activeDialog: string;
   searchPage: number;
   isSearch: Boolean;
@@ -14,6 +15,8 @@ export interface HomeActions {
   dialogId: string;
   dialogs: Array<any>;
   messages: Array<any>;
+  myDialogs: Array<any>;
+  partner: any;
 }
 
 export interface HomeContainerTypes {
@@ -54,6 +57,10 @@ export interface DialogsRoutesTypes {
 export interface DialogsTypes {
   getUsers: Function;
   page: number;
+  users: Array<any>;
+  getMyDialogs: Function;
+  id: string;
+  myDialogs: any;
 }
 
 export interface SearchTypes {

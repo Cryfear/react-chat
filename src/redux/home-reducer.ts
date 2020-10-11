@@ -7,12 +7,14 @@ const SET_ACTIVE_DIALOG = "SET_ACTIVE_DIALOG";
 const SET_SEARCH = "SET_SEARCH";
 const SET_USERS = "";
 const SET_DIALOGS = "SET_DIALOGS";
+const SET_MYDIALOGS = "SET_MYDIALOGS";
 const CREATE_DIALOG = "CREATE_DIALOG";
 const SET_MESSAGES = "SET_MESSAGES";
 const ADD_MESSAGES = "ADD_MESSAGES";
 
 let initialState: StateTypes = {
   dialogs: [], // массив диалогов
+  myDialogs: [], // диалоги с кем уже общался пользователь, внутри сами сообщения и партнер диалога
   users: [], // массив юзеров в поиске
   messages: [], // массив сообщений активного диалога
   activeDialog: "", // айди пользователя с кем ведется диалог, в свою очередь айди собеседника
@@ -56,6 +58,18 @@ const HomeAction = (state = { ...initialState }, action: HomeActions) => {
         dialogs: [...state.dialogs, action.dialogs],
       };
     }
+    case SET_MYDIALOGS: {
+      return {
+        ...state,
+        myDialogs: [
+          ...state.myDialogs,
+          {
+            messages: [action.myDialogs],
+            partner: [action.partner],
+          },
+        ],
+      };
+    }
     case SET_PAGE: {
       // добавляем единицу при скролле, для загрузки новых пользователей
       return {
@@ -83,6 +97,44 @@ const HomeAction = (state = { ...initialState }, action: HomeActions) => {
   }
 };
 
+export const setMyDialogs = (myDialogs: Array<any>, partner: any) => ({
+  type: SET_MYDIALOGS,
+  myDialogs,
+  partner,
+});
+
+export const getMyDialogs = (id: string) => {
+  // id это id залогиненного пользователя
+
+  return (dispatch: Dispatch) => {
+    console.log(id);
+    DialogsApi.getMyDialogs(id)
+      .then((dialogs: any) => {
+        return dialogs.data.map((item: any, index: number) => {
+          MessagesApi.getLastMessage(item.users[0], item.users[1]).then(
+            (messages) => {
+              if (messages.data.length > 0) {
+                if (item.users[0] !== id) {
+                  UsersApi.getUser(item.users[0]).then((data) => {
+                    dispatch(setMyDialogs(messages.data, data.data));
+                  });
+                } else {
+                  UsersApi.getUser(item.users[1]).then((data) => {
+                    dispatch(setMyDialogs(messages.data, data.data));
+                  });
+                }
+              }
+            }
+          );
+          // если в диалоге есть сообщения, то заносим в стейт
+        });
+      })
+      .catch((err: Error) => {
+        console.log("нет сообщений!");
+      });
+  };
+};
+
 export const createDialogAction = (id: string, myId: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(activeDialogAction(id));
@@ -105,9 +157,17 @@ export const getMessagesAction = (dialogId: string, myId: string) => {
   };
 };
 
-export const createMessageAction = (dialogId: string, myId: string, value: string) => {
+export const createMessageAction = (
+  dialogId: string,
+  myId: string,
+  value: string
+) => {
   return async (dispatch: Dispatch) => {
-    const messages: any = await MessagesApi.createMessage(dialogId, myId, value);
+    const messages: any = await MessagesApi.createMessage(
+      dialogId,
+      myId,
+      value
+    );
     dispatch(addMessagesAction(messages.data));
   };
 };
@@ -179,27 +239,5 @@ export const getUsersAction = (page: number) => {
     }
   };
 };
-
-// export const loginUserAction = (login, userEmail, id) => ({
-//   type: LOGIN_USER,
-//   userEmail,
-//   login,
-//   id,
-// });
-
-// export const isLoginUserAction = email => {
-//   return async dispatch => {
-//     let response = await UsersApi.isLoginNow(email);
-
-//     const { fullName, email: userEmail, id } = response.data;
-
-//     if (response.data.responseCode === "success") {
-//       dispatch(loginUserAction(fullName, userEmail, id));
-//     } else {
-//       let action = stopSubmit("login", { _error: response.data.responseCode });
-//       dispatch(action);
-//     }
-//   };
-// };
 
 export default HomeAction;

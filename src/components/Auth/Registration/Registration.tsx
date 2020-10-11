@@ -1,6 +1,6 @@
 import React from "react";
 import RegistrationForm from "./RegistrationForm/RegistrationForm";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Registration.scss";
 import RegistrationSuccess from "./RegistrationSuccess/RegistationSucces";
 
