@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DialogItem from "../DialogItem/DialogItem";
 import { DialogsTypes } from "../../../HomeTypes";
 import SearchInput from "./SearchInput/SearchInput";
@@ -8,38 +8,37 @@ import {
 } from "../../../../../redux/home-reducer";
 import { connect } from "react-redux";
 
-const Dialogs = (props: DialogsTypes) => {
-  useEffect(() => {
-    props.getMyDialogs(props.id);
-  }, []);
+class Dialogs extends React.Component<DialogsTypes> {
+  wrapperRef: any = React.createRef();
 
-  const wrapperRef: any = React.useRef(null); // ссылка на обертку блока где лежат юзеры
-  const [, setValue] = useState(""); // поисковая строка
+  componentDidMount() {
+    this.props.getMyDialogs(this.props.id);
+  }
 
-  console.log(props.myDialogs);
+  render() {
+    let dialogs = this.props.myDialogs.map((item: any, index: number) => {
+      console.log(item);
+      return (
+        <DialogItem
+          avatar={item.partner[0].avatar}
+          username={item.partner[0].fullName}
+          isOnline={item.partner[0].isOnline}
+          date={item.messages[0][0].date}
+          lastMessage={item.messages[0][0].data}
+          unreadedCount={2}
+          key={index}
+        />
+      );
+    });
 
-  let dialogs = props.myDialogs.map((item: any, index: number) => {
-    console.log(item);
     return (
-      <DialogItem
-        avatar={item.partner[0].avatar}
-        username={item.partner[0].fullName}
-        isOnline={item.partner[0].isOnline}
-        date={new Date()}
-        lastMessage={item.messages[0][0].data}
-        unreadedCount={2}
-        key={index}
-      />
+      <div className="dialogs__items-wrapper" ref={this.wrapperRef}>
+        <SearchInput />
+        {dialogs}
+      </div>
     );
-  });
-
-  return (
-    <div className="dialogs__items-wrapper" ref={wrapperRef}>
-      <SearchInput setValue={setValue} />
-      {dialogs}
-    </div>
-  );
-};
+  }
+}
 
 const mapStateToProps = (state: Storage) => ({
   users: state.home.users,

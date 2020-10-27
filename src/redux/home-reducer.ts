@@ -1,4 +1,6 @@
-import { UsersApi, DialogsApi, MessagesApi } from "../api/api";
+import UsersApi from "../api/usersApi";
+import DialogsApi from "../api/dialogsApi";
+import MessagesApi from "../api/messagesApi";
 import { Dispatch } from "redux";
 import { StateTypes, HomeActions } from "../components/Home/HomeTypes";
 
@@ -11,6 +13,7 @@ const SET_MYDIALOGS = "SET_MYDIALOGS";
 const CREATE_DIALOG = "CREATE_DIALOG";
 const SET_MESSAGES = "SET_MESSAGES";
 const ADD_MESSAGES = "ADD_MESSAGES";
+const CLEAR_DIALOGS = "CLEAR_DIALOGS";
 
 let initialState: StateTypes = {
   dialogs: [], // массив диалогов
@@ -92,6 +95,13 @@ const HomeAction = (state = { ...initialState }, action: HomeActions) => {
         isSearch: !state.isSearch,
       };
     }
+    case CLEAR_DIALOGS: {
+      // очищение диалогов залогиненного пользователя
+      return {
+        ...state,
+        myDialogs: [],
+      };
+    }
     default:
       return { ...state };
   }
@@ -106,31 +116,31 @@ export const setMyDialogs = (myDialogs: Array<any>, partner: any) => ({
 export const getMyDialogs = (id: string) => {
   // id это id залогиненного пользователя
 
-  return (dispatch: Dispatch) => {
-    console.log(id);
+  return async (dispatch: Dispatch) => {
     DialogsApi.getMyDialogs(id)
       .then((dialogs: any) => {
-        return dialogs.data.map((item: any, index: number) => {
+        return dialogs.data.forEach((item: any) => {
+          MessagesApi.getUnreadMessages(item.users[0], item.users[1]).then(
+            (data) => {
+              console.log(data);
+              return data;
+            }
+          );
           MessagesApi.getLastMessage(item.users[0], item.users[1]).then(
             (messages) => {
               if (messages.data.length > 0) {
-                if (item.users[0] !== id) {
-                  UsersApi.getUser(item.users[0]).then((data) => {
-                    dispatch(setMyDialogs(messages.data, data.data));
-                  });
-                } else {
-                  UsersApi.getUser(item.users[1]).then((data) => {
-                    dispatch(setMyDialogs(messages.data, data.data));
-                  });
-                }
+                UsersApi.getUser(
+                  item.users[0] !== id ? item.users[0] : item.users[1]
+                ).then((data) => {
+                  dispatch(setMyDialogs(messages.data, data.data));
+                });
               }
             }
           );
-          // если в диалоге есть сообщения, то заносим в стейт
         });
       })
       .catch((err: Error) => {
-        console.log("нет сообщений!");
+        console.log("нет сообщений!", err);
       });
   };
 };

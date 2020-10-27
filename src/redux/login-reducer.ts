@@ -1,5 +1,5 @@
 import { stopSubmit } from "redux-form";
-import { UsersApi } from "../api/api";
+import UsersApi from "../api/usersApi";
 import { Dispatch } from "redux";
 
 const LOGIN_USER = "LOGIN_USER";
@@ -35,7 +35,11 @@ const loginAction = (state = { ...initialState }, action: loginAction) => {
   }
 };
 
-export const loginUserAction = (login: string, userEmail: string, id: string) => ({
+export const loginUserAction = (
+  login: string,
+  userEmail: string,
+  id: string
+) => ({
   type: LOGIN_USER,
   userEmail,
   login,
