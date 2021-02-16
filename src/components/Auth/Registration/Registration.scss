@@ -1,0 +1,23 @@
+.registration {
+  width: 450px;
+  min-height: 500px;
+  padding: 30px 50px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  margin-top: 225px;
+  margin: auto;
+  text-align: center;
+
+  & h1 {
+    font-weight: normal;
+  }
+
+  & p {
+    margin-bottom: 35px;
+  }
+}
+
+.auth {
+  display: flex;
+  height: 100%;
+}

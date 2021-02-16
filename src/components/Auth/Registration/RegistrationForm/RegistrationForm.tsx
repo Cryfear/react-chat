@@ -1,4 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+import "./RegistrationForm.scss";
 
 const RegistratationForm = () => {
   return (
@@ -10,9 +13,9 @@ const RegistratationForm = () => {
         <input type="password" placeholder="Repeat password" />
       </form>
       <button className="registration__button">Registration</button>
-      <a href="#login" className="registration__to-login">
+      <Link to="/login" className="registration__to-login">
         I already have an account
-      </a>
+      </Link>
     </div>
   );
 };

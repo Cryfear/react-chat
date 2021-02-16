@@ -1,10 +1,14 @@
 import React from "react";
 
+import "./SearchDialogs.scss";
+import loop from "../../../../assets/loop.svg";
+
 const SearchDialogs = () => {
   return (
     <div className="dialogs-search">
-      <div contentEditable="true" className="dialogs-search__input">
-        Search dialog
+      <div className="dialogs-search__wrapper">
+        <img src={loop} alt="" />
+        <input type="text" placeholder="Search people..." />
       </div>
     </div>
   );
