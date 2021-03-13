@@ -1,19 +1,13 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Login from "./Login/Login";
-import Registratation from "./Registration/Registration";
+import { Route } from "react-router-dom";
+import { Login } from "./Login/Login";
+import { Registratation } from "./Registration/Registration";
 
-const Auth = () => {
+export const Auth = () => {
   return (
     <div className="auth">
-      <BrowserRouter>
-        <Switch>
-          <Route component={Login} path="/login" />
-          <Route component={Registratation} path="/registration" />
-        </Switch>
-      </BrowserRouter>
+      <Route component={Login} path="/login" />
+      <Route component={Registratation} path="/registration" />
     </div>
   );
 };
-
-export default Auth;

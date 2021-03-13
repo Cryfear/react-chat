@@ -4,7 +4,7 @@ import SuccessRegistration from "./SuccessRegistration/SuccessRegistration";
 
 import "./Registration.scss";
 
-const Registratation = () => {
+export const Registratation = () => {
   return (
     <section className="registration">
       <h1>Registration</h1>
@@ -13,5 +13,3 @@ const Registratation = () => {
     </section>
   );
 };
-
-export default Registratation;
