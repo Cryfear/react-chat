@@ -1,48 +1,44 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Field, Form } from "formik";
 
 import "./Login.scss";
 
-import { LoginFx } from "./Login.model";
+import { passwordValidate } from "../../../utils/validations";
+import { Link } from "react-router-dom";
+import { LoginTypes } from "./LoginContainer";
 
-export const Login = () => {
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: async (values) => {
-      let sex = await LoginFx({ email: values.email, password: values.password });
-      console.log(sex);
-    },
-  });
-
+export const Login = ({ errors, handleChange, values, touched }: LoginTypes) => {
   return (
     <section className="login">
       <h1>Login into account</h1>
       <p>Please fill in your account's data</p>
-      <form onSubmit={formik.handleSubmit} action="get" className="login__form">
-        <input
+      <Form action="get" className="login__form">
+        <Field
+          className={errors.email && touched.email ? "input__error" : ""}
           placeholder="E-Mail"
           name="email"
           type="text"
-          onChange={formik.handleChange}
-          value={formik.values.email}
+          onChange={handleChange}
+          value={values.email}
         />
-        <input
+        <div className="form__errors">{errors.email && touched.email ? errors.email : ""}</div>
+        <Field
+          className={errors.password && touched.password ? "input__error" : ""}
           placeholder="Password"
           name="password"
           type="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
+          onChange={handleChange}
+          value={values.password}
+          validate={passwordValidate}
         />
+        <div className="form__errors">{errors.password && touched.password ? errors.password : ""}</div>
         <button type="submit" className="login__button">
           Login
         </button>
-      </form>
-      <a href="#registration" className="login__to-registration">
+      </Form>
+      <Link to="/registration" className="login__to-registration">
         Go to registration
-      </a>
+      </Link>
     </section>
   );
 };

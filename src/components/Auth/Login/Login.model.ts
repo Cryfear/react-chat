@@ -4,9 +4,7 @@ import { AuthApi } from '../../../api/AuthApi';
 import { createEffect } from 'effector'
 
 export const LoginFx = createEffect(async (data: { email: string, password: string }) => {
-  const req = await AuthApi.login(data);
-  console.log(req.data, req);
-  return req;
+  return await AuthApi.login(data);
 })
 
 export const $LoginStore = createStore({

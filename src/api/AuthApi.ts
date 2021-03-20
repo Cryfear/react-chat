@@ -20,7 +20,6 @@ export const AuthApi = {
         values,
       })
       .then((data) => {
-        console.log(data);
         sessionStorage["auth-token"] = data.data.token;
         sessionStorage["userEmail"] = data.data.email;
         return data;

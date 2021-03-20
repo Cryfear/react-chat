@@ -1,12 +1,12 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { Login } from "./Login/Login";
+import { LoginContainer } from "./Login/LoginContainer";
 import { Registratation } from "./Registration/Registration";
 
 export const Auth = () => {
   return (
     <div className="auth">
-      <Route component={Login} path="/login" />
+      <Route component={LoginContainer} path="/login" />
       <Route component={Registratation} path="/registration" />
     </div>
   );
