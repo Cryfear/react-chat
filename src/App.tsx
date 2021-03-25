@@ -21,8 +21,8 @@ export const App = () => {
   return (
     <div className="app">
       <Route path="/home" component={Home} />
-      <Route path="/login" component={Auth} />
-      {store.isAuth ? <Redirect children={<Home />} to="/home" /> : <Redirect children={Auth} to="/login" />}
+      <Route path="/auth" component={Auth} />
+      {store.isAuth ? <Redirect children={<Home />} to="/home" /> : <Auth /> && <Redirect to="/auth/login" />}
     </div>
   );
 };

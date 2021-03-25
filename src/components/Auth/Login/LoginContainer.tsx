@@ -3,11 +3,6 @@ import { passwordValidate } from "../../../utils/validations";
 import { Login } from "./Login";
 import { LoginFx } from "./Login.model";
 
-interface FormValuesTypes {
-  email: string;
-  password: string;
-}
-
 export type FormDataTypes = {
   email: string;
   password: string;
@@ -19,11 +14,9 @@ export interface LoginTypes {
   touched: FormDataTypes;
 
   handleChange: Function;
-  handleSubmit: Function;
 }
 
-export const LoginContainer = withFormik<LoginTypes, FormValuesTypes>({
-  // Transform outer props into form values
+export const LoginContainer = withFormik<LoginTypes, FormDataTypes>({
   mapPropsToValues: (props) => {
     return {
       email: "",
@@ -31,9 +24,8 @@ export const LoginContainer = withFormik<LoginTypes, FormValuesTypes>({
     };
   },
 
-  // Add a custom validation function (this can be async too!)
-  validate: (values: FormValuesTypes) => {
-    let errors: FormikErrors<FormValuesTypes> = {};
+  validate: (values: FormDataTypes) => {
+    let errors: FormikErrors<FormDataTypes> = {};
     if (!values.email) {
       errors.email = "Required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -50,7 +42,6 @@ export const LoginContainer = withFormik<LoginTypes, FormValuesTypes>({
   },
 
   handleSubmit: async (values) => {
-    let sex = await LoginFx({ email: values.email, password: values.password });
-    console.log(sex.data);
+    return await LoginFx({ email: values.email, password: values.password });
   },
 })(Login);

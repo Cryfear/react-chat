@@ -6,8 +6,8 @@ import { Registratation } from "./Registration/Registration";
 export const Auth = () => {
   return (
     <div className="auth">
-      <Route component={LoginContainer} path="/login" />
-      <Route component={Registratation} path="/registration" />
+      <Route exact component={LoginContainer} path="/auth/login" />
+      <Route exact component={Registratation} path="/auth/registration" />
     </div>
   );
 };

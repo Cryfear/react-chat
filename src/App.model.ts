@@ -18,7 +18,7 @@ export const isAuthData = createStore({
   isChecked: false
 })
   .on(isAuth, (state: UserDataTypes, data: isAuthTypes) => {
-    AuthApi.isLoginNow(data.email, data.authToken)
+    AuthApi.isLoginNow(data.email, data.authToken);
     return {
       ...state,
       isAuth: false,

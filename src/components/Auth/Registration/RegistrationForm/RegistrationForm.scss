@@ -18,10 +18,10 @@
     width: 100%;
     height: 50px;
     box-sizing: border-box;
-    background-color: #4CA5FF;
+    background-color: #4ca5ff;
     color: white;
     padding: 15px 0;
-    border:none;
+    border: none;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 15px;
@@ -30,11 +30,44 @@
 
   &__to-login {
     text-decoration: none;
-    transition: .2s;
+    transition: 0.2s;
     color: grey;
 
     &:hover {
       color: blue;
     }
   }
+}
+
+.registration form .input__error {
+  & input {
+    border: 1px solid #f44336;
+  }
+  height: 45px;
+  margin-bottom: 15px;
+}
+
+.registration form .input__valid {
+  position: relative;
+  height: 45px;
+  margin-bottom: 15px;
+
+  &::before {
+    content: " ";
+    position: absolute;
+    background: round;
+    top: 8px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    display: block;
+    background-image: url("../../../../assets/label.png");
+  }
+}
+
+.form__errors {
+  color: #f44336;
+  text-align: left;
+  margin-bottom: 10px;
+  margin-top: -8px;
 }

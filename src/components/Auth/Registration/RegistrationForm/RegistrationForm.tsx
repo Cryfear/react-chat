@@ -1,23 +1,61 @@
+import { Field, Form } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 
 import "./RegistrationForm.scss";
+import { RegistrationTypes } from "./RegistrationFormContainer";
 
-const RegistratationForm = () => {
+export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypes) => {
   return (
     <div>
-      <form action="post" className="registration__form">
-        <input type="text" placeholder="E-Mail" />
-        <input type="text" placeholder="Name" />
-        <input type="password" placeholder="Create password" />
-        <input type="password" placeholder="Repeat password" />
-      </form>
-      <button className="registration__button">Registration</button>
-      <Link to="/login" className="registration__to-login">
+      <Form action="post" className="registration__form">
+        <div className={errors.email && touched.email ? "input__error" : touched.email && "input__valid"}>
+          <Field placeholder="E-Mail" name="email" type="text" onChange={handleChange} value={values.email} />
+        </div>
+        <div className="form__errors">{errors.email && touched.email ? errors.email : ""}</div>
+        <div className={errors.name && touched.name ? "input__error" : touched.name && "input__valid"}>
+          <Field placeholder="Name" name="name" type="text" onChange={handleChange} value={values.name} />
+        </div>
+        <div className="form__errors">{errors.name && touched.name ? errors.name : ""}</div>
+        <div
+          className={
+            errors.password && touched.password ? "input__error" : touched.password && "input__valid"
+          }
+        >
+          <Field
+            placeholder="Create password"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            value={values.password}
+          />
+        </div>
+        <div className="form__errors">{errors.password && touched.password ? errors.password : ""}</div>
+        <div
+          className={
+            errors.passwordRepeat && touched.passwordRepeat
+              ? "input__error"
+              : touched.passwordRepeat && "input__valid"
+          }
+        >
+          <Field
+            placeholder="Repeat password"
+            name="passwordRepeat"
+            type="password"
+            onChange={handleChange}
+            value={values.passwordRepeat}
+          />
+        </div>
+        <div className="form__errors">
+          {errors.passwordRepeat && touched.passwordRepeat ? errors.passwordRepeat : ""}
+        </div>
+        <button type="submit" className="registration__button">
+          Registration
+        </button>
+      </Form>
+      <Link to="/auth/login" className="registration__to-login">
         I already have an account
       </Link>
     </div>
   );
 };
-
-export default RegistratationForm;
