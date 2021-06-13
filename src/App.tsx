@@ -7,22 +7,29 @@ import "./styles/normalize.css";
 import "./styles/index.scss";
 
 import { Redirect, Route } from "react-router";
-import { isAuth, isAuthData } from "./App.model";
+import { isLoginFx, isAuthData } from "./App.model";
 import { useStore } from "effector-react";
 
 export const App = () => {
   const store = useStore(isAuthData);
 
   useEffect(() => {
-    if (store.isChecked !== true)
-      isAuth({ email: sessionStorage["email"], authToken: sessionStorage["auth-token"] });
+    if (!store.isChecked)
+    isLoginFx({
+        email: sessionStorage["email"],
+        authToken: sessionStorage["auth-token"],
+      });
   });
 
   return (
     <div className="app">
       <Route path="/home" component={Home} />
       <Route path="/auth" component={Auth} />
-      {store.isAuth ? <Redirect children={<Home />} to="/home" /> : <Auth /> && <Redirect to="/auth/login" />}
+      {store.isAuth ? (
+        <Redirect children={<Home />} to="/home" />
+      ) : (
+        <Auth /> && <Redirect to="/auth/login" />
+      )}
     </div>
   );
 };

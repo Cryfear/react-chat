@@ -13,7 +13,7 @@ const MessagesItem = ({ mine }: MessageItemTypes) => {
         <img
           className="message__avatar-photo"
           src={
-            "https://sun9-35.userapi.com/impg/ZbyN_wWEp2bZa5uCf_aiAZaNNl3E1OIJh8xBVQ/eIfg4vRvhmo.jpg?size=1080x1080&quality=96&proxy=1&sign=608cbb6b6c7f5b789de94557d940251b&type=album"
+            "https://sun9-8.userapi.com/impg/CDsRtIMBb8z1Zj_ZUaR-cXsKynVsAa5vCr1egg/Vfaolg2sGXU.jpg?size=1080x1350&quality=96&sign=7a53fca993112073fda366beb7210151&type=album"
           }
           alt="avatar"
         />

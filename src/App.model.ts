@@ -1,29 +1,35 @@
-import { createStore, createEvent } from "effector";
-import { AuthApi } from './api/AuthApi';
+import { createStore, createEffect } from "effector";
+import { AuthApi } from "./api/AuthApi";
 
 interface UserDataTypes {
-  isAuth: boolean,
-  isChecked: boolean
+  isAuth: boolean;
+  isChecked: boolean;
 }
 
 type isAuthTypes = {
-  email: string,
-  authToken: string
-}
+  email: string;
+  authToken: string;
+};
 
-export const isAuth = createEvent<isAuthTypes>();
+export const isLoginFx = createEffect(
+  async ({ email, authToken }: isAuthTypes) => {
+    const result = await AuthApi.isLoginNow(email, authToken);
+    return result.data.responseCode;
+  }
+);
 
 export const isAuthData = createStore({
   isAuth: false,
-  isChecked: false
-})
-  .on(isAuth, (state: UserDataTypes, data: isAuthTypes) => {
-    AuthApi.isLoginNow(data.email, data.authToken);
+  isChecked: false,
+}).on(isLoginFx.doneData, (state: UserDataTypes, data) => {
+  if (data === "success") {
     return {
       ...state,
-      isAuth: false,
-      isChecked: true
-    }
-  })
+      isAuth: true,
+      isChecked: true,
+    };
+  }
+  return { ...state, isChecked: true };
+});
 
 isAuthData.watch(console.log);

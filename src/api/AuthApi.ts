@@ -12,17 +12,18 @@ export const AuthApi = {
           },
         }
       )
-      .then((data => data));
+      .then((data) => data);
   },
-  login(values: { email: string, password: string }) {
+  login(values: { email: string; password: string }) {
     return instance
       .post("/login", {
         values,
       })
       .then((data) => {
+        sessionStorage["id"] = data.data.id;
         sessionStorage["auth-token"] = data.data.token;
-        sessionStorage["userEmail"] = data.data.email;
+        sessionStorage["email"] = data.data.email;
         return data;
       });
-  }
+  },
 };
