@@ -31,5 +31,3 @@ export const isAuthData = createStore({
   }
   return { ...state, isChecked: true };
 });
-
-isAuthData.watch(console.log);

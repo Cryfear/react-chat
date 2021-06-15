@@ -1,15 +1,14 @@
 import React from "react";
 import classnames from "classnames";
 
-interface DialogItemTypes {
+interface UsersSearchItemTypes {
   avatar: string,
   id: number, 
   name: string,
   isOnline: boolean
 }
 
-const DialogItem = ({avatar, id, name, isOnline}: DialogItemTypes) => {
-  const str = "hi brother what are you doing?";
+const UsersSearchItem = ({avatar, name, isOnline}: UsersSearchItemTypes) => {
   return (
     <div className="dialog__item">
       <div
@@ -25,13 +24,9 @@ const DialogItem = ({avatar, id, name, isOnline}: DialogItemTypes) => {
           <span className="dialog__item-name">{name}</span>
           <span className="dialog__item-time">Now</span>
         </div>
-        <div className="dialog__item-footer">
-          <span className="dialog__item-text">{str.length > 25 ? str.substr(0, 20) + "..." : str}</span>
-          <span className="dialog__item-unreaded">3</span>
-        </div>
       </div>
     </div>
   );
 };
 
-export default DialogItem;
+export default UsersSearchItem;
