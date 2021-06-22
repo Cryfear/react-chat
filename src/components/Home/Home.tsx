@@ -1,16 +1,14 @@
 import React from "react";
-import Dialog from "./Dialog/Dialog";
-import DialogsList from "./DialogsLIst/DialogsList";
+import {Dialog} from "./Dialog/Dialog";
+import {DialogsList} from "./DialogsLIst/DialogsList";
 
 import "./Home.scss";
 
-const Home = () => {
+export const Home = () => {
   return (
     <section className="home">
-      <DialogsList />
-      <Dialog />
+      <DialogsList/>
+      <Dialog/>
     </section>
   );
 };
-
-export default Home;

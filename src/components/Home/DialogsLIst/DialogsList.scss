@@ -4,6 +4,8 @@
   width: 28%;
   box-sizing: border-box;
   border-right: 1px solid #f7f7f7;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .dialogs {

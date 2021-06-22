@@ -3,16 +3,18 @@ import classnames from "classnames";
 
 interface UsersSearchItemTypes {
   avatar: string,
-  id: number, 
-  name: string,
+  id: string,
+  fullName: string,
   isOnline: boolean
 }
 
-const UsersSearchItem = ({avatar, name, isOnline}: UsersSearchItemTypes) => {
+export const UsersSearchItem = ({avatar, fullName, isOnline}: UsersSearchItemTypes) => {
   return (
     <div className="dialog__item">
       <div
-        className={classnames("dialog__item-avatar", isOnline ? "dialog__item-online " : "dialog__item-offline")}
+        className={classnames(
+          "dialog__item-avatar", isOnline ? "dialog__item-online " : "dialog__item-offline"
+        )}
       >
         <img
           src={avatar}
@@ -21,12 +23,10 @@ const UsersSearchItem = ({avatar, name, isOnline}: UsersSearchItemTypes) => {
       </div>
       <div className="dialog__item-wrapper">
         <div className="dialog__item-header">
-          <span className="dialog__item-name">{name}</span>
+          <span className="dialog__item-name">{fullName}</span>
           <span className="dialog__item-time">Now</span>
         </div>
       </div>
     </div>
   );
 };
-
-export default UsersSearchItem;

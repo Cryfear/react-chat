@@ -3,7 +3,7 @@ import React from "react";
 import "./SearchDialogs.scss";
 import loop from "../../../../assets/loop.svg";
 
-const SearchDialogs = () => {
+export const SearchDialogs = () => {
   return (
     <div className="dialogs-search">
       <div className="dialogs-search__wrapper">
@@ -13,5 +13,3 @@ const SearchDialogs = () => {
     </div>
   );
 };
-
-export default SearchDialogs;

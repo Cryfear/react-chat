@@ -1,6 +1,6 @@
 import React from "react";
 
-const SendMessage = () => {
+export const SendMessage = () => {
   return (
     <div className="send-form">
       <span className="send-form__stickers"></span>
@@ -11,5 +11,3 @@ const SendMessage = () => {
     </div>
   );
 };
-
-export default SendMessage;

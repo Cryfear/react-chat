@@ -1,10 +1,10 @@
 import React from "react";
 import Messages from "./Messages/Messages";
-import SendMessage from "./SendMessage/SendMesage";
+import {SendMessage} from "./SendMessage/SendMesage";
 
 import "./Content.scss";
 
-const Content = () => {
+export const Content = () => {
   return (
     <div className="content">
       <Messages />
@@ -12,5 +12,3 @@ const Content = () => {
     </div>
   );
 };
-
-export default Content;

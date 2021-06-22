@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Auth } from "./components/Auth/Auth";
-import Home from "./components/Home/Home";
+import { Home }from "./components/Home/Home";
 
 import "./styles/normalize.css";
 import "./styles/index.scss";

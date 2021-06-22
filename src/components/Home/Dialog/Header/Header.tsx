@@ -25,7 +25,7 @@ const isAuthData = createStore({
 
 isAuthData.watch(console.log);
 
-const Header = () => {
+export const Header = () => {
   const { fullName, online } = useStore(isAuthData);
   return (
     <div className="dialog__header">
@@ -44,5 +44,3 @@ const Header = () => {
     </div>
   );
 };
-
-export default Header;

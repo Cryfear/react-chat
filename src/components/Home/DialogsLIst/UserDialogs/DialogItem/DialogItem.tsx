@@ -3,12 +3,12 @@ import classnames from "classnames";
 
 interface DialogItemTypes {
   avatar: string,
-  id: number, 
-  name: string,
+  id: string,
+  fullName: string,
   isOnline: boolean
 }
 
-const DialogItem = ({avatar, id, name, isOnline}: DialogItemTypes) => {
+export const DialogItem = ({avatar, id, fullName, isOnline}: DialogItemTypes) => {
   const str = "hi brother what are you doing?";
   return (
     <div className="dialog__item">
@@ -22,7 +22,7 @@ const DialogItem = ({avatar, id, name, isOnline}: DialogItemTypes) => {
       </div>
       <div className="dialog__item-wrapper">
         <div className="dialog__item-header">
-          <span className="dialog__item-name">{name}</span>
+          <span className="dialog__item-name">{fullName}</span>
           <span className="dialog__item-time">Now</span>
         </div>
         <div className="dialog__item-footer">
@@ -33,5 +33,3 @@ const DialogItem = ({avatar, id, name, isOnline}: DialogItemTypes) => {
     </div>
   );
 };
-
-export default DialogItem;
