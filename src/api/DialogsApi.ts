@@ -1,9 +1,9 @@
 import instance from "./api";
 
 export const DialogsApi = {
-  getMyDialogs(id: any) {
+  getMyDialogs(id: any, page: number) {
     return instance
-      .get(`/dialogs/my/${id}`)
+      .post(`/dialogs/my/${id}`, {page})
       .then((data) => data)
       .catch((err) => err);
   },

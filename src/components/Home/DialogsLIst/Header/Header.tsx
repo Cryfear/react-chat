@@ -3,7 +3,7 @@ import React from "react";
 import "./Header.scss";
 import pencil from "../../../../assets/pencil.svg";
 import people from "../../../../assets/people.svg";
-import {SwitchSearch} from "../DialogsList.model";
+import { SwitchSearch } from "../DialogsList.model";
 
 export const Header = () => {
   return (
