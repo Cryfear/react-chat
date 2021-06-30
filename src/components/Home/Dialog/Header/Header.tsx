@@ -1,41 +1,25 @@
 import React from "react";
-
 import dots from "../../../../assets/dots.svg";
-
 import "./Header.scss";
-
-import { createStore, createEvent } from "effector";
 import { useStore } from "effector-react";
-
-interface UserDataTypes {
-  fullName: string;
-  online: boolean;
-}
-
-const updateAuth = createEvent<UserDataTypes>();
-
-const updateStore = (state: UserDataTypes, data: UserDataTypes): UserDataTypes => {
-  return { ...state, online: data.online, fullName: data.fullName };
-};
-
-const isAuthData = createStore({
-  fullName: "Arthur Morphy",
-  online: true,
-}).on(updateAuth, updateStore);
-
-isAuthData.watch(console.log);
+import { HomeStore } from "../../Home.model";
 
 export const Header = () => {
-  const { fullName, online } = useStore(isAuthData);
+  const store = useStore(HomeStore);
+
+  const userName =
+    store.currentUser !== null ? store.currentUser.name : "undefined";
+  const isOnlineClassName =
+    store.currentUser !== null && store.currentUser.isOnline
+      ? "online"
+      : "offline";
+
   return (
     <div className="dialog__header">
       <div className="dialog__header-name">
-        <h3 onClick={() => updateAuth({ online, fullName: "Wow Switched" })}>{fullName}</h3>
-        <p
-          onClick={() => updateAuth({ online: !online, fullName })}
-          className={online ? "online" : "offline"}
-        >
-          {online ? "online" : "offline"}
+        <h3>{userName}</h3>
+        <p className={isOnlineClassName}>
+          {isOnlineClassName}
         </p>
       </div>
       <div className="dialog__header-settings">

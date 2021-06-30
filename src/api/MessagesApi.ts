@@ -7,5 +7,16 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
+  create(dialogId: string, myId: string, data: string) {
+    return instance
+      .post("/messages/create", { dialogId, myId, data })
+      .then((data) => data)
+      .catch((err) => err);
+  },
+  getDialogMessages(dialogId: string) {
+    return instance
+      .post("/messages/all", { dialogId })
+      .then((data) => data)
+      .catch((err) => err);
+  },
 };
-

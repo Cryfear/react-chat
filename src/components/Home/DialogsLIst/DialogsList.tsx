@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 
 import {Header} from "./Header/Header";
 import {SearchDialogs} from "./SearchDialogs/SearchDialogs";
@@ -13,12 +13,9 @@ import {
 } from "./DialogsList.model";
 import {useStore} from "effector-react";
 import {UserDialogsContainer} from "./UserDialogs/UserDialogsContainer";
-import debounce from 'debounce';
-
 
 export const DialogsList = () => {
   const store = useStore(DialogsListStore);
-  const pedik: any = useRef(null);
 
   useEffect(() => {
     DialogsLoaderFx({id: sessionStorage["id"], page: 0});
@@ -26,7 +23,7 @@ export const DialogsList = () => {
   }, []);
 
   return (
-    <div className="dialogs-list" ref={pedik} onScroll={(e: any) => {
+    <div className="dialogs-list" onScroll={(e: any) => {
       return store.isUserSearch
         ? onScrollUsersLoaderFx({e, page: store.usersSearchPage})
         : onScrollDialogsLoaderFx({

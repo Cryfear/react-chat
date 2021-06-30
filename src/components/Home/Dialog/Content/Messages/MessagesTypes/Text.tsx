@@ -4,11 +4,12 @@ import ReadedCheckComponent from "../ReadedCheckComponent";
 
 interface MessageItemTypes {
   mine: boolean; // мое ли сообщение
+  text: string;
 }
 
-const MessagesItem = ({ mine }: MessageItemTypes) => {
+export const MessageItem = ({ mine, text }: MessageItemTypes) => {
   return (
-    <div className={classnames("message", mine ? "message-reverse" : "")}>
+    <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">
         <img
           className="message__avatar-photo"
@@ -19,12 +20,10 @@ const MessagesItem = ({ mine }: MessageItemTypes) => {
         />
       </div>
       <div className="message__content-wrapper">
-        <div className="message__text">How are you Dan?</div>
+        <div className="message__text">{text}</div>
         <div className="message__date">yesterday 6:32AM</div>
         <ReadedCheckComponent checked={false} />
       </div>
     </div>
   );
 };
-
-export default MessagesItem;

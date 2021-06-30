@@ -74,7 +74,7 @@ export const createDialogFx = createEffect(
   }
 );
 
-export const DialogsListStore = createStore<any>({
+export const DialogsListStore = createStore<DialogsListStoreTypes>({
   initialisedDialogs: false,
   initialisedUsers: false,
   dialogs: [],
@@ -88,15 +88,18 @@ export const DialogsListStore = createStore<any>({
       return {
         ...state,
         users: data,
-        usersSearchPage: state.usersSearchPage  + 1 ,
+        usersSearchPage: state.usersSearchPage + 1 ,
         initialisedUsers: true,
       };
+    }
+    else if(page !== state.usersSearchPage) {
+      return state;
     }
     else if(state.users.length > 0 && data.length > 0 && page > 0) {
       return {
         ...state,
         users: [...state.users, ...data],
-        userssSearchPage: state.usersSearchPage + 1,
+        usersSearchPage: state.usersSearchPage + 1,
       };
     }
     else if(data.length > 0 && page > 0) {
@@ -115,7 +118,7 @@ export const DialogsListStore = createStore<any>({
       return {
         ...state,
         dialogs: data,
-        dialogsSearchPage: state.dialogsSearchPage  + 1 ,
+        dialogsSearchPage: state.dialogsSearchPage + 1 ,
         initialisedDialogs: true,
       };
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import Messages from "./Messages/Messages";
-import {SendMessage} from "./SendMessage/SendMesage";
+import {SendMessage} from "./SendMessage/SendMessage";
 
 import "./Content.scss";
 

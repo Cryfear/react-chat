@@ -1,0 +1,61 @@
+.send-form {
+  position: absolute;
+  bottom: 20px;
+  min-width: -webkit-fill-available;
+    padding-right: 100px;
+
+  &__input {
+    border: 2px solid #bbbbbb;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 10px 15px;
+    padding-left: 45px;
+    padding-right: 95px;
+    height: 42px;
+    width: 100%;
+    resize: none;
+  }
+
+  & span {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    position: absolute;
+    cursor: pointer;
+
+    &.send-form__stickers {
+      width: 20px;
+      height: 20px;
+      left: 10px;
+      top: 10px;
+    }
+    &.send-form__photo {
+      width: 20px;
+      height: 20px;
+      right: 165px;
+      top: 13px;
+    }
+    &.send-form__voice {
+      width: 16px;
+      height: 20px;
+      right: 140px;
+      top: 13px;
+    }
+  }
+
+  & img {
+    width: 100%;
+  }
+
+  .send-form__submit {
+    background: none;
+    border: none;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 107px;
+    top: 8px;
+    cursor: pointer;
+    
+  }
+}
