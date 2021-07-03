@@ -1,13 +1,15 @@
 import React from "react";
 import classnames from "classnames";
 import ReadedCheckComponent from "../ReadedCheckComponent";
+import { dateFormatter } from "../../../../../../utils/dateFormatter";
 
 interface MessageItemTypes {
   mine: boolean; // мое ли сообщение
   text: string;
+  date: Date;
 }
 
-export const MessageItem = ({ mine, text }: MessageItemTypes) => {
+export const MessageItem = ({ mine, text, date }: MessageItemTypes) => {
   return (
     <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">
@@ -21,7 +23,7 @@ export const MessageItem = ({ mine, text }: MessageItemTypes) => {
       </div>
       <div className="message__content-wrapper">
         <div className="message__text">{text}</div>
-        <div className="message__date">yesterday 6:32AM</div>
+        <div className="message__date">{dateFormatter(date)}</div>
         <ReadedCheckComponent checked={false} />
       </div>
     </div>

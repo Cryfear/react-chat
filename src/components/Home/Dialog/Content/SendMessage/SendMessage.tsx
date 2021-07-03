@@ -25,6 +25,17 @@ export const SendMessage = () => {
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Enter message text"
         className="send-form__input"
+        onKeyDown={(e: any) => {
+          if (e.key === "Enter" || e.key === "NumpadEnter") {
+            e.preventDefault();
+            sendMessageFx({
+              dialogId: store.currentDialog.id,
+              myId: sessionStorage["id"],
+              data: inputValue,
+            });
+            setInputValue("");
+          }
+        }}
       />
       <span className="send-form__photo">
         <img src={photo} alt="phoo icon" />
@@ -33,14 +44,15 @@ export const SendMessage = () => {
         <img src={voice} alt="voice icon" />
       </span>
       <button
-        onClick={() =>
+        onClick={() => {
           sendMessageFx({
             dialogId: store.currentDialog.id,
             myId: sessionStorage["id"],
             data: inputValue,
-          })
-        }
-        type='button'
+          });
+          setInputValue("");
+        }}
+        type="button"
         className="send-form__submit"
       >
         <img src={send} alt="send icon" />

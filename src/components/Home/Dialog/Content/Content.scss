@@ -1,3 +1,11 @@
 .content {
   padding: 50px;
+  box-sizing: border-box;
+  height: 90%;
+
+  &__messages {
+    height: 87%;
+    overflow-x: hidden;
+    padding-right: 10px;
+  }
 }

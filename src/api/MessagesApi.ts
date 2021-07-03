@@ -13,9 +13,9 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getDialogMessages(dialogId: string) {
+  getDialogMessages({dialogId, page}: any) {
     return instance
-      .post("/messages/all", { dialogId })
+      .post("/messages/all", { dialogId, page })
       .then((data) => data)
       .catch((err) => err);
   },
