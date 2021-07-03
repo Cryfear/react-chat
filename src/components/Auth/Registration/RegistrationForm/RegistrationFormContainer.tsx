@@ -65,7 +65,6 @@ export const RegistrationFormContainer = withFormik<any, RegistrationFormValuesT
   },
 
   handleSubmit: async (values) => {
-    let sex = await CreateAccountFx({ email: values.email, name: values.name, password: values.password });
-    console.log(sex.data);
+    return await CreateAccountFx({ email: values.email, name: values.name, password: values.password });
   },
 })(RegistrationForm);

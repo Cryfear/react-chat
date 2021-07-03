@@ -73,3 +73,10 @@
     }
   }
 }
+
+.empty__dialog {
+  &-modified {
+    width: auto !important;
+    height: 100%;
+  }
+}

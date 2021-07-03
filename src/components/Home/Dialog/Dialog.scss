@@ -3,3 +3,26 @@
   background-color: white;
   position: relative;
 }
+
+.empty__dialog {
+  width: 72%;
+  background-color: white;
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+  & img {
+    width: 50px;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  & h2 {
+    align-self: center;
+    font-size: 1.2rem;
+    width: 70%;
+    margin: 0 auto;
+  }
+}

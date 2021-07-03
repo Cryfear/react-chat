@@ -8,11 +8,18 @@ import send from "../../../../../assets/send-message.svg";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useStore } from "effector-react";
-import { HomeStore, sendMessageFx } from "../../../Home.model";
+import {
+  HomeStore,
+  sendMessageFx,
+} from "../../../Home.model";
+import {
+  DialogsListStore,
+} from "../../../DialogsLIst/DialogsList.model";
 
 export const SendMessage = () => {
   const [inputValue, setInputValue] = useState("");
   const store = useStore(HomeStore);
+  const dialogsListStore = useStore(DialogsListStore);
 
   return (
     <form className="send-form">
@@ -27,12 +34,18 @@ export const SendMessage = () => {
         className="send-form__input"
         onKeyDown={(e: any) => {
           if (e.key === "Enter" || e.key === "NumpadEnter") {
-            e.preventDefault();
-            sendMessageFx({
-              dialogId: store.currentDialog.id,
-              myId: sessionStorage["id"],
-              data: inputValue,
-            });
+            console.log(dialogsListStore.potentialDialog?.id, store.currentDialog.id);
+            store.currentDialog.id.length > 0
+              ? sendMessageFx({
+                  dialogId: store.currentDialog.id,
+                  myId: sessionStorage["id"],
+                  data: inputValue,
+                })
+              : sendMessageFx({
+                  userId: dialogsListStore.potentialDialog?.id,
+                  myId: sessionStorage["id"],
+                  data: inputValue,
+                });
             setInputValue("");
           }
         }}
@@ -45,11 +58,17 @@ export const SendMessage = () => {
       </span>
       <button
         onClick={() => {
-          sendMessageFx({
-            dialogId: store.currentDialog.id,
-            myId: sessionStorage["id"],
-            data: inputValue,
-          });
+          store.currentDialog.id
+            ? sendMessageFx({
+                dialogId: store.currentDialog.id,
+                myId: sessionStorage["id"],
+                data: inputValue,
+              })
+            : sendMessageFx({
+                userId: dialogsListStore.potentialDialog?.id,
+                myId: sessionStorage["id"],
+                data: inputValue,
+              });
           setInputValue("");
         }}
         type="button"

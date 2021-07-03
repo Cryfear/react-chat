@@ -5,10 +5,14 @@ import "./MessagesTypes.scss";
 import { useStore } from "effector-react";
 import { HomeStore, onScrollLoaderMessages } from "../../../Home.model";
 
+import svg from "../../../../../assets/waving-hand.svg";
+
 const Messages = () => {
   const store = useStore(HomeStore);
-  const messages = store.currentDialogMessages && store.currentDialogMessages.length > 0
-    ? store.currentDialogMessages.map((item: any, index: any) => {
+  console.log(store.currentDialogMessages)
+  const messages =
+    store.currentDialogMessages && store.currentDialogMessages.length > 0 ? (
+      store.currentDialogMessages.map((item: any, index: any) => {
         return (
           <MessageItem
             date={item.date}
@@ -18,7 +22,14 @@ const Messages = () => {
           />
         );
       })
-    : "";
+    ) : (
+      <div className="empty__dialog empty__dialog-modified">
+        <img src={svg} alt="hand" />
+        <h2>
+          Send me a message! :)
+        </h2>
+      </div>
+    );
 
   return (
     <div

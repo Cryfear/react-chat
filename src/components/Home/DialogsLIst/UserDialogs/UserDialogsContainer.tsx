@@ -2,6 +2,8 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import React from "react";
 import {UsersSearchItem} from "./UsersSearchItem/UsersSearchItem";
 import {UserDialogs} from "./UserDialogs";
+import { useStore } from "effector-react";
+import { DialogsListStore } from "../DialogsList.model";
 
 export type UserDialogsTypes = {
   isUserSearch: boolean,
@@ -17,9 +19,11 @@ export type ItemTypes = {
 }
 
 export const UserDialogsContainer = ({dialogs, users, isUserSearch}: any) => {
+  const store = useStore(DialogsListStore);
+
   const Dialogs = dialogs.length > 1 ?
-    dialogs.map((dialogData: ItemTypes, index: number) => {
-      return <DialogItem {...dialogData} key={index}/>
+    dialogs.map((dialog: ItemTypes, index: number) => {
+      return <DialogItem dialogId={store.unConvertedDialogs[index]._id} {...dialog} key={index}/>
     }) : <DialogItem {...dialogs}/>
 
   const Users = users.length > 1 ?

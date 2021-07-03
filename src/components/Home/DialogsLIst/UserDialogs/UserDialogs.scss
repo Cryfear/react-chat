@@ -17,6 +17,11 @@
     color: white;
     border-radius: 50%;
     text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    place-items: center;
   }
 
   &-time {

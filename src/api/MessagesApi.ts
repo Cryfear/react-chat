@@ -7,15 +7,21 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  create(dialogId: string, myId: string, data: string) {
+  create(values: { dialogId: string; myId: string; data: string }) {
     return instance
-      .post("/messages/create", { dialogId, myId, data })
+      .post("/messages/create", { ...values })
       .then((data) => data)
       .catch((err) => err);
   },
-  getDialogMessages({dialogId, page}: any) {
+  getDialogMessages(values: { dialogId: string; page: number }) {
     return instance
-      .post("/messages/all", { dialogId, page })
+      .post("/messages/all", { ...values })
+      .then((data) => data)
+      .catch((err) => err);
+  },
+  getUnreadedMessagesCount(values: { dialogId: string; userId: string }) {
+    return instance
+      .post("/messages/unreaded", { ...values })
       .then((data) => data)
       .catch((err) => err);
   },

@@ -19,5 +19,3 @@ $RegistrationStore.on(CreateAccountFx.done, (state, payload) => {
     isRegistrated: true
   }
 });
-
-$RegistrationStore.watch(console.log);

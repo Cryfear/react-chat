@@ -21,3 +21,17 @@ export const dateFormatter = (date: Date) => {
       return moment(date).format("DD.MM.YY") + ' / ' + moment(date).format("hh:mm");
   }
 };
+
+export const LastMessageDateFormatter = (date: Date) => {
+  const messageDay = dayjs(date).dayOfYear()
+  const currentDay = dayjs().dayOfYear()
+  const messageYear = dayjs(date).year()
+  const currentYear = dayjs().year()
+
+  if (messageDay === currentDay && messageYear === currentYear) {
+    return moment(date).format("hh:mm");
+  }
+  else {
+      return moment(date).format("DD.MM.YY");
+  }
+};
