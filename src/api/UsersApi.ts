@@ -13,6 +13,12 @@ export const UsersApi = {
       .then((data) => data)
       .catch((err) => err);
   },
+  getUsersByName(values: {page: number, searchText: string}) {
+    return instance
+      .get(`/getUsersByName/${values.page}/${values.searchText}`)
+      .then((data) => data)
+      .catch((err) => err);
+  },
   findUser(id: string) {
     return instance
       .get(`/users/${id}`)

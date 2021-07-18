@@ -27,20 +27,31 @@ export const DialogItem = ({
   const store = useStore(HomeStore);
   const [lastMessage, setLastMessage] = useState("");
   const [lastMessageDate, setLastMessageDate] = useState("");
-  const [unreadCound, setUnreadCount] = useState(undefined);
+  const [unreadCount, setUnreadCount] = useState(undefined);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (lastMessage === "")
       getLastDialogMessage(dialogId).then((data) => {
-        setLastMessage(data ? data.text : '');
-        setLastMessageDate(LastMessageDateFormatter(data ? data.date: ""));
+        if (isMounted) {
+          setLastMessage(data ? data.text : "");
+          setLastMessageDate(LastMessageDateFormatter(data ? data.date : ""));
+        }
       });
-    if (unreadCound === undefined) {
+
+    if (unreadCount === undefined) {
       getUnreadedMessagesCount({ dialogId, userId: id }).then((data) => {
-        setUnreadCount(data);
+        if (isMounted) {
+          setUnreadCount(data);
+        }
       });
     }
-  }, [setLastMessage, lastMessage, dialogId, setUnreadCount, unreadCound, id]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [setLastMessage, lastMessage, dialogId, setUnreadCount, unreadCount, id]);
 
   return (
     <div
@@ -72,10 +83,10 @@ export const DialogItem = ({
               ? lastMessage.substr(0, 9) + "..."
               : lastMessage}
           </span>
-          {unreadCound === 0 ? (
+          {unreadCount === 0 ? (
             ""
           ) : (
-            <span className={"dialog__item-unreaded"}>{unreadCound}</span>
+            <span className={"dialog__item-unreaded"}>{unreadCount}</span>
           )}
         </div>
       </div>

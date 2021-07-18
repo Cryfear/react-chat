@@ -33,6 +33,24 @@ export const getLastDialogMessage = createEffect(async (dialogId: string) => {
   } catch (err) {}
 });
 
+export const getUsersBySearch = createEffect(
+  async (values: { page: number; searchText: string }) => {
+    console.log(values.searchText)
+    try {
+      if (values.searchText !== "") {
+        const users = await UsersApi.getUsersByName(values);
+        console.log(users.data)
+        return users;
+      }
+      else {
+        return 'close';
+      }
+    } catch (Err) {
+      return "close";
+    }
+  }
+);
+
 export const getUnreadedMessagesCount = createEffect(
   async ({ dialogId, userId }: any) => {
     try {
@@ -48,8 +66,7 @@ export const getUnreadedMessagesCount = createEffect(
 export const readyToCreateDialogFx = createEffect(
   async ({ user, myId }: any) => {
     try {
-      const dialog = await DialogsApi.find({id_1: myId, id_2: user.id});
-      console.log(dialog);
+      const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
       if (dialog) {
         const lol = await initialiseDialogFx({
           userId: user.id,
@@ -57,7 +74,7 @@ export const readyToCreateDialogFx = createEffect(
           page: 0,
         });
         console.log(lol);
-        return { status: 'success', user };
+        return { status: "success", user };
       }
     } catch (err) {
       return user;
@@ -66,7 +83,7 @@ export const readyToCreateDialogFx = createEffect(
 );
 
 export const DialogsLoaderFx = createEffect(async ({ id, page }: any) => {
-  const myDialogs = await DialogsApi.getMyDialogs({id, page});
+  const myDialogs = await DialogsApi.getMyDialogs({ id, page });
 
   const Users = await Promise.all(
     myDialogs.data.map(async (dialog: any) => {
@@ -123,7 +140,7 @@ export const onScrollDialogsLoaderFx = createEffect(
 
 export const createDialogFx = createEffect(
   async ({ id1, id2 }: { id1: string; id2: string }) => {
-    return await DialogsApi.create({id_1: id1, id_2: id2});
+    return await DialogsApi.create({ id_1: id1, id_2: id2 });
   }
 );
 
@@ -220,5 +237,20 @@ export const DialogsListStore = createStore<DialogsListStoreTypes>({
         isOnline: data.isOnline,
         id: data.id,
       },
+    };
+  })
+  .on(getUsersBySearch.doneData, (state, data) => {
+    if (data === "close")
+      return {
+        ...state,
+        isUserSearch: false,
+        users: [],
+        initialisedUsers: false,
+        usersSearchPage: 0,
+      };
+    return {
+      ...state,
+      isUserSearch: true,
+      users: data.data,
     };
   });

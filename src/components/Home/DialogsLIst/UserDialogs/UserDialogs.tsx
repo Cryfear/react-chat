@@ -7,5 +7,19 @@ export const UserDialogs = ({
   Users,
   Dialogs,
 }: UserDialogsTypes) => {
-  return <div className="dialogs">{isUserSearch ? Users : Dialogs}</div>;
+  return (
+    <div className="dialogs">
+      {isUserSearch ? (
+        Users ? (
+          Users
+        ) : (
+          <div></div>
+        )
+      ) : Dialogs ? (
+        Dialogs
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
 };

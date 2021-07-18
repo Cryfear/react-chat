@@ -9,7 +9,6 @@ import svg from "../../../../../assets/waving-hand.svg";
 
 const Messages = () => {
   const store = useStore(HomeStore);
-  console.log(store.currentDialogMessages)
   const messages =
     store.currentDialogMessages && store.currentDialogMessages.length > 0 ? (
       store.currentDialogMessages.map((item: any, index: any) => {

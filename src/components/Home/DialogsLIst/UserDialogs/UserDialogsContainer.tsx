@@ -21,15 +21,15 @@ export type ItemTypes = {
 export const UserDialogsContainer = ({dialogs, users, isUserSearch}: any) => {
   const store = useStore(DialogsListStore);
 
-  const Dialogs = dialogs.length > 1 ?
+  const Dialogs = dialogs && dialogs.length > 0 ?
     dialogs.map((dialog: ItemTypes, index: number) => {
       return <DialogItem dialogId={store.unConvertedDialogs[index]._id} {...dialog} key={index}/>
-    }) : <DialogItem {...dialogs}/>
+    }) : <div />
 
-  const Users = users.length > 1 ?
+  const Users = users && users.length > 0 ?
     users.map((userData: ItemTypes, index: number) => {
       return <UsersSearchItem{...userData} key={index}/>
-    }) : <UsersSearchItem {...users} />
+    }) : <div />
 
   return (
     <UserDialogs isUserSearch={isUserSearch} Dialogs={Dialogs} Users={Users}/>

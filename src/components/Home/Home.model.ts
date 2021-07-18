@@ -1,10 +1,11 @@
-import { createEffect, createStore } from "effector";
-import { DialogsApi } from "../../api/DialogsApi";
-import { MessagesApi } from "../../api/MessagesApi";
-import { UsersApi } from "../../api/UsersApi";
+import {createEffect, createStore} from "effector";
+import {DialogsApi} from "../../api/DialogsApi";
+import {MessagesApi} from "../../api/MessagesApi";
+import {UsersApi} from "../../api/UsersApi";
 import {
   createDialogFx,
   readyToCreateDialogFx,
+  SwitchSearch,
 } from "./DialogsLIst/DialogsList.model";
 
 interface HomeStoreTypes {
@@ -26,15 +27,15 @@ interface HomeStoreTypes {
 
 export const initialiseDialogFx = createEffect(
   async ({
-    userId,
-    myId,
-    page,
-  }: {
+           userId,
+           myId,
+           page,
+         }: {
     userId: string;
     myId: string;
     page: number;
   }) => {
-    const dialog = await DialogsApi.find({ id_1: userId, id_2: myId });
+    const dialog = await DialogsApi.find({id_1: userId, id_2: myId});
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
@@ -56,10 +57,10 @@ export const initialiseDialogFx = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({ e, page, dialogId }: any) => {
+  async ({e, page, dialogId}: any) => {
     const target = e.target as Element;
     if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
-      const mes = await MessagesApi.getDialogMessages({ dialogId, page });
+      const mes = await MessagesApi.getDialogMessages({dialogId, page});
       return {
         messages: mes.data,
         page: page,
@@ -69,16 +70,16 @@ export const onScrollLoaderMessages = createEffect(
 );
 
 export const sendMessageFx = createEffect(
-  async ({ dialogId, userId, myId, data }: any) => {
+  async ({dialogId, userId, myId, data}: any) => {
     if (dialogId) {
-      const message = await MessagesApi.create({ dialogId, myId, data });
+      const message = await MessagesApi.create({dialogId, myId, data});
       return message.data;
     } else {
       const dialogIdRes = await createDialogFx({
         id1: sessionStorage["id"],
         id2: userId,
       });
-      await initialiseDialogFx({ userId, myId, page: 0 });
+      await initialiseDialogFx({userId, myId, page: 0});
 
       const message = await MessagesApi.create({
         dialogId: dialogIdRes.data,
@@ -113,7 +114,7 @@ export const HomeStore = createStore<HomeStoreTypes>({
       currentDialog: {
         id: data.currentDialogID,
         isTyping: data.currentDialogTyping,
-        page: data.currentDialogPage,
+        page: 0,
       },
       currentDialogMessages: data.currentDialogMessages,
       isInitialisedDialog: true,
@@ -173,7 +174,13 @@ export const HomeStore = createStore<HomeStoreTypes>({
   })
   .on(readyToCreateDialogFx.doneData, (state, data) => {
     if (data.status === "success") {
-      return state;
+      return {
+        ...state, currentDialog: {
+          ...state.currentDialog,
+          page: 0,
+        },
+        loadedDialog: false
+      }
     }
     return {
       isInitialisedDialog: false,
@@ -185,5 +192,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
         page: 0,
       },
       currentDialogMessages: [],
+    };
+  })
+  .on(SwitchSearch.doneData, (state, data) => {
+    return {
+      ...state,
     };
   });
