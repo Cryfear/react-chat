@@ -26,8 +26,7 @@ export const UsersSearchItem = ({
       </div>
       <div className="dialog__item-wrapper">
         <div className="dialog__item-header">
-          <span className="dialog__item-name">{fullName}</span>
-          <span className="dialog__item-time">Now</span>
+          <span className="dialog__item-name">{fullName.length < 12 ? fullName : fullName.substr(0, 11) + '...'}</span>
         </div>
       </div>
     </div>

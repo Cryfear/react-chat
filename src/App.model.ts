@@ -1,6 +1,5 @@
 import { createStore, createEffect } from "effector";
 import { AuthApi } from "./api/AuthApi";
-import { UsersApi } from "./api/UsersApi";
 
 export const isLoginFx = createEffect(
   async ({ email, authToken }: { email: string; authToken: string }) => {
@@ -9,13 +8,9 @@ export const isLoginFx = createEffect(
   }
 );
 
-export const findUserFx = createEffect(async ({userId}: any) => {
-  return await UsersApi.findUser(userId);
-})
-
 export const isAuthData = createStore({
-  isAuth: false,
-  isChecked: false,
+  isAuth: false, // залогинен ли
+  isChecked: false, // проверен ли пользователь на авторизованность
 }).on(isLoginFx.doneData, (state, data) => {
   if (data === "success") {
     return {

@@ -4,6 +4,7 @@ import {MessagesApi} from "../../api/MessagesApi";
 import {UsersApi} from "../../api/UsersApi";
 import {
   createDialogFx,
+  getUsersBySearch,
   readyToCreateDialogFx,
   SwitchSearch,
 } from "./DialogsLIst/DialogsList.model";
@@ -198,4 +199,24 @@ export const HomeStore = createStore<HomeStoreTypes>({
     return {
       ...state,
     };
-  });
+  }).on(getUsersBySearch.doneData, (state, data) => {
+    if (data === "close")
+      return {
+        ...state,
+        currentDialog: {
+          ...state.currentDialog,
+          page: 0,
+          
+        },
+        loadedDialog: false
+      };
+    return {
+      ...state,
+      currentDialog: {
+        ...state.currentDialog,
+        page: 0,
+        
+      },
+      loadedDialog: false
+    };
+  });;

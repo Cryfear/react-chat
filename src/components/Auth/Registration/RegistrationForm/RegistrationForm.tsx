@@ -1,12 +1,16 @@
+import { useStore } from "effector-react";
 import { Field, Form } from "formik";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { $RegistrationStore } from "../Registration.model";
 
 import "./RegistrationForm.scss";
 import { RegistrationTypes } from "./RegistrationFormContainer";
 
 export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypes) => {
-  return (
+  const store = useStore($RegistrationStore);
+
+  return store.isRegistrated ? <Redirect to="/auth/login" /> :(
     <div>
       <Form action="post" className="registration__form">
         <div className={errors.email && touched.email ? "input__error" : touched.email && "input__valid"}>

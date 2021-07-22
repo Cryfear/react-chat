@@ -13,9 +13,11 @@ export const $RegistrationStore = createStore({
 });
 
 $RegistrationStore.on(CreateAccountFx.done, (state, payload) => {
-  console.log(payload);
-  return {
-    ...state,
-    isRegistrated: true
+  if(payload.result.data.responseCode === 'success') {
+    return {
+      ...state,
+      isRegistrated: true
+    }
   }
-});
+  return state;
+})

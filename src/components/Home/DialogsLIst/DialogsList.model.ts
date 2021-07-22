@@ -35,17 +35,14 @@ export const getLastDialogMessage = createEffect(async (dialogId: string) => {
 
 export const getUsersBySearch = createEffect(
   async (values: { page: number; searchText: string }) => {
-    console.log(values.searchText)
     try {
       if (values.searchText !== "") {
-        const users = await UsersApi.getUsersByName(values);
-        console.log(users.data)
-        return users;
+        return await UsersApi.getUsersByName(values);
       }
       else {
         return 'close';
       }
-    } catch (Err) {
+    } catch (_) {
       return "close";
     }
   }
@@ -222,7 +219,6 @@ export const DialogsListStore = createStore<DialogsListStoreTypes>({
     };
   })
   .on(createDialogFx.doneData, (state, { data }) => {
-    console.log(data);
     return {
       ...state,
       isUserSearch: !state.isUserSearch,

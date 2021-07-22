@@ -8,10 +8,12 @@ import {useDebounce} from 'use-lodash-debounce';
 export const SearchDialogs = () => {
   const [searchText, setSearchText] = useState("");
 
-  const debouncedValue = useDebounce(searchText, 1000);
+  const debouncedValue = useDebounce(searchText, 500);
 
   useEffect(() => {
     getUsersBySearch({ page: 0, searchText: searchText })
+    // выключил варнинг потому что в данном случае лишь создает проблемы. 
+    // eslint-disable-next-line
   }, [debouncedValue]);
 
   return (

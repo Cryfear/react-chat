@@ -19,7 +19,7 @@ export const App = () => {
         email: sessionStorage["email"],
         authToken: sessionStorage["auth-token"],
       });
-  });
+  }, [store.isChecked]);
 
   return (
     <div className="app">

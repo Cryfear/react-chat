@@ -34,8 +34,8 @@ export const SendMessage = () => {
         className="send-form__input"
         onKeyDown={(e: any) => {
           if (e.key === "Enter" || e.key === "NumpadEnter") {
-            console.log(dialogsListStore.potentialDialog?.id, store.currentDialog.id);
-            store.currentDialog.id.length > 0
+            e.preventDefault();
+            store.currentDialog.id.length > 0 && inputValue.trim() !== ''
               ? sendMessageFx({
                   dialogId: store.currentDialog.id,
                   myId: sessionStorage["id"],
@@ -58,7 +58,7 @@ export const SendMessage = () => {
       </span>
       <button
         onClick={() => {
-          store.currentDialog.id
+          store.currentDialog.id && inputValue.trim() !== ''
             ? sendMessageFx({
                 dialogId: store.currentDialog.id,
                 myId: sessionStorage["id"],
