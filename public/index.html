@@ -8,22 +8,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <script>
-      window.onload = function () {
-        var socket = io.connect("localhost:8888");
-
-        window.socket = socket;
-
-        socket.on("qqq", function ({ content, to }) {
-          console.log(content, to, socket.userId);
-          io.to(to).to(socket.userID).emit("qqq", {
-            content,
-            from: socket.userID,
-            to,
-          });
-        });
-      };
     </script>
   </body>
 </html>

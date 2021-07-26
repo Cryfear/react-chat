@@ -1,7 +1,8 @@
-import {createEffect, createStore} from "effector";
-import {DialogsApi} from "../../api/DialogsApi";
-import {MessagesApi} from "../../api/MessagesApi";
-import {UsersApi} from "../../api/UsersApi";
+import { createEffect, createStore } from "effector";
+import { DialogsApi } from "../../api/DialogsApi";
+import { MessagesApi } from "../../api/MessagesApi";
+import { UsersApi } from "../../api/UsersApi";
+import { socket } from "../../socket";
 import {
   createDialogFx,
   getUsersBySearch,
@@ -28,15 +29,15 @@ interface HomeStoreTypes {
 
 export const initialiseDialogFx = createEffect(
   async ({
-           userId,
-           myId,
-           page,
-         }: {
+    userId,
+    myId,
+    page,
+  }: {
     userId: string;
     myId: string;
     page: number;
   }) => {
-    const dialog = await DialogsApi.find({id_1: userId, id_2: myId});
+    const dialog = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
@@ -58,10 +59,13 @@ export const initialiseDialogFx = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({e, page, dialogId}: any) => {
+  async ({ e, page, dialogId }: any) => {
     const target = e.target as Element;
-    if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
-      const mes = await MessagesApi.getDialogMessages({dialogId, page});
+    console.log(target.scrollHeight, target.scrollTop, window.innerHeight);
+    console.log(target.scrollHeight - (target.scrollTop + window.innerHeight));
+    if (target.scrollHeight - (target.scrollTop + window.innerHeight) > 400) {
+      console.log("here");
+      const mes = await MessagesApi.getDialogMessages({ dialogId, page });
       return {
         messages: mes.data,
         page: page,
@@ -71,26 +75,56 @@ export const onScrollLoaderMessages = createEffect(
 );
 
 export const sendMessageFx = createEffect(
-  async ({dialogId, userId, myId, data}: any) => {
+  async ({ dialogId, userId, myId, data }: any) => {
     if (dialogId) {
-      const message = await MessagesApi.create({dialogId, myId, data});
+      const message = await MessagesApi.create({ dialogId, myId, data });
+
+      socket.emit("qqq", {
+        content: message.data,
+        to:
+          message.data.creater === message.data.dialog.users[0]
+            ? message.data.dialog.users[1]
+            : message.data.dialog.users[0],
+      });
       return message.data;
     } else {
       const dialogIdRes = await createDialogFx({
         id1: sessionStorage["id"],
         id2: userId,
       });
-      await initialiseDialogFx({userId, myId, page: 0});
+      await initialiseDialogFx({ userId, myId, page: 0 });
 
       const message = await MessagesApi.create({
         dialogId: dialogIdRes.data,
         myId,
         data,
       });
+
+      socket.emit("qqq", {
+        content: message.data,
+        to:
+          message.data.creater === message.data.dialog.users[0]
+            ? message.data.dialog.users[1]
+            : message.data.dialog.users[0],
+      });
+
       return message.data;
     }
   }
 );
+
+export const socketGetMessage = createEffect((msg: any) => {
+  console.log(msg);
+  return {
+    dialogId: msg.content.dialog._id,
+    messageCreater: msg.content.creater,
+    messageOpponent: msg.to,
+    messageDate: msg.content.date,
+    message: msg.content,
+    isReaded: msg.content.isReaded,
+    messageId: msg.content._id,
+  };
+});
 
 export const HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false,
@@ -176,12 +210,13 @@ export const HomeStore = createStore<HomeStoreTypes>({
   .on(readyToCreateDialogFx.doneData, (state, data) => {
     if (data.status === "success") {
       return {
-        ...state, currentDialog: {
+        ...state,
+        currentDialog: {
           ...state.currentDialog,
           page: 0,
         },
-        loadedDialog: false
-      }
+        loadedDialog: false,
+      };
     }
     return {
       isInitialisedDialog: false,
@@ -195,28 +230,37 @@ export const HomeStore = createStore<HomeStoreTypes>({
       currentDialogMessages: [],
     };
   })
-  .on(SwitchSearch.doneData, (state, data) => {
+  .on(SwitchSearch.doneData, (state, _) => {
     return {
       ...state,
     };
-  }).on(getUsersBySearch.doneData, (state, data) => {
+  })
+  .on(getUsersBySearch.doneData, (state, data) => {
     if (data === "close")
       return {
         ...state,
         currentDialog: {
           ...state.currentDialog,
           page: 0,
-          
         },
-        loadedDialog: false
+        loadedDialog: false,
       };
     return {
       ...state,
       currentDialog: {
         ...state.currentDialog,
         page: 0,
-        
       },
-      loadedDialog: false
+      loadedDialog: false,
     };
-  });;
+  })
+  .on(socketGetMessage.doneData, (state, data) => {
+    console.log(data);
+    if (state.currentDialog.id === data.dialogId) {
+      return {
+        ...state,
+        currentDialogMessages: [data.message, ...state.currentDialogMessages ],
+      };
+    }
+    return state;
+  });

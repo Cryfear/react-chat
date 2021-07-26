@@ -4,8 +4,10 @@
   height: 90%;
 
   &__messages {
-    height: 87%;
+    height: 90%;
     overflow-x: hidden;
+    display: flex;
     padding-right: 10px;
+    flex-flow: column-reverse;
   }
 }
