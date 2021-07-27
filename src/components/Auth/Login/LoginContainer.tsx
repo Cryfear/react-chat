@@ -1,7 +1,6 @@
 import { FormikErrors, withFormik } from "formik";
 import { passwordValidate } from "../../../utils/validations";
 import { Login } from "./Login";
-import { LoginFx } from "./Login.model";
 
 export type FormDataTypes = {
   email: string;
@@ -12,7 +11,7 @@ export interface LoginTypes {
   errors: FormDataTypes;
   values: FormDataTypes;
   touched: FormDataTypes;
-
+  
   handleChange: Function;
 }
 
@@ -28,20 +27,24 @@ export const LoginContainer = withFormik<LoginTypes, FormDataTypes>({
     let errors: FormikErrors<FormDataTypes> = {};
     if (!values.email) {
       errors.email = "Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
       errors.email = "Invalid email address";
+    } else {
+      errors.email = "";
     }
 
     if (!values.password) {
       errors.password = "Required";
     } else if (passwordValidate(values.password)) {
       errors.password = "Must be 6-25 latin letters and as min 1 number";
+    } else {
+      errors.password = "";
     }
 
     return errors;
   },
 
-  handleSubmit: async (values) => {
-    return await LoginFx({ email: values.email, password: values.password });
-  },
+  handleSubmit: () => { /* i have custom handle */ },
 })(Login);

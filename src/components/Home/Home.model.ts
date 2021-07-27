@@ -59,12 +59,11 @@ export const initialiseDialogFx = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({ e, page, dialogId }: any) => {
-    const target = e.target as Element;
-    console.log(target.scrollHeight, target.scrollTop, window.innerHeight);
-    console.log(target.scrollHeight - (target.scrollTop + window.innerHeight));
-    if (target.scrollHeight - (target.scrollTop + window.innerHeight) > 400) {
-      console.log("here");
+  async ({ ref, page, dialogId }: any) => {
+    const scrollHeight = ref.current.scrollHeight;
+    const scrollTop = ref.current.scrollTop;
+
+    if ((scrollHeight + scrollTop) < window.innerHeight - (window.innerHeight / 100 * 10)) {
       const mes = await MessagesApi.getDialogMessages({ dialogId, page });
       return {
         messages: mes.data,

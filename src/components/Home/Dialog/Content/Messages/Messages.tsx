@@ -6,9 +6,12 @@ import { useStore } from "effector-react";
 import { HomeStore, onScrollLoaderMessages } from "../../../Home.model";
 
 import svg from "../../../../../assets/waving-hand.svg";
+import { useRef } from "react";
 
 const Messages = () => {
   const store = useStore(HomeStore);
+  const scrollRef: any = useRef(null);
+
   const messages =
     store.currentDialogMessages && store.currentDialogMessages.length > 0 ? (
       store.currentDialogMessages.map((item: any, index: any) => {
@@ -33,9 +36,11 @@ const Messages = () => {
   return (
     <div
       className="content__messages"
+      ref={scrollRef}
       onScroll={(e: any) => {
+        console.log(scrollRef)
         return onScrollLoaderMessages({
-          e,
+          ref: scrollRef,
           dialogId: store.currentDialog.id,
           page: store.currentDialog.page,
         });
