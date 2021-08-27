@@ -1,13 +1,46 @@
 .content {
   padding: 50px;
+  padding-top: 0;
   box-sizing: border-box;
   height: 90%;
+  position: relative;
 
   &__messages {
-    height: 90%;
+    position: relative;
+    height: 95%;
     overflow-x: hidden;
     display: flex;
     padding-right: 10px;
     flex-flow: column-reverse;
+    padding-top: 10px;
+  }
+
+  &__arrow-to-bottom {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    border: 3px solid rgb(0, 0, 0);
+    position: absolute;
+    right: 82px;
+    bottom: 110px;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    place-content: center;
+    cursor: pointer;
+
+    & img {
+      width: 60%;
+      margin-top: 3px;
+    }
+
+    & span {
+      position: absolute;
+      right: -10px;
+      top: -23px;
+      color: #3674ff;
+      -webkit-text-stroke: black 0.1;
+    }
   }
 }

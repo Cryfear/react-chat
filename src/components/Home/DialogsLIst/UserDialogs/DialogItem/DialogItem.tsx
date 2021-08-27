@@ -56,12 +56,13 @@ export const DialogItem = ({
   return (
     <div
       className="dialog__item"
-      onClick={() =>
+      onClick={() => {
         initialiseDialogFx({
           userId: id,
           myId: sessionStorage["id"],
           page: store.currentDialog.page,
         })
+      }
       }
     >
       <div

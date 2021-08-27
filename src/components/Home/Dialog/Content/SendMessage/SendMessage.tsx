@@ -23,6 +23,7 @@ export const SendMessage = () => {
 
   return (
     <form className="send-form">
+      <div className="send-form-relative">
       <span className="send-form__stickers">
         <img src={smile} alt="smile icon" />
       </span>
@@ -76,6 +77,7 @@ export const SendMessage = () => {
       >
         <img src={send} alt="send icon" />
       </button>
+      </div>
     </form>
   );
 };

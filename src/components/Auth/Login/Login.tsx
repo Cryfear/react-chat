@@ -47,6 +47,10 @@ export const Login = ({
       <form action="post" className="login__form">
         <div className={emailIsErrorClassName}>
           <Field
+            onKeyDown={(e: any) => {
+              if (e.key === "Enter" || e.key === "NumpadEnter")
+                LoginFx({ email: values.email, password: values.password });
+            }}
             placeholder="E-Mail"
             name="email"
             type="text"
@@ -57,6 +61,10 @@ export const Login = ({
         <div className="form__errors">{emailErrors}</div>
         <div className={passwordIsErrorClassName}>
           <Field
+            onKeyDown={(e: any) => {
+              if (e.key === "Enter" || e.key === "NumpadEnter")
+                LoginFx({ email: values.email, password: values.password });
+            }}
             placeholder="Password"
             name="password"
             type="password"
@@ -70,10 +78,6 @@ export const Login = ({
           onClick={() =>
             LoginFx({ email: values.email, password: values.password })
           }
-          onKeyDown={(e: any) => {
-            if (e.key === "Enter" || e.key === "NumpadEnter")
-              LoginFx({ email: values.email, password: values.password });
-          }}
           type="button"
           className="login__button"
         >

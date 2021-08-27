@@ -7,9 +7,10 @@ interface MessageItemTypes {
   mine: boolean; // мое ли сообщение
   text: string;
   date: Date;
+  isReaded: boolean;
 }
 
-export const MessageItem = ({ mine, text, date }: MessageItemTypes) => {
+export const MessageItem = ({ mine, text, date, isReaded }: MessageItemTypes) => {
   return (
     <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">
@@ -24,7 +25,7 @@ export const MessageItem = ({ mine, text, date }: MessageItemTypes) => {
       <div className="message__content-wrapper">
         <div className="message__text">{text}</div>
         <div className="message__date">{dateFormatter(date)}</div>
-        <ReadedCheckComponent checked={false} />
+        <ReadedCheckComponent checked={isReaded} />
       </div>
     </div>
   );

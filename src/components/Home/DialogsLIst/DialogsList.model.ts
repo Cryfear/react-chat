@@ -38,9 +38,8 @@ export const getUsersBySearch = createEffect(
     try {
       if (values.searchText !== "") {
         return await UsersApi.getUsersByName(values);
-      }
-      else {
-        return 'close';
+      } else {
+        return "close";
       }
     } catch (_) {
       return "close";
@@ -55,6 +54,7 @@ export const getUnreadedMessagesCount = createEffect(
         dialogId,
         userId,
       });
+
       return unreadedCount.data.length;
     } catch (err) {}
   }

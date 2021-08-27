@@ -13,7 +13,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getDialogMessages(values: { dialogId: string; page: number }) {
+  getDialogMessages(values: { dialogId: string; page: number, myId: string }) {
     return instance
       .post("/messages/all", { ...values })
       .then((data) => data)
@@ -21,7 +21,13 @@ export const MessagesApi = {
   },
   getUnreadedMessagesCount(values: { dialogId: string; userId: string }) {
     return instance
-      .post("/messages/unreaded", { ...values })
+      .post("/messages/unreadedCount", { ...values })
+      .then((data) => data)
+      .catch((err) => err);
+  },
+  getUnreadedMessagesWithData(values: { dialogId: string; unreadedPage: number, userId: string }) {
+    return instance
+      .post("/messages/unreadedWithData", { ...values })
       .then((data) => data)
       .catch((err) => err);
   },
