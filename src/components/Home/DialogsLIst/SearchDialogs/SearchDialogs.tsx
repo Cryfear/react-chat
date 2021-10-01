@@ -2,8 +2,23 @@ import React, { useEffect, useState } from "react";
 
 import "./SearchDialogs.scss";
 import loop from "../../../../assets/loop.svg";
-import { getUsersBySearch } from "../DialogsList.model";
 import {useDebounce} from 'use-lodash-debounce';
+import { createEffect } from "effector";
+import { UsersApi } from "../../../../api/UsersApi";
+
+export const getUsersBySearch = createEffect(
+  async (values: { page: number; searchText: string }) => {
+    try {
+      if (values.searchText !== "") {
+        return await UsersApi.getUsersByName(values);
+      } else {
+        return "close";
+      }
+    } catch (_) {
+      return "close";
+    }
+  }
+);
 
 export const SearchDialogs = () => {
   const [searchText, setSearchText] = useState("");

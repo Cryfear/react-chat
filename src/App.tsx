@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Auth } from "./components/Auth/Auth";
-import { Home }from "./components/Home/Home";
+import { Home } from "./components/Home/Home";
 
 import "./styles/normalize.css";
 import "./styles/index.scss";
@@ -9,18 +9,15 @@ import "./styles/index.scss";
 import { Redirect, Route } from "react-router";
 import { isLoginFx, isAuthData } from "./App.model";
 import { useStore } from "effector-react";
-import { socket } from "./socket";
 
 export const App = () => {
   const store = useStore(isAuthData);
 
   useEffect(() => {
     if (!store.isChecked)
-    isLoginFx({
+      isLoginFx({
         email: sessionStorage["email"],
         authToken: sessionStorage["auth-token"],
-      }).then(data => {
-        socket.emit('send-id', sessionStorage['id']);
       });
   }, [store.isChecked]);
 

@@ -1,0 +1,28 @@
+.hide-dialogs__button,
+.show-dialogs__button {
+  display: inline-block;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -8.5px;
+  z-index: 100;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-image: url("../../../../assets/down-arrow.png");
+    background-size: contain;
+  }
+}
+
+.hide-dialogs__button::after {
+  transform: rotate(270deg);
+  transition: 0.1s;
+}
+.show-dialogs__button::after {
+  transform: rotate(90deg);
+  transition: 0.1s;
+}

@@ -2,8 +2,8 @@ import { createEffect, createStore } from "effector";
 import { DialogsApi } from "../../../api/DialogsApi";
 import { UsersApi } from "../../../api/UsersApi";
 import { UIEvent } from "react";
-import { MessagesApi } from "../../../api/MessagesApi";
 import { initialiseDialogFx } from "../Home.model";
+import { getUsersBySearch } from "./SearchDialogs/SearchDialogs";
 
 interface DialogsListStoreTypes {
   dialogs: Array<any>;
@@ -23,42 +23,15 @@ interface DialogsListStoreTypes {
   } | null;
 }
 
-export const getLastDialogMessage = createEffect(async (dialogId: string) => {
-  try {
-    const lastMessage = await MessagesApi.getLastDialogMessage(dialogId);
-    return {
-      text: lastMessage.data.text,
-      date: lastMessage.data.date,
-    };
-  } catch (err) {}
+export const createDialogFx = createEffect(
+  async ({ id1, id2 }: { id1: string; id2: string }) => {
+    return await DialogsApi.create({ id_1: id1, id_2: id2 });
+  }
+);
+
+export const SwitchSearch = createEffect(() => {
+  return "clicked";
 });
-
-export const getUsersBySearch = createEffect(
-  async (values: { page: number; searchText: string }) => {
-    try {
-      if (values.searchText !== "") {
-        return await UsersApi.getUsersByName(values);
-      } else {
-        return "close";
-      }
-    } catch (_) {
-      return "close";
-    }
-  }
-);
-
-export const getUnreadedMessagesCount = createEffect(
-  async ({ dialogId, userId }: any) => {
-    try {
-      const unreadedCount = await MessagesApi.getUnreadedMessagesCount({
-        dialogId,
-        userId,
-      });
-
-      return unreadedCount.data.length;
-    } catch (err) {}
-  }
-);
 
 export const readyToCreateDialogFx = createEffect(
   async ({ user, myId }: any) => {
@@ -97,10 +70,6 @@ export const DialogsLoaderFx = createEffect(async ({ id, page }: any) => {
   };
 });
 
-export const SwitchSearch = createEffect(() => {
-  return "clicked";
-});
-
 export const UsersLoaderFx = createEffect(async (page: number) => {
   const Users = await UsersApi.getUsers(page);
   return {
@@ -132,12 +101,6 @@ export const onScrollDialogsLoaderFx = createEffect(
     if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
       return await DialogsLoaderFx({ id, page });
     }
-  }
-);
-
-export const createDialogFx = createEffect(
-  async ({ id1, id2 }: { id1: string; id2: string }) => {
-    return await DialogsApi.create({ id_1: id1, id_2: id2 });
   }
 );
 

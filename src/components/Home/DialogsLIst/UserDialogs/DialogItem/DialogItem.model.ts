@@ -1,25 +1,25 @@
-import {createEffect, createStore} from "effector";
+import { MessagesApi } from './../../../../../api/MessagesApi';
+import { createEffect } from 'effector';
 
-interface DialogItemStoreTypes {
-  lastMessage: string,
-  unreadCount: number;
-}
+export const getLastDialogMessage = createEffect(async (dialogId: string) => {
+  try {
+    const lastMessage = await MessagesApi.getLastDialogMessage(dialogId);
+    return {
+      text: lastMessage.data.text,
+      date: lastMessage.data.date,
+    };
+  } catch (err) {}
+});
 
+export const getUnreadedMessagesCount = createEffect(
+  async ({ dialogId, userId }: any) => {
+    try {
+      const unreadedCount = await MessagesApi.getUnreadedMessagesCount({
+        dialogId,
+        userId,
+      });
 
-// export const setLastMessage = createEffect(async (id: string) => {
-//   const res = await MessagesApi.getLastDialogMessage(id);
-//   console.log(res.data);
-//   return res.data;
-// })
-
-export const DialogItemStore = createStore<DialogItemStoreTypes>({
-  lastMessage: '',
-  unreadCount: 0
-})
-//   .on(setDialogState.doneData, (state, newState) => {
-//   return {
-//     ...state,
-//     ...newState,
-//     isInitilized: true
-//   }
-// })
+      return unreadedCount.data.length;
+    } catch (err) {}
+  }
+);

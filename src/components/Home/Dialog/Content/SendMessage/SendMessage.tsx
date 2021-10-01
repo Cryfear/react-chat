@@ -10,11 +10,11 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useStore } from "effector-react";
 import {
   HomeStore,
-  sendMessageFx,
 } from "../../../Home.model";
 import {
   DialogsListStore,
 } from "../../../DialogsLIst/DialogsList.model";
+import { sendMessageFx } from "../Content.model";
 
 export const SendMessage = () => {
   const [inputValue, setInputValue] = useState("");

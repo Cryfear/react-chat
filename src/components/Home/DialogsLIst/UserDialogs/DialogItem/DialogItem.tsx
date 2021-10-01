@@ -3,11 +3,11 @@ import classnames from "classnames";
 import { HomeStore, initialiseDialogFx } from "../../../Home.model";
 import { useStore } from "effector-react";
 import { useState } from "react";
+import { LastMessageDateFormatter } from "../../../../../utils/dateFormatter";
 import {
   getLastDialogMessage,
   getUnreadedMessagesCount,
-} from "../../DialogsList.model";
-import { LastMessageDateFormatter } from "../../../../../utils/dateFormatter";
+} from "./DialogItem.model";
 
 interface DialogItemTypes {
   avatar: string;
@@ -27,7 +27,7 @@ export const DialogItem = ({
   const store = useStore(HomeStore);
   const [lastMessage, setLastMessage] = useState("");
   const [lastMessageDate, setLastMessageDate] = useState("");
-  const [unreadCount, setUnreadCount] = useState(undefined);
+  const [unreadCount, setUnreadCount] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -40,7 +40,7 @@ export const DialogItem = ({
         }
       });
 
-    if (unreadCount === undefined) {
+    if (unreadCount === null) {
       getUnreadedMessagesCount({ dialogId, userId: id }).then((data) => {
         if (isMounted) {
           setUnreadCount(data);
@@ -53,6 +53,11 @@ export const DialogItem = ({
     };
   }, [setLastMessage, lastMessage, dialogId, setUnreadCount, unreadCount, id]);
 
+  const convertedLastMessage =
+    lastMessage && lastMessage.length > 10
+      ? lastMessage.substr(0, 9) + "..."
+      : lastMessage;
+
   return (
     <div
       className="dialog__item"
@@ -61,9 +66,8 @@ export const DialogItem = ({
           userId: id,
           myId: sessionStorage["id"],
           page: store.currentDialog.page,
-        })
-      }
-      }
+        });
+      }}
     >
       <div
         className={classnames(
@@ -79,11 +83,7 @@ export const DialogItem = ({
           <span className="dialog__item-time">{lastMessageDate}</span>
         </div>
         <div className="dialog__item-footer">
-          <span className="dialog__item-text">
-            {lastMessage && lastMessage.length > 10
-              ? lastMessage.substr(0, 9) + "..."
-              : lastMessage}
-          </span>
+          <span className="dialog__item-text">{convertedLastMessage}</span>
           {unreadCount === 0 ? (
             ""
           ) : (

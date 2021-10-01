@@ -1,14 +1,13 @@
+import { getUsersBySearch } from "./DialogsLIst/SearchDialogs/SearchDialogs";
 import { createEffect, createStore } from "effector";
 import { DialogsApi } from "../../api/DialogsApi";
 import { MessagesApi } from "../../api/MessagesApi";
 import { UsersApi } from "../../api/UsersApi";
-import { socket } from "../../socket";
 import {
-  createDialogFx,
-  getUsersBySearch,
   readyToCreateDialogFx,
   SwitchSearch,
 } from "./DialogsLIst/DialogsList.model";
+import { sendMessageFx } from "./Dialog/Content/Content.model";
 
 interface HomeStoreTypes {
   isInitialisedDialog: boolean;
@@ -37,7 +36,8 @@ export const setUnreadMessagesFx = createEffect(
       unreadedPage: 0,
       userId,
     });
-    return { messages: unreadedMessages.data };
+
+    return { messages: unreadedMessages.data.reverse() };
   }
 );
 
@@ -84,8 +84,9 @@ const onScrollUnreadedMessagesLoader = createEffect(
       unreadedPage,
       userId,
     });
+
     return {
-      messages: mes.data,
+      messages: mes.data.reverse(),
       unreadedPage,
     };
   }
@@ -105,50 +106,8 @@ export const onScrollLoaderMessages = createEffect(
         messages: mes.data,
         page: page,
       };
-    } else if (scrollHeight - (scrollTop + window.innerHeight) > 400) {
+    } else if (scrollTop < 100) {
       onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
-    }
-  }
-);
-
-export const sendMessageFx = createEffect(
-  async ({ dialogId, userId, myId, data }: any) => {
-    if (dialogId) {
-      const message = await MessagesApi.create({ dialogId, myId, data });
-
-      socket.emit("qqq", {
-        content: message.data,
-        to:
-          message.data.creater === message.data.dialog.users[0]
-            ? message.data.dialog.users[1]
-            : message.data.dialog.users[0],
-      });
-
-      messageSentSwitcher();
-      return message.data;
-    } else {
-      const dialogIdRes = await createDialogFx({
-        id1: sessionStorage["id"],
-        id2: userId,
-      });
-      await initialiseDialogFx({ userId, myId, page: 0 });
-
-      const message = await MessagesApi.create({
-        dialogId: dialogIdRes.data,
-        myId,
-        data,
-      });
-
-      socket.emit("qqq", {
-        content: message.data,
-        to:
-          message.data.creater === message.data.dialog.users[0]
-            ? message.data.dialog.users[1]
-            : message.data.dialog.users[0],
-      });
-
-      messageSentSwitcher();
-      return message.data;
     }
   }
 );
@@ -183,25 +142,28 @@ export const HomeStore = createStore<HomeStoreTypes>({
   messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
 })
   .on(initialiseDialogFx.doneData, (state, data) => {
-    return {
-      loadedDialog: false,
-      messageSent: false,
-      currentUser: {
-        name: data.name,
-        id: data.userId,
-        avatar: data.avatar,
-        isOnline: data.isOnline,
-      },
-      currentDialog: {
-        id: data.currentDialogID,
-        isTyping: data.currentDialogTyping,
-        page: 1,
-        unreadedPage: 0,
-        opponentId: data.currentDialogOpponentId,
-      },
-      currentDialogMessages: data.currentDialogMessages,
-      isInitialisedDialog: true,
-    };
+    if (data) {
+      return {
+        loadedDialog: false,
+        messageSent: false,
+        currentUser: {
+          name: data.name,
+          id: data.userId,
+          avatar: data.avatar,
+          isOnline: data.isOnline,
+        },
+        currentDialog: {
+          id: data.currentDialogID,
+          isTyping: data.currentDialogTyping,
+          page: 1,
+          unreadedPage: 0,
+          opponentId: data.currentDialogOpponentId,
+        },
+        currentDialogMessages: data.currentDialogMessages,
+        isInitialisedDialog: true,
+      };
+    }
+    return state;
   })
   .on(sendMessageFx.doneData, (state, data) => {
     return {
@@ -214,7 +176,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       if (!state.loadedDialog) {
         return {
           ...state,
-          currentDialogMessages: data.messages,
+          currentDialogMessages: [
+            ...state.currentDialogMessages,
+            ...data.messages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             page: state.currentDialog.page + 1,
@@ -242,7 +207,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       } else if (data.messages.length > 0 && data.page > 0) {
         return {
           ...state,
-          currentDialogMessages: data.messages,
+          currentDialogMessages: [
+            ...state.currentDialogMessages,
+            ...data.messages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             page: state.currentDialog.page + 1,
@@ -315,7 +283,7 @@ export const HomeStore = createStore<HomeStoreTypes>({
     }
     return state;
   })
-  .on(messageSentSwitcher.doneData, (state, data) => {
+  .on(messageSentSwitcher.doneData, (state, _) => {
     return {
       ...state,
       messageSent: !state.messageSent,
@@ -357,7 +325,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       } else if (data.messages.length > 0 && data.unreadedPage > 0) {
         return {
           ...state,
-          currentDialogMessages: data.messages,
+          currentDialogMessages: [
+            data.messages,
+            ...state.currentDialogMessages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             unreadedPage: state.currentDialog.unreadedPage + 1,

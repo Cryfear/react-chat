@@ -4,3 +4,34 @@
   height: 100%;
   display: flex;
 }
+
+@media (max-width: 1330px) {
+  .home {
+    padding: 0 5%;
+  }
+}
+
+@media (max-width: 1070px) {
+  .home {
+    padding: 0 5%;
+    font-size: 0.9rem;
+  }
+
+  .profile__wrapper .profile__show-button {
+    width: 100px;
+  }
+
+  .dialogs-list {
+    position: absolute;
+    left: 0;
+    width: 370px
+  }
+
+  .dialog__wrapper {
+    width: 100%;
+  }
+
+  .empty__dialog {
+    width: 100%;
+  }
+}

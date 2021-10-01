@@ -1,13 +1,22 @@
 .dialogs-list {
   background-color: white;
   height: 100%;
-  width: 28%;
+  width: 100%;
   box-sizing: border-box;
   border-right: 1px solid #f7f7f7;
   overflow: scroll;
   overflow-x: hidden;
+  animation: .1s linear;
+  transition: .1s;
+  z-index: 50;
+
+  &.hidden {
+    width: 0;
+  }
 }
 
 .dialogs {
   margin: 20px;
 }
+
+
