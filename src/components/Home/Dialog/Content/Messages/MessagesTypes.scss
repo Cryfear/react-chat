@@ -2,8 +2,16 @@
   display: flex;
   margin-bottom: 30px;
 
+  &__content-wrapper {
+    text-align: left;
+  }
+
   &-reverse {
     flex-flow: row-reverse;
+
+   & .message__content-wrapper {
+      text-align: right;
+    }
 
     & .message__avatar {
       margin-right: 0;
@@ -20,13 +28,12 @@
 
     & .message__content-wrapper {
       place-items: flex-end;
-
       position: relative;
 
       & .checked-message {
         position: absolute;
         left: -20px;
-        top: 25px;
+        bottom: 18px;
       }
     }
   }
@@ -48,16 +55,14 @@
   }
 
   &__content-wrapper {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-
+    max-width: 80%;
+    word-break: break-all;
     position: relative;
 
     & .checked-message {
       position: absolute;
       right: -20px;
-      top: 25px;
+      bottom: 18px;
     }
   }
 

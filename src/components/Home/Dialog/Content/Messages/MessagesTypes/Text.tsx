@@ -6,17 +6,16 @@ import { dateFormatter } from "../../../../../../utils/dateFormatter";
 interface MessageItemTypes {
   mine: boolean; // мое ли сообщение
   data: string; // message text
-  date: Date;
-  isReaded: boolean;
+  date: Date; // дата создания
+  isReaded: boolean; // прочитано ли
 }
 
 export const MessageItem = ({
   mine,
-  data, // message text
+  data,
   date,
   isReaded,
 }: MessageItemTypes) => {
-
   return (
     <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">

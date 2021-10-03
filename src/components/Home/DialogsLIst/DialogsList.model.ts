@@ -23,34 +23,30 @@ interface DialogsListStoreTypes {
   } | null;
 }
 
-export const createDialogFx = createEffect(
-  async ({ id1, id2 }: { id1: string; id2: string }) => {
-    return await DialogsApi.create({ id_1: id1, id_2: id2 });
-  }
-);
+export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string; id2: string }) => {
+  return await DialogsApi.create({ id_1: id1, id_2: id2 });
+});
 
 export const SwitchSearch = createEffect(() => {
   return "clicked";
 });
 
-export const readyToCreateDialogFx = createEffect(
-  async ({ user, myId }: any) => {
-    try {
-      const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
-      if (dialog) {
-        const lol = await initialiseDialogFx({
-          userId: user.id,
-          myId,
-          page: 0,
-        });
-        console.log(lol);
-        return { status: "success", user };
-      }
-    } catch (err) {
-      return user;
+export const readyToCreateDialogFx = createEffect(async ({ user, myId }: any) => {
+  try {
+    const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
+    if (dialog) {
+      const lol = await initialiseDialogFx({
+        userId: user.id,
+        myId,
+        page: 0,
+      });
+      console.log(lol);
+      return { status: "success", user };
     }
+  } catch (err) {
+    return user;
   }
-);
+});
 
 export const DialogsLoaderFx = createEffect(async ({ id, page }: any) => {
   const myDialogs = await DialogsApi.getMyDialogs({ id, page });
@@ -88,15 +84,7 @@ export const onScrollUsersLoaderFx = createEffect(
 );
 
 export const onScrollDialogsLoaderFx = createEffect(
-  async ({
-    e,
-    page,
-    id,
-  }: {
-    e: UIEvent<HTMLDivElement>;
-    page: number;
-    id: string;
-  }) => {
+  async ({ e, page, id }: { e: UIEvent<HTMLDivElement>; page: number; id: string }) => {
     const target = e.target as Element;
     if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
       return await DialogsLoaderFx({ id, page });
@@ -142,39 +130,33 @@ export const DialogsListStore = createStore<DialogsListStoreTypes>({
       return state;
     }
   })
-  .on(
-    DialogsLoaderFx.doneData,
-    (state, { data, page, unConvertedDialogs }: any) => {
-      if (!state.initialisedDialogs) {
-        return {
-          ...state,
-          dialogs: data,
-          unConvertedDialogs: unConvertedDialogs,
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-          initialisedDialogs: true,
-        };
-      } else if (state.dialogs.length > 0 && data.length > 0 && page > 0) {
-        return {
-          ...state,
-          dialogs: [...state.dialogs, ...data],
-          unConvertedDialogs: [
-            ...state.unConvertedDialogs,
-            ...unConvertedDialogs,
-          ],
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-        };
-      } else if (data.length > 0 && page > 0) {
-        return {
-          ...state,
-          dialogs: data,
-          unConvertedDialogs: unConvertedDialogs,
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-        };
-      } else {
-        return state;
-      }
+  .on(DialogsLoaderFx.doneData, (state, { data, page, unConvertedDialogs }: any) => {
+    if (!state.initialisedDialogs) {
+      return {
+        ...state,
+        dialogs: data,
+        unConvertedDialogs: unConvertedDialogs,
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+        initialisedDialogs: true,
+      };
+    } else if (state.dialogs.length > 0 && data.length > 0 && page > 0) {
+      return {
+        ...state,
+        dialogs: [...state.dialogs, ...data],
+        unConvertedDialogs: [...state.unConvertedDialogs, ...unConvertedDialogs],
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+      };
+    } else if (data.length > 0 && page > 0) {
+      return {
+        ...state,
+        dialogs: data,
+        unConvertedDialogs: unConvertedDialogs,
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+      };
+    } else {
+      return state;
     }
-  )
+  })
   .on(SwitchSearch.doneData, (state, data) => {
     return {
       ...state,

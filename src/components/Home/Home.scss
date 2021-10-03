@@ -1,8 +1,9 @@
 .home {
   padding: 0px 10%;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   height: 100%;
   display: flex;
+  overflow: hidden;
 }
 
 @media (max-width: 1330px) {
@@ -24,7 +25,7 @@
   .dialogs-list {
     position: absolute;
     left: 0;
-    width: 370px
+    width: 370px;
   }
 
   .dialog__wrapper {
@@ -32,6 +33,92 @@
   }
 
   .empty__dialog {
+    width: 100%;
+  }
+}
+
+@media (max-width: 650px) {
+  .home {
+    padding: 0;
+    width: 100%;
+  }
+
+  .dialog__header-name {
+    width: 100%;
+  }
+
+  .dialog__header-settings {
+    width: 10%;
+    position: absolute;
+    right: 20px;
+  }
+
+  .content {
+    padding: 0;
+    padding-bottom: 31px;
+
+    &__messages {
+      padding-left: 30px;
+    }
+
+    .send-form {
+      position: relative;
+      padding-right: 0;
+      bottom: 0;
+
+      &-relative {
+        .send-form__submit {
+          right: 10px;
+          top: 6px;
+        }
+
+        .send-form__voice {
+          right: 45px;
+          top: 11px;
+        }
+
+        .send-form__photo {
+          right: 75px;
+          top: 11px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .app,
+  #root,
+  body,
+  html {
+    font-size: 0.9rem;
+  }
+
+  .message {
+    &__avatar {
+      width: 30px;
+      height: 30px;
+      margin-right: 15px;
+
+      &-photo {
+        height: 30px;
+      }
+    }
+
+    &__text {
+      padding: 5px 10px;
+    }
+  }
+
+  // .hide-dialogs__button, .show-dialogs__button {
+  //   display: none;
+  // }
+
+  .content__messages {
+    padding-left: 10px;
+  }
+
+  .dialogs-list {
     width: 100%;
   }
 }

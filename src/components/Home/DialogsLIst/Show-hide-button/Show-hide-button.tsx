@@ -12,7 +12,5 @@ export const ShowHideButton = () => {
     store.isOpenDialogs ? "show-dialogs__button" : "hide-dialogs__button"
   );
 
-  return (
-    <div className={buttonClass} onClick={() => isOpenDialogsSwitcherFx()}></div>
-  );
+  return <div className={buttonClass} onClick={() => isOpenDialogsSwitcherFx()}></div>;
 };

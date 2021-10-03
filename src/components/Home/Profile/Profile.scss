@@ -1,29 +1,39 @@
 .profile {
-  &__wrapper {
-    margin-top: 10px;
-  }
-
+  transition: .2s;
   background-color: white;
   display: block;
-
-  height: 75px;
+  height: 150px;
+  position: absolute;
   width: 150px;
-  padding: 5px;
+  left: -10px;
+  top: 75px;
+  padding: 10px;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.342) 1px 0px 10px;
 
   & span {
     word-break: break-all;
+    text-align: center;
+    display: block;
   }
 
   & img {
-    width: 35px;
-    height: 35px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
+    display: block;
+    margin: 0 auto;
   }
 
   &.hidden-content {
-    display: none;
+    height: 0;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+
+  &__wrapper {
+    margin-top: 10px;
+    position: relative;
   }
 
   &__show-button {
@@ -36,9 +46,8 @@
     transition: 0.1s;
 
     & span {
-      opacity: 0;
-      transition: 0.1s;
-      color: rgb(91, 152, 209);
+      transition: 0.2s;
+      color: rgba(255, 255, 255, 0);
 
       &::before {
         content: "";
@@ -56,16 +65,9 @@
     }
 
     &:hover {
-      top: 10px;
-
       & span {
-        opacity: 1;
+        color: rgb(91, 152, 209);
       }
-    }
-
-    &:hover span::before {
-      top: 7px;
-      margin-bottom: 10px;
     }
   }
 }
