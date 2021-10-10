@@ -6,10 +6,11 @@ export const isLoginFx = createEffect(
   async ({ email, authToken }: { email: string; authToken: string }) => {
     const result = await AuthApi.isLoginNow({ email, authToken }).then((data) => {
       socket.emit("send-id", sessionStorage["id"]);
-
+      
       return data;
     });
-    if (result.data) return result.data.responseCode;
+
+    if (result.data.responseCode === "success") return result.data;
   }
 );
 
@@ -30,11 +31,20 @@ export const isAuthData = createStore({
   },
 })
   .on(isLoginFx.doneData, (state, data) => {
-    if (data === "success") {
+    if (data.responseCode === "success") {
       return {
         ...state,
         isAuth: true,
         isChecked: true,
+
+        myUserData: {
+          // данные самого залогиненного пользователя
+          id: data.id,
+          avatar: data.avatar,
+          name: data.fullName,
+          email: data.email,
+          isOnline: data.isOnline,
+        },
       };
     }
     return { ...state, isChecked: true };

@@ -1,73 +1,130 @@
 .profile {
-  transition: .2s;
-  background-color: white;
-  display: block;
-  height: 150px;
-  position: absolute;
-  width: 150px;
-  left: -10px;
-  top: 75px;
-  padding: 10px;
-  border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.342) 1px 0px 10px;
-
-  & span {
-    word-break: break-all;
-    text-align: center;
+    transition: .2s;
+    background-color: white;
     display: block;
-  }
-
-  & img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: block;
-    margin: 0 auto;
-  }
-
-  &.hidden-content {
-    height: 0;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-
-  &__wrapper {
-    margin-top: 10px;
-    position: relative;
-  }
-
-  &__show-button {
-    border: none;
-    background: none;
-    cursor: pointer;
+    position: absolute;
     width: 150px;
-    position: relative;
-    top: 0;
-    transition: 0.1s;
-
+    left: -10px;
+    top: 75px;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.342) 1px 0px 10px;
     & span {
-      transition: 0.2s;
-      color: rgba(255, 255, 255, 0);
-
-      &::before {
-        content: "";
+        word-break: break-all;
+        text-align: center;
         display: block;
-        width: 15px;
-        height: 15px;
-        background-image: url("../../../assets/down-arrow.png");
-        background-size: contain;
-        margin: auto;
-        margin-top: 2px;
+    }
+    & img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto;
+    }
+    &.hidden-content {
+        height: 0;
+        overflow: hidden;
+        padding: 0 10px;
+    }
+    &__wrapper {
+        margin-top: 10px;
         position: relative;
-        transition: 0.2s;
-        top: 0;
-      }
     }
-
-    &:hover {
-      & span {
+    .trans {
+        transition: .2s;
+        height: 80px;
+    }
+    .trans-xtwo {
+        height: 125px;
+    }
+    .hidden-profile-content {
+        height: 0;
+        overflow: hidden;
+    }
+    &__edit {
+        margin-top: 7px;
+        margin-bottom: 7px;
         color: rgb(91, 152, 209);
-      }
+        cursor: pointer;
+        &-photo {
+            margin-bottom: 7px;
+            .trans {
+                height: 80px;
+            }
+        }
     }
-  }
+    &__name {
+        display: block;
+        margin-bottom: 7px;
+    }
+    .change__photo {
+        width: 100%;
+        box-sizing: border-box;
+        cursor: pointer;
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+    .change__password:last-child {
+        margin-bottom: 20px;
+    }
+    & input {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+    &__show-button {
+        border: none;
+        background: none;
+        cursor: pointer;
+        width: 150px;
+        position: relative;
+        top: 0;
+        transition: 0.1s;
+        & span {
+            transition: 0.2s;
+            color: rgba(255, 255, 255, 0);
+            &::before {
+                content: "";
+                display: block;
+                width: 15px;
+                height: 15px;
+                background-image: url("../../../assets/down-arrow.png");
+                background-size: contain;
+                margin: auto;
+                margin-top: 2px;
+                position: relative;
+                transition: 0.2s;
+                top: 0;
+            }
+        }
+        &:hover {
+            & span {
+                color: rgb(91, 152, 209);
+            }
+        }
+    }
+}
+
+.list-header {
+    .profile {
+        display: inline-block;
+        left: -30px;
+        &__show-button {
+            padding: 0;
+        }
+        &__wrapper {
+            margin-top: 0;
+            display: inline-block;
+        }
+    }
+}
+
+.file-upload__result {
+    &-success {
+        color: green;
+    }
+    &-fail {
+        color: red;
+    }
 }

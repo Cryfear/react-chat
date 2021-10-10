@@ -2,6 +2,9 @@ import React from "react";
 import classnames from "classnames";
 import { ReadedCheckComponent } from "../ReadedCheckComponent/ReadedCheckComponent";
 import { dateFormatter } from "../../../../../../utils/dateFormatter";
+import { useStore } from "effector-react";
+import { HomeStore } from "../../../../Home.model";
+import { isAuthData } from "../../../../../../App.model";
 
 interface MessageItemTypes {
   mine: boolean; // мое ли сообщение
@@ -16,14 +19,18 @@ export const MessageItem = ({
   date,
   isReaded,
 }: MessageItemTypes) => {
+  const store = useStore(HomeStore);
+  const authStore = useStore(isAuthData);
+
+  const avatar: any = + mine ? authStore.myUserData.avatar : store.currentUser?.avatar;
+
   return (
     <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">
         <img
           className="message__avatar-photo"
-          src={
-            "https://sun9-8.userapi.com/impg/CDsRtIMBb8z1Zj_ZUaR-cXsKynVsAa5vCr1egg/Vfaolg2sGXU.jpg?size=1080x1350&quality=96&sign=7a53fca993112073fda366beb7210151&type=album"
-          }
+          //src={}
+          src={avatar}
           alt="avatar"
         />
       </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import { MessageItem } from "./MessagesTypes/Text";
 
 import "./MessagesTypes.scss";
 import { useStore } from "effector-react";
@@ -9,6 +8,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { EmptyDialog } from "../EmptyDialog/EmptyDialog";
 import { Messages } from "./Messages";
+import { useCreatingMessagesList } from "../../../../../hooks/useCreatingMessagesList";
 
 export const MessagesContainer = () => {
   const { currentDialog, messageSent, currentDialogMessages } = useStore(HomeStore);
@@ -37,22 +37,7 @@ export const MessagesContainer = () => {
   }, [onSendScrollRef, messageSent, currentDialog.id, currentDialog.opponentId]);
 
   const isEmptyDialog = !(currentDialogMessages && currentDialogMessages.length > 0);
-
-  const messages = !isEmptyDialog
-    ? currentDialogMessages.map((item: any, index: number, array) => {
-        return array.length === index + 1 ? (
-          <div key={item._id} ref={onSendScrollRef}>
-            <MessageItem {...item} mine={item.creater === sessionStorage["id"] ? true : false} />
-          </div>
-        ) : (
-          <MessageItem
-            {...item}
-            key={item._id}
-            mine={item.creater === sessionStorage["id"] ? true : false}
-          />
-        );
-      })
-    : currentDialogMessages;
+  const messages = useCreatingMessagesList(currentDialogMessages, isEmptyDialog, onSendScrollRef);
 
   return isEmptyDialog ? <EmptyDialog /> : <Messages scrollRef={scrollRef} messages={messages} />;
 };

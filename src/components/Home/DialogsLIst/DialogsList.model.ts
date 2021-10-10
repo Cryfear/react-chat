@@ -67,7 +67,7 @@ export const DialogsLoaderFx = createEffect(async ({ id, page }: any) => {
 });
 
 export const UsersLoaderFx = createEffect(async (page: number) => {
-  const Users = await UsersApi.getUsers(page);
+  const Users = await UsersApi.getUsers({page});
   return {
     data: Users.data,
     page: page,
