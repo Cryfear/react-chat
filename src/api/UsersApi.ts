@@ -9,19 +9,31 @@ export const UsersApi = {
   },
   getUsers(values: { page: number }) {
     return instance
-      .get(`/getUsers/${values.page}`)
+      .get(`/getUsers/${values.page}`, {
+        headers: {
+          id: sessionStorage["id"],
+        },
+      })
       .then((data) => data)
       .catch((err) => err);
   },
   getUsersByName(values: { page: number; searchText: string }) {
     return instance
-      .get(`/getUsersByName/${values.page}/${values.searchText}`)
+      .get(`/getUsersByName/${values.page}/${values.searchText}`, {
+        headers: {
+          id: sessionStorage["id"],
+        },
+      })
       .then((data) => data)
       .catch((err) => err);
   },
   findUser(id: string) {
     return instance
-      .get(`/users/${id}`)
+      .get(`/users/${id}`, {
+        headers: {
+          id: sessionStorage["id"],
+        },
+      })
       .then((data) => data)
       .catch((err) => err);
   },
@@ -30,6 +42,7 @@ export const UsersApi = {
       .post(`/users/changeName`, values, {
         headers: {
           "auth-token": values.authToken,
+          "id": sessionStorage['id']
         },
       })
       .then((data) => data.data)
@@ -45,6 +58,7 @@ export const UsersApi = {
       .post(`/users/changeUserPassword`, values, {
         headers: {
           "auth-token": values.authToken,
+          "id": sessionStorage['id']
         },
       })
       .then((data) => data.data)
@@ -56,6 +70,7 @@ export const UsersApi = {
         headers: {
           email: sessionStorage["email"],
           "auth-token": sessionStorage["auth-token"],
+          "id": sessionStorage['id']
         },
       })
       .then(data => data.data)

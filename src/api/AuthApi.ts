@@ -9,11 +9,12 @@ export const AuthApi = {
         {
           headers: {
             "auth-token": values.authToken,
+            id: sessionStorage["id"],
           },
         }
       )
       .then((data) => data)
-      .catch(err => err);
+      .catch((err) => err);
   },
   login(values: { email: string; password: string }) {
     return instance
@@ -25,6 +26,21 @@ export const AuthApi = {
         sessionStorage["auth-token"] = data.data.token;
         sessionStorage["email"] = data.data.email;
         return data;
+      });
+  },
+  logout() {
+    return instance
+      .delete("/logout", {
+        headers: {
+          id: sessionStorage["id"],
+        },
+      })
+      .then(() => {
+        sessionStorage["id"] = null;
+        sessionStorage["auth-token"] = null;
+        sessionStorage["email"] = null;
+
+        return true;
       });
   },
 };

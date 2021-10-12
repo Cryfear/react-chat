@@ -89,7 +89,7 @@ export const onScrollLoaderMessages = createEffect(
         page: page,
       };
     } else if (scrollTop < 100) {
-      onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
+      await onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
     }
   }
 );

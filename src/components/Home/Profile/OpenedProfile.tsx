@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 import { UsersApi } from "../../../api/UsersApi";
+import { logoutFx } from "../../../App.model";
 import { FileUpload } from "./FileUpload/FileUpload";
 
 type OpenedProfileTypes = {
@@ -144,7 +145,7 @@ export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
           {uploadStatusPassword}
         </div>
       </div>
-      <button className="profile__logout-button">Logout</button>
+      <button onClick={() => logoutFx()} className="profile__logout-button">Logout</button>
     </div>
   );
 };

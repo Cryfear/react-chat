@@ -14,6 +14,10 @@ export const isLoginFx = createEffect(
   }
 );
 
+export const logoutFx = createEffect(async () => {
+  return await AuthApi.logout();
+});
+
 export const isMobileVersionChanger = createEffect((boolean: boolean) => {
   return boolean;
 });
@@ -54,6 +58,15 @@ export const isAuthData = createStore({
       return {
         ...state,
         isMobileVersion: boolean,
+      };
+    }
+    return state;
+  })
+  .on(logoutFx.doneData, (state, boolean) => {
+    if(boolean) {
+      return {
+        ...state,
+        isAuth: false,
       };
     }
     return state;
