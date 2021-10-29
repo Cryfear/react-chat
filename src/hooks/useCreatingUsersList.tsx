@@ -2,7 +2,7 @@ import { UsersSearchItem } from "../components/Home/DialogsLIst/UserDialogs/User
 import { ItemTypes } from "../components/Home/DialogsLIst/UserDialogs/UserDialogsContainer";
 import React, { useMemo } from "react";
 
-export const useCreatingUsersList = (users: any) => {
+export const useCreatingUsersList = (users: ItemTypes[]) => {
   return useMemo(() => {
     return users && users.length > 0 ? (
       users.map((userData: ItemTypes) => {

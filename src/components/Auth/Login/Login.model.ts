@@ -21,8 +21,8 @@ export const $LoginStore = createStore<LoginStoreTypes>({
   isCorrectLogin: null,
 });
 
-$LoginStore.on(LoginFx.done, (state, payload: any) => {
-  if (payload.result.data.responseCode === "success") {
+$LoginStore.on(LoginFx.done, (state, {result}) => {
+  if (result.data.responseCode === "success") {
     return {
       ...state,
       isAuth: true,

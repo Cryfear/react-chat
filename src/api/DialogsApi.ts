@@ -1,7 +1,7 @@
 import instance from "./api";
 
 export const DialogsApi = {
-  getMyDialogs(values: { id: any; page: number }) {
+  getMyDialogs(values: { id: string; page: number }) {
     return instance
       .post(
         `/dialogs/my/${values.id}`,

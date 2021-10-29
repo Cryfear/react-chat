@@ -3,20 +3,23 @@ import React, { useRef, useState } from "react";
 import { UsersApi } from "../../../../api/UsersApi";
 
 export const FileUpload = () => {
-  const [file, setFile] = useState("");
-  const el = useRef<any>();
+  const [file, setFile] = useState<File | File[]>();
+  const el = useRef<HTMLInputElement>(null);
 
   const [uploadStatus, setUploadStatus] = useState<"changed!" | null | "fail.">(null);
 
   const handleChange = (e: any) => {
-    const file = e.target.files[0];
+    if(e.target.files) {
+      const file: File | File[]  = e.target.files[0];
 
-    setFile(file);
+      setFile(file);
+    }
+    
   };
 
   const uploadFile = () => {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", file as Blob);
 
     UsersApi.changeUserPhoto(formData)
       .then((data) => {

@@ -5,7 +5,7 @@ import { DialogsListStore } from "../DialogsList.model";
 import { useCreatingUsersList } from "../../../../hooks/useCreatingUsersList";
 import { useCreatingDialogsList } from "../../../../hooks/useCreatingDialogsList";
 
-export type UserDialogsTypes = {
+export type UserDialogsContainerTypes = {
   isUserSearch: boolean;
   Users: ItemTypes[];
   Dialogs: ItemTypes[];
@@ -18,13 +18,13 @@ export type ItemTypes = {
   isOnline: boolean;
 };
 
-export const UserDialogsContainer = ({ dialogs, users, isUserSearch }: any) => {
+export const UserDialogsContainer = ({ Dialogs, Users, isUserSearch }: UserDialogsContainerTypes) => {
   const store = useStore(DialogsListStore);
 
-  const Dialogs = useCreatingDialogsList(dialogs, store.unConvertedDialogs);
-  const Users = useCreatingUsersList(users);
+  const dialogs: JSX.Element | JSX.Element[] = useCreatingDialogsList({Dialogs, unConvertedDialogs: store.unConvertedDialogs});
+  const users: JSX.Element | JSX.Element[] = useCreatingUsersList(Users);
 
   return (
-    <UserDialogs isUserSearch={isUserSearch} Dialogs={Dialogs} Users={Users} />
+    <UserDialogs isUserSearch={isUserSearch} Dialogs={dialogs} Users={users} />
   );
 };

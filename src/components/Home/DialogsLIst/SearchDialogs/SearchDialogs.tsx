@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./SearchDialogs.scss";
 import loop from "../../../../assets/loop.svg";
-import {useDebounce} from 'use-lodash-debounce';
+import { useDebounce } from "use-lodash-debounce";
 import { createEffect } from "effector";
 import { UsersApi } from "../../../../api/UsersApi";
 
@@ -26,8 +26,7 @@ export const SearchDialogs = () => {
   const debouncedValue = useDebounce(searchText, 500);
 
   useEffect(() => {
-    getUsersBySearch({ page: 0, searchText: searchText })
-    // выключил варнинг потому что в данном случае лишь создает проблемы. 
+    getUsersBySearch({ page: 0, searchText: searchText });
     // eslint-disable-next-line
   }, [debouncedValue]);
 

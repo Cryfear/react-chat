@@ -64,7 +64,7 @@ export const UsersApi = {
       .then((data) => data.data)
       .catch((err) => err);
   },
-  changeUserPhoto(formData: any) {
+  changeUserPhoto(formData: FormData) {
     return instance
       .post("http://localhost:8888/users/uploadAvatar", formData, {
         headers: {

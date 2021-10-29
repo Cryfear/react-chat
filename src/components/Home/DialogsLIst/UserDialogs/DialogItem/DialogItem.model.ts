@@ -12,7 +12,7 @@ export const getLastDialogMessage = createEffect(async (dialogId: string) => {
 });
 
 export const getUnreadedMessagesCount = createEffect(
-  async ({ dialogId, userId }: any) => {
+  async ({ dialogId, userId }: {dialogId: string, userId: string}) => {
     try {
       const unreadedCount = await MessagesApi.getUnreadedMessagesCount({
         dialogId,

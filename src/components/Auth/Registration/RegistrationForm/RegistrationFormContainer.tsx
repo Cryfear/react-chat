@@ -26,7 +26,7 @@ export interface RegistrationTypes {
 }
 
 export const RegistrationFormContainer = withFormik<any, RegistrationFormValuesTypes>({
-  mapPropsToValues: (props) => {
+  mapPropsToValues: () => {
     return {
       email: "",
       password: "",

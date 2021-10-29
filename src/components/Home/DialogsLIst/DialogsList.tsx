@@ -37,7 +37,7 @@ export const DialogsList = () => {
     });
   }, [exp, exp.matches, appStore.isMobileVersion]);
 
-  const onScrollLoaderFunction = (e: any) => {
+  const onScrollLoaderFunction = (e: React.MouseEvent<HTMLDivElement>) => {
     return store.isUserSearch
       ? onScrollUsersLoaderFx({ e, page: store.usersSearchPage })
       : onScrollDialogsLoaderFx({
@@ -58,8 +58,8 @@ export const DialogsList = () => {
         <Header />
         <SearchDialogs />
         <UserDialogsContainer
-          users={store.users}
-          dialogs={store.dialogs}
+          Users={store.users}
+          Dialogs={store.dialogs}
           isUserSearch={store.isUserSearch}
         />
       </div>

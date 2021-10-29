@@ -1,6 +1,11 @@
 import React from "react";
 import "./UserDialogs.scss";
-import { UserDialogsTypes } from "./UserDialogsContainer";
+
+type UserDialogsTypes = {
+  isUserSearch: boolean;
+  Users: JSX.Element | JSX.Element[];
+  Dialogs: JSX.Element | JSX.Element[];
+};
 
 export const UserDialogs = ({
   isUserSearch,

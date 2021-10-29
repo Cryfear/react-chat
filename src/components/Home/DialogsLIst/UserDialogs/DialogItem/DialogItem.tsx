@@ -10,7 +10,7 @@ import {
 } from "./DialogItem.model";
 
 interface DialogItemTypes {
-  avatar: any;
+  avatar: string;
   id: string; // opponent user id
   dialogId: string;
   fullName: string;

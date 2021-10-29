@@ -22,7 +22,7 @@ export const MessageItem = ({
   const store = useStore(HomeStore);
   const authStore = useStore(isAuthData);
 
-  const avatar: any = + mine ? authStore.myUserData.avatar : store.currentUser?.avatar;
+  const avatar = + mine ? authStore.myUserData.avatar : store.currentUser?.avatar;
 
   return (
     <div className={classnames("message", !mine ? "message-reverse" : "")}>

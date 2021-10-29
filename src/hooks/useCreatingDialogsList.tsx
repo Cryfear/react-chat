@@ -2,16 +2,35 @@ import React, { useMemo } from "react";
 import { DialogItem } from "../components/Home/DialogsLIst/UserDialogs/DialogItem/DialogItem";
 import { ItemTypes } from "../components/Home/DialogsLIst/UserDialogs/UserDialogsContainer";
 
-export const useCreatingDialogsList = (dialogs: any, unConvertedDialogs: any) => {
+export type unConvertedDialogsTypes = {
+  avatar: string;
+  fullName: string;
+  _id: string;
+  isOnline: boolean;
+};
+
+interface useCreatingDialogsListTypes {
+  Dialogs: ItemTypes[];
+  unConvertedDialogs: unConvertedDialogsTypes[];
+}
+
+export const useCreatingDialogsList = ({
+  Dialogs,
+  unConvertedDialogs,
+}: useCreatingDialogsListTypes) => {
   return useMemo(() => {
-    return dialogs && dialogs.length > 0 ? (
-      dialogs.map((dialog: ItemTypes, index: number) => {
+    return Dialogs && Dialogs.length > 0 ? (
+      Dialogs.map((dialog: ItemTypes, index: number) => {
         return (
-          <DialogItem dialogId={unConvertedDialogs[index]._id} {...dialog} key={dialog.id} />
+          <DialogItem
+            dialogId={unConvertedDialogs[index]._id}
+            {...dialog}
+            key={dialog.id}
+          />
         );
       })
     ) : (
       <div />
     );
-  }, [dialogs, unConvertedDialogs]);
+  }, [Dialogs, unConvertedDialogs]);
 };

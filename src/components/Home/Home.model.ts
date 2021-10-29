@@ -1,10 +1,22 @@
+import React from 'react';
 import { getUsersBySearch } from "./DialogsLIst/SearchDialogs/SearchDialogs";
 import { createEffect, createStore } from "effector";
 import { DialogsApi } from "../../api/DialogsApi";
 import { MessagesApi } from "../../api/MessagesApi";
 import { UsersApi } from "../../api/UsersApi";
-import { readyToCreateDialogFx, SwitchSearch } from "./DialogsLIst/DialogsList.model";
+import {
+  readyToCreateDialogFx,
+  SwitchSearch,
+} from "./DialogsLIst/DialogsList.model";
 import { sendMessageFx } from "./Dialog/Content/Content.model";
+
+export type MessageType = {
+  creater: String;
+  data: String; // текст сообщения, его содержимое
+  date: Date;
+  isReaded: Boolean;
+  dialog: String;
+};
 
 interface HomeStoreTypes {
   isInitialisedDialog: boolean;
@@ -22,22 +34,32 @@ interface HomeStoreTypes {
     opponentId: string;
   };
   loadedDialog: boolean;
-  currentDialogMessages: any[];
+  currentDialogMessages: MessageType[];
   messageSent: boolean;
 }
 
-export const setUnreadMessagesFx = createEffect(async ({ dialogId, userId }: any) => {
-  const unreadedMessages = await MessagesApi.getUnreadedMessagesWithData({
-    dialogId,
-    unreadedPage: 0,
-    userId,
-  });
+export const setUnreadMessagesFx = createEffect(
+  async ({ dialogId, userId }: { dialogId: string; userId: string }) => {
+    const unreadedMessages = await MessagesApi.getUnreadedMessagesWithData({
+      dialogId,
+      unreadedPage: 0,
+      userId,
+    });
 
-  return { messages: unreadedMessages.data.reverse() };
-});
+    return { messages: unreadedMessages.data.reverse() };
+  }
+);
 
 export const initialiseDialogFx = createEffect(
-  async ({ userId, myId, page }: { userId: string; myId: string; page: number }) => {
+  async ({
+    userId,
+    myId,
+    page,
+  }: {
+    userId: string;
+    myId: string;
+    page: number;
+  }) => {
     const dialog = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({
@@ -57,13 +79,23 @@ export const initialiseDialogFx = createEffect(
       currentDialogMessages: messages.data,
       currentDialogPage: page,
       currentDialogOpponentId:
-        dialog.data.users[0] === myId ? dialog.data.users[1] : dialog.data.users[0],
+        dialog.data.users[0] === myId
+          ? dialog.data.users[1]
+          : dialog.data.users[0],
     };
   }
 );
 
 const onScrollUnreadedMessagesLoader = createEffect(
-  async ({ dialogId, unreadedPage, userId }: any) => {
+  async ({
+    dialogId,
+    unreadedPage,
+    userId,
+  }: {
+    dialogId: string,
+    userId: string,
+    unreadedPage: number,
+  }) => {
     const mes = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
       unreadedPage,
@@ -78,33 +110,46 @@ const onScrollUnreadedMessagesLoader = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({ ref, page, dialogId, unreadedPage, myId, userId }: any) => {
-    const scrollHeight = ref.current.scrollHeight;
-    const scrollTop = ref.current.scrollTop;
-
-    if (scrollHeight + scrollTop < window.innerHeight - (window.innerHeight / 100) * 4) {
-      const mes = await MessagesApi.getDialogMessages({ dialogId, page, myId });
-      return {
-        messages: mes.data,
-        page: page,
-      };
-    } else if (scrollTop < 100) {
-      await onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
+  async ({ ref, page, dialogId, unreadedPage, myId, userId }: {
+    dialogId: string,
+    userId: string,
+    unreadedPage: number,
+    ref: React.RefObject<HTMLDivElement>,
+    page: number,
+    myId: string
+  }) => {
+    if(ref.current) {
+      const scrollHeight = ref.current.scrollHeight;
+      const scrollTop = ref.current.scrollTop;
+  
+      if (
+        scrollHeight + scrollTop <
+        window.innerHeight - (window.innerHeight / 100) * 4
+      ) {
+        const mes = await MessagesApi.getDialogMessages({ dialogId, page, myId });
+        return {
+          messages: mes.data,
+          page: page,
+        };
+      } else if (scrollTop < 100) {
+        await onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
+      }
     }
   }
 );
 
 export const socketGetMessage = createEffect((msg: any) => {
-  console.log(msg);
-  return {
-    dialogId: msg.content.dialog._id,
-    messageCreater: msg.content.creater,
-    messageOpponent: msg.to,
-    messageDate: msg.content.date,
-    message: msg.content,
-    isReaded: msg.content.isReaded,
-    messageId: msg.content._id,
-  };
+  if(msg) {
+    return {
+      dialogId: msg.content.dialog._id,
+      messageCreater: msg.content.creater,
+      messageOpponent: msg.to,
+      messageDate: msg.content.date,
+      message: msg.content,
+      isReaded: msg.content.isReaded,
+      messageId: msg.content._id,
+    };
+  }
 });
 
 export const messageSentSwitcher = createEffect(() => true);
@@ -158,7 +203,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       if (!state.loadedDialog) {
         return {
           ...state,
-          currentDialogMessages: [...state.currentDialogMessages, ...data.messages],
+          currentDialogMessages: [
+            ...state.currentDialogMessages,
+            ...data.messages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             page: state.currentDialog.page + 1,
@@ -174,7 +222,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       ) {
         return {
           ...state,
-          currentDialogMessages: [...state.currentDialogMessages, ...data.messages],
+          currentDialogMessages: [
+            ...state.currentDialogMessages,
+            ...data.messages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             page: state.currentDialog.page + 1,
@@ -183,7 +234,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       } else if (data.messages.length > 0 && data.page > 0) {
         return {
           ...state,
-          currentDialogMessages: [...state.currentDialogMessages, ...data.messages],
+          currentDialogMessages: [
+            ...state.currentDialogMessages,
+            ...data.messages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             page: state.currentDialog.page + 1,
@@ -197,7 +251,7 @@ export const HomeStore = createStore<HomeStoreTypes>({
     }
   })
   .on(readyToCreateDialogFx.doneData, (state, data) => {
-    if (data.status === "success") {
+    if (data?.status === "success") {
       return {
         ...state,
         currentDialog: {
@@ -247,8 +301,7 @@ export const HomeStore = createStore<HomeStoreTypes>({
     };
   })
   .on(socketGetMessage.doneData, (state, data) => {
-    console.log(data);
-    if (state.currentDialog.id === data.dialogId) {
+    if (data && state.currentDialog.id === data.dialogId) {
       return {
         ...state,
         currentDialogMessages: [data.message, ...state.currentDialogMessages],
@@ -267,7 +320,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       if (!state.loadedDialog) {
         return {
           ...state,
-          currentDialogMessages: [...data.messages, ...state.currentDialogMessages],
+          currentDialogMessages: [
+            ...data.messages,
+            ...state.currentDialogMessages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             unreadedPage: state.currentDialog.unreadedPage + 1,
@@ -283,7 +339,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       ) {
         return {
           ...state,
-          currentDialogMessages: [...data.messages, ...state.currentDialogMessages],
+          currentDialogMessages: [
+            ...data.messages,
+            ...state.currentDialogMessages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             unreadedPage: state.currentDialog.unreadedPage + 1,
@@ -292,7 +351,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
       } else if (data.messages.length > 0 && data.unreadedPage > 0) {
         return {
           ...state,
-          currentDialogMessages: [data.messages, ...state.currentDialogMessages],
+          currentDialogMessages: [
+            data.messages,
+            ...state.currentDialogMessages,
+          ],
           currentDialog: {
             ...state.currentDialog,
             unreadedPage: state.currentDialog.unreadedPage + 1,
@@ -309,7 +371,10 @@ export const HomeStore = createStore<HomeStoreTypes>({
     if (data) {
       return {
         ...state,
-        currentDialogMessages: [...data.messages, ...state.currentDialogMessages],
+        currentDialogMessages: [
+          ...data.messages,
+          ...state.currentDialogMessages,
+        ],
         currentDialog: {
           ...state.currentDialog,
           unreadedPage: state.currentDialog.unreadedPage + 1,

@@ -17,7 +17,7 @@ export const SendMessage = () => {
   const store = useStore(HomeStore);
   const dialogsListStore = useStore(DialogsListStore);
 
-  const TextAreaKeyDownFunction = (e: any) => {
+  const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" || e.key === "NumpadEnter") {
       e.preventDefault();
       store.currentDialog.id.length > 0 && inputValue.trim() !== ""
