@@ -6,19 +6,12 @@ import { useStore } from "effector-react";
 import { HomeStore } from "../../../../Home.model";
 import { isAuthData } from "../../../../../../App.model";
 
-interface MessageItemTypes {
-  mine: boolean; // мое ли сообщение
-  data: string; // message text
-  date: Date; // дата создания
-  isReaded: boolean; // прочитано ли
-}
-
 export const MessageItem = ({
   mine,
   data,
   date,
   isReaded,
-}: MessageItemTypes) => {
+}) => {
   const store = useStore(HomeStore);
   const authStore = useStore(isAuthData);
 

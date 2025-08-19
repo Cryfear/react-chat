@@ -7,7 +7,7 @@ import { createEffect } from "effector";
 import { UsersApi } from "../../../../api/UsersApi";
 
 export const getUsersBySearch = createEffect(
-  async (values: { page: number; searchText: string }) => {
+  async (values) => {
     try {
       if (values.searchText !== "") {
         return await UsersApi.getUsersByName(values);

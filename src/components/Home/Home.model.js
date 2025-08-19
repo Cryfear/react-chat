@@ -1,4 +1,3 @@
-import React from 'react';
 import { getUsersBySearch } from "./DialogsLIst/SearchDialogs/SearchDialogs";
 import { createEffect, createStore } from "effector";
 import { DialogsApi } from "../../api/DialogsApi";
@@ -10,36 +9,8 @@ import {
 } from "./DialogsLIst/DialogsList.model";
 import { sendMessageFx } from "./Dialog/Content/Content.model";
 
-export type MessageType = {
-  creater: String;
-  data: String; // текст сообщения, его содержимое
-  date: Date;
-  isReaded: Boolean;
-  dialog: String;
-};
-
-interface HomeStoreTypes {
-  isInitialisedDialog: boolean;
-  currentUser: {
-    name: string;
-    id: string;
-    avatar: string;
-    isOnline: boolean;
-  } | null;
-  currentDialog: {
-    id: string;
-    isTyping: boolean;
-    page: number;
-    unreadedPage: number;
-    opponentId: string;
-  };
-  loadedDialog: boolean;
-  currentDialogMessages: MessageType[];
-  messageSent: boolean;
-}
-
 export const setUnreadMessagesFx = createEffect(
-  async ({ dialogId, userId }: { dialogId: string; userId: string }) => {
+  async ({ dialogId, userId }) => {
     const unreadedMessages = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
       unreadedPage: 0,
@@ -55,10 +26,6 @@ export const initialiseDialogFx = createEffect(
     userId,
     myId,
     page,
-  }: {
-    userId: string;
-    myId: string;
-    page: number;
   }) => {
     const dialog = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
@@ -91,10 +58,6 @@ const onScrollUnreadedMessagesLoader = createEffect(
     dialogId,
     unreadedPage,
     userId,
-  }: {
-    dialogId: string,
-    userId: string,
-    unreadedPage: number,
   }) => {
     const mes = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
@@ -110,14 +73,7 @@ const onScrollUnreadedMessagesLoader = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({ ref, page, dialogId, unreadedPage, myId, userId }: {
-    dialogId: string,
-    userId: string,
-    unreadedPage: number,
-    ref: React.RefObject<HTMLDivElement>,
-    page: number,
-    myId: string
-  }) => {
+  async ({ ref, page, dialogId, unreadedPage, myId, userId }) => {
     if(ref.current) {
       const scrollHeight = ref.current.scrollHeight;
       const scrollTop = ref.current.scrollTop;
@@ -138,7 +94,7 @@ export const onScrollLoaderMessages = createEffect(
   }
 );
 
-export const socketGetMessage = createEffect((msg: any) => {
+export const socketGetMessage = createEffect((msg) => {
   if(msg) {
     return {
       dialogId: msg.content.dialog._id,
@@ -154,7 +110,7 @@ export const socketGetMessage = createEffect((msg: any) => {
 
 export const messageSentSwitcher = createEffect(() => true);
 
-export const HomeStore = createStore<HomeStoreTypes>({
+export const HomeStore = createStore({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
   loadedDialog: false, // отвечает за инициализацию выбранного диалога
   currentUser: null,

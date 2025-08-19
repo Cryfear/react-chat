@@ -12,6 +12,7 @@ import { useStore } from "effector-react";
 
 export const App = () => {
   const store = useStore(isAuthData);
+  console.log(sessionStorage["auth-token"]);
 
   useEffect(() => {
     if (!store.isChecked)

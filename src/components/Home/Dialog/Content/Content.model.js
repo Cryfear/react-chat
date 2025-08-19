@@ -1,11 +1,11 @@
-import { createDialogFx } from "./../../DialogsLIst/DialogsList.model";
-import { messageSentSwitcher, initialiseDialogFx } from "./../../Home.model";
-import { socket } from "./../../../../socket";
-import { MessagesApi } from "./../../../../api/MessagesApi";
+import { createDialogFx } from "../../DialogsLIst/DialogsList.model";
+import { messageSentSwitcher, initialiseDialogFx } from "../../Home.model";
+import { socket } from "../../../../socket";
+import { MessagesApi } from "../../../../api/MessagesApi";
 import { createEffect } from "effector";
 
 export const sendMessageFx = createEffect(
-  async ({ dialogId, userId, myId, data }: any) => {
+  async ({ dialogId, userId, myId, data }) => {
     if (dialogId) {
       const message = await MessagesApi.create({ dialogId, myId, data });
 

@@ -1,7 +1,7 @@
 import instance from "./api";
 
 export const MessagesApi = {
-  getLastDialogMessage(id: string) {
+  getLastDialogMessage(id) {
     return instance
       .post(`/messages/last`, { id }, {
         headers: {
@@ -11,7 +11,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  create(values: { dialogId: string; myId: string; data: string }) {
+  create(values) {
     return instance
       .post("/messages/create", { ...values }, {
         headers: {
@@ -21,7 +21,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getDialogMessages(values: { dialogId: string; page: number; myId: string }) {
+  getDialogMessages(values) {
     return instance
       .post("/messages/all", { ...values }, {
         headers: {
@@ -31,7 +31,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getUnreadedMessagesCount(values: { dialogId: string; userId: string }) {
+  getUnreadedMessagesCount(values) {
     return instance
       .post("/messages/unreadedCount", { ...values }, {
         headers: {
@@ -41,7 +41,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getUnreadedMessagesWithData(values: { dialogId: string; unreadedPage: number; userId: string }) {
+  getUnreadedMessagesWithData(values) {
     return instance
       .post("/messages/unreadedWithData", { ...values }, {
         headers: {

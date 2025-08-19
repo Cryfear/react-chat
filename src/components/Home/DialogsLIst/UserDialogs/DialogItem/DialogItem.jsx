@@ -9,21 +9,13 @@ import {
   getUnreadedMessagesCount,
 } from "./DialogItem.model";
 
-interface DialogItemTypes {
-  avatar: string;
-  id: string; // opponent user id
-  dialogId: string;
-  fullName: string;
-  isOnline: boolean;
-}
-
 export const DialogItem = ({
   avatar,
   dialogId,
   id,
   fullName,
   isOnline,
-}: DialogItemTypes) => {
+}) => {
   const store = useStore(HomeStore);
   const [lastMessage, setLastMessage] = useState("");
   const [lastMessageDate, setLastMessageDate] = useState("");

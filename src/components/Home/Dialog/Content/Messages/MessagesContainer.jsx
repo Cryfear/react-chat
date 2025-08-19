@@ -18,8 +18,8 @@ export const MessagesContainer = () => {
   const { currentDialog, messageSent, currentDialogMessages } =
     useStore(HomeStore);
 
-  const scrollRef: React.RefObject<HTMLDivElement> = useRef(null);
-  const onSendScrollRef: React.RefObject<HTMLDivElement> = useRef(null);
+  const scrollRef = useRef(null);
+  const onSendScrollRef = useRef(null);
 
   useEffect(() => {
     if (onSendScrollRef !== null && onSendScrollRef.current) {

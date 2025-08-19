@@ -1,19 +1,13 @@
 import React from "react";
 import classnames from "classnames";
 import { readyToCreateDialogFx } from "../../DialogsList.model";
-interface UsersSearchItemTypes {
-  avatar: string;
-  id: string;
-  fullName: string;
-  isOnline: boolean;
-}
 
 export const UsersSearchItem = ({
   avatar,
   fullName,
   isOnline,
   id
-}: UsersSearchItemTypes) => {
+}) => {
   return (
     <div className="dialog__item" onClick={() => readyToCreateDialogFx({user: {avatar, fullName, isOnline, id}, myId: sessionStorage['id']})}>
       <div

@@ -3,9 +3,10 @@ import { createStore, createEffect } from "effector";
 import { AuthApi } from "./api/AuthApi";
 
 export const isLoginFx = createEffect(
-  async ({ email, authToken }: { email: string; authToken: string }) => {
+  async ( email, authToken ) => {
     const result = await AuthApi.isLoginNow({ email, authToken }).then((data) => {
       socket.emit("send-id", sessionStorage["id"]);
+      console.log(authToken);
       
       return data;
     });
@@ -18,7 +19,7 @@ export const logoutFx = createEffect(async () => {
   return await AuthApi.logout();
 });
 
-export const isMobileVersionChanger = createEffect((boolean: boolean) => {
+export const isMobileVersionChanger = createEffect((boolean) => {
   return boolean;
 });
 

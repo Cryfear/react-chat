@@ -5,7 +5,7 @@ import dayOfYear from 'dayjs/plugin/dayOfYear';
 dayjs().format();
 dayjs.extend(dayOfYear);
 
-export const dateFormatter = (date: Date) => {
+export const dateFormatter = (date) => {
   const messageDay = dayjs(date).dayOfYear()
   const currentDay = dayjs().dayOfYear()
   const messageYear = dayjs(date).year()
@@ -22,7 +22,7 @@ export const dateFormatter = (date: Date) => {
   }
 };
 
-export const LastMessageDateFormatter = (date: Date) => {
+export const LastMessageDateFormatter = (date) => {
   const messageDay = dayjs(date).dayOfYear()
   const currentDay = dayjs().dayOfYear()
   const messageYear = dayjs(date).year()

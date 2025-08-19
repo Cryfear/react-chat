@@ -2,16 +2,12 @@ import { useStore } from "effector-react";
 import React from "react";
 import {
   HomeStore,
-  MessageType,
   onScrollLoaderMessages,
 } from "../../../Home.model";
 
 export const Messages = ({
   messages,
   scrollRef,
-}: {
-  messages: MessageType[];
-  scrollRef: React.RefObject<HTMLDivElement>;
 }) => {
   const homeStore = useStore(HomeStore);
 
