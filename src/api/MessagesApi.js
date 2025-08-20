@@ -12,6 +12,7 @@ export const MessagesApi = {
       .catch((err) => err);
   },
   create(values) {
+    console.log(values, 'createa message')
     return instance
       .post("/messages/create", { ...values }, {
         headers: {

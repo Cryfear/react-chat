@@ -6,6 +6,7 @@ import { createEffect } from "effector";
 
 export const sendMessageFx = createEffect(
   async ({ dialogId, userId, myId, data }) => {
+    console.log(data, dialogId, userId, myId);
     if (dialogId) {
       const message = await MessagesApi.create({ dialogId, myId, data });
 
@@ -27,10 +28,12 @@ export const sendMessageFx = createEffect(
       await initialiseDialogFx({ userId, myId, page: 0 });
 
       const message = await MessagesApi.create({
-        dialogId: dialogIdRes.data,
+        dialogId: dialogIdRes.data.dialogId,
         myId,
         data,
       });
+
+      console.log(message);
 
       socket.emit("qqq", {
         content: message.data,

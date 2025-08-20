@@ -17,6 +17,7 @@ export const AuthApi = {
       .catch((err) => err);
   },
   login(values) {
+    console.log(values);
     return instance
       .post("/login", {
         values,

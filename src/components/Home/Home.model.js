@@ -27,8 +27,9 @@ export const initialiseDialogFx = createEffect(
     myId,
     page,
   }) => {
-    const dialog = await DialogsApi.find({ id_1: userId, id_2: myId });
+const dialog = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
+    console.log(dialog)
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
       page: 0,
@@ -50,7 +51,8 @@ export const initialiseDialogFx = createEffect(
           ? dialog.data.users[1]
           : dialog.data.users[0],
     };
-  }
+    }
+    
 );
 
 const onScrollUnreadedMessagesLoader = createEffect(
@@ -59,7 +61,7 @@ const onScrollUnreadedMessagesLoader = createEffect(
     unreadedPage,
     userId,
   }) => {
-    const mes = await MessagesApi.getUnreadedMessagesWithData({
+const mes = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
       unreadedPage,
       userId,
@@ -69,12 +71,12 @@ const onScrollUnreadedMessagesLoader = createEffect(
       messages: mes.data.reverse(),
       unreadedPage,
     };
-  }
+    }
 );
 
 export const onScrollLoaderMessages = createEffect(
   async ({ ref, page, dialogId, unreadedPage, myId, userId }) => {
-    if(ref.current) {
+      if(ref.current) {
       const scrollHeight = ref.current.scrollHeight;
       const scrollTop = ref.current.scrollTop;
   
@@ -91,7 +93,7 @@ export const onScrollLoaderMessages = createEffect(
         await onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
       }
     }
-  }
+    }
 );
 
 export const socketGetMessage = createEffect((msg) => {

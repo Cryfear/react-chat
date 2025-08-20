@@ -2,18 +2,22 @@ import { socket } from "./socket";
 import { createStore, createEffect } from "effector";
 import { AuthApi } from "./api/AuthApi";
 
-export const isLoginFx = createEffect(
-  async ( email, authToken ) => {
-    const result = await AuthApi.isLoginNow({ email, authToken }).then((data) => {
-      socket.emit("send-id", sessionStorage["id"]);
-      console.log(authToken);
-      
-      return data;
-    });
-
-    if (result.data.responseCode === "success") return result.data;
+export const isLoginFx = createEffect(async ({ email, authToken }) => {
+  console.log(email, authToken);
+  console.log(email === "undefined" && authToken === "undefined")
+  if (email !== "undefined" && authToken !== "undefined") {
+    console.log(email, authToken);
+    const result = await AuthApi.isLoginNow({ email, authToken }).then(
+      (data) => {
+        socket.emit("send-id", sessionStorage["id"]);
+        console.log(data.data.responseCode);
+        if (data.data.responseCode === "success") return data.data;
+      }
+    );
+    return result;
   }
-);
+  return {responseCode: 'fail'};
+});
 
 export const logoutFx = createEffect(async () => {
   return await AuthApi.logout();
@@ -36,6 +40,7 @@ export const isAuthData = createStore({
   },
 })
   .on(isLoginFx.doneData, (state, data) => {
+    console.log(data);
     if (data.responseCode === "success") {
       return {
         ...state,
@@ -64,7 +69,7 @@ export const isAuthData = createStore({
     return state;
   })
   .on(logoutFx.doneData, (state, boolean) => {
-    if(boolean) {
+    if (boolean) {
       return {
         ...state,
         isAuth: false,

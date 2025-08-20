@@ -12,14 +12,14 @@ import { useStore } from "effector-react";
 
 export const App = () => {
   const store = useStore(isAuthData);
-  console.log(sessionStorage["auth-token"]);
 
   useEffect(() => {
-    if (!store.isChecked)
+    if (!store.isChecked) {
       isLoginFx({
         email: sessionStorage["email"],
         authToken: sessionStorage["auth-token"],
       });
+    }
   }, [store.isChecked]);
 
   return (

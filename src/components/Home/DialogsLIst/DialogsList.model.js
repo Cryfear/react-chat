@@ -16,8 +16,9 @@ export const SwitchSearch = createEffect(() => {
 
 export const readyToCreateDialogFx = createEffect(
   async ({ user, myId }) => {
+    console.log(user, myId);
     try {
-      const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
+      const dialog = await DialogsApi.find({ id_1: myId.id, id_2: user.id });
       if (dialog) {
         const lol = await initialiseDialogFx({
           userId: user.id,
@@ -168,13 +169,18 @@ export const DialogsListStore = createStore({
     };
   })
   .on(createDialogFx.doneData, (state, { data }) => {
-    return {
+    console.log(data);
+    if(data) {
+      return {
       ...state,
       isUserSearch: !state.isUserSearch,
     };
+    }
+    
   })
   .on(readyToCreateDialogFx.doneData, (state, data) => {
-    if (data?.status === "success") {
+    console.log('we are ready to create a dialog', data)
+    if (data && data?.status === "success") {
       return {
         ...state,
         potentialDialog: {
