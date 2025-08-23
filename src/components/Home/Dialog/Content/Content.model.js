@@ -28,7 +28,7 @@ export const sendMessageFx = createEffect(
       await initialiseDialogFx({ userId, myId, page: 0 });
 
       const message = await MessagesApi.create({
-        dialogId: dialogIdRes.data.dialogId,
+        dialogId: dialogIdRes.data,
         myId,
         data,
       });

@@ -4,55 +4,46 @@ import { UsersApi } from "../../../api/UsersApi";
 import { initialiseDialogFx } from "../Home.model";
 import { getUsersBySearch } from "./SearchDialogs/SearchDialogs";
 
-export const createDialogFx = createEffect(
-  async ( id1, id2 ) => {
-    return await DialogsApi.create({ id_1: id1, id_2: id2 });
-  }
-);
+export const createDialogFx = createEffect(async (id1, id2) => {
+  return await DialogsApi.create({ id_1: id1, id_2: id2 });
+});
 
 export const SwitchSearch = createEffect(() => {
   return "clicked";
 });
 
-export const readyToCreateDialogFx = createEffect(
-  async ({ user, myId }) => {
-    console.log(user, myId);
-    try {
-      const dialog = await DialogsApi.find({ id_1: myId.id, id_2: user.id });
-      if (dialog) {
-        const lol = await initialiseDialogFx({
-          userId: user.id,
-          myId,
-          page: 0,
-        });
-        console.log(lol);
-        return { status: "success", user };
-      }
-    } catch (err) {
-      return { status: "success", user };
-    }
+export const readyToCreateDialogFx = createEffect(async ({ user, myId }) => {
+  const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
+
+  if (dialog) {
+    await initialiseDialogFx({
+      userId: user.id,
+      myId,
+      page: 0,
+    });
+    return { status: "founded" };
+  } else {
+    return { status: "potentical", user };
   }
-);
+});
 
-export const DialogsLoaderFx = createEffect(
-  async ({ id, page }) => {
-    const myDialogs = await DialogsApi.getMyDialogs({ id, page });
+export const DialogsLoaderFx = createEffect(async ({ id, page }) => {
+  const myDialogs = await DialogsApi.getMyDialogs({ id, page });
 
-    const Users = await Promise.all(
-      myDialogs.data.map(async (dialog) => {
-        return dialog.users[0] !== id
-          ? await UsersApi.findUser(dialog.users[0])
-          : await UsersApi.findUser(dialog.users[1]);
-      })
-    );
+  const Users = await Promise.all(
+    myDialogs.data.map(async (dialog) => {
+      return dialog.users[0] !== id
+        ? await UsersApi.findUser(dialog.users[0])
+        : await UsersApi.findUser(dialog.users[1]);
+    })
+  );
 
-    return {
-      data: Users.map((user) => user.data),
-      unConvertedDialogs: myDialogs.data,
-      page: page,
-    };
-  }
-);
+  return {
+    data: Users.map((user) => user.data),
+    unConvertedDialogs: myDialogs.data,
+    page: page,
+  };
+});
 
 export const UsersLoaderFx = createEffect(async (page) => {
   const Users = await UsersApi.getUsers({ page });
@@ -62,27 +53,19 @@ export const UsersLoaderFx = createEffect(async (page) => {
   };
 });
 
-export const onScrollUsersLoaderFx = createEffect(
-  async ({ e, page }) => {
-    const target = e.currentTarget;
-    if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
-      return await UsersLoaderFx(page);
-    }
+export const onScrollUsersLoaderFx = createEffect(async ({ e, page }) => {
+  const target = e.currentTarget;
+  if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
+    return await UsersLoaderFx(page);
   }
-);
+});
 
-export const onScrollDialogsLoaderFx = createEffect(
-  async ({
-    e,
-    page,
-    id,
-  }) => {
-    const target = e.target;
-    if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
-      return await DialogsLoaderFx({ id, page });
-    }
+export const onScrollDialogsLoaderFx = createEffect(async ({ e, page, id }) => {
+  const target = e.target;
+  if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
+    return await DialogsLoaderFx({ id, page });
   }
-);
+});
 
 export const DialogsListStore = createStore({
   initialisedDialogs: false,
@@ -122,46 +105,36 @@ export const DialogsListStore = createStore({
       return state;
     }
   })
-  .on(
-    DialogsLoaderFx.doneData,
-    (
-      state,
-      {
-        data,
-        page,
-        unConvertedDialogs,
-      }
-    ) => {
-      if (!state.initialisedDialogs) {
-        return {
-          ...state,
-          dialogs: data,
-          unConvertedDialogs: unConvertedDialogs,
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-          initialisedDialogs: true,
-        };
-      } else if (state.dialogs.length > 0 && data.length > 0 && page > 0) {
-        return {
-          ...state,
-          dialogs: [...state.dialogs, ...data],
-          unConvertedDialogs: [
-            ...state.unConvertedDialogs,
-            ...unConvertedDialogs,
-          ],
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-        };
-      } else if (data.length > 0 && page > 0) {
-        return {
-          ...state,
-          dialogs: data,
-          unConvertedDialogs: unConvertedDialogs,
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-        };
-      } else {
-        return state;
-      }
+  .on(DialogsLoaderFx.doneData, (state, { data, page, unConvertedDialogs }) => {
+    if (!state.initialisedDialogs) {
+      return {
+        ...state,
+        dialogs: data,
+        unConvertedDialogs: unConvertedDialogs,
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+        initialisedDialogs: true,
+      };
+    } else if (state.dialogs.length > 0 && data.length > 0 && page > 0) {
+      return {
+        ...state,
+        dialogs: [...state.dialogs, ...data],
+        unConvertedDialogs: [
+          ...state.unConvertedDialogs,
+          ...unConvertedDialogs,
+        ],
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+      };
+    } else if (data.length > 0 && page > 0) {
+      return {
+        ...state,
+        dialogs: data,
+        unConvertedDialogs: unConvertedDialogs,
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+      };
+    } else {
+      return state;
     }
-  )
+  })
   .on(SwitchSearch.doneData, (state, data) => {
     return {
       ...state,
@@ -170,17 +143,15 @@ export const DialogsListStore = createStore({
   })
   .on(createDialogFx.doneData, (state, { data }) => {
     console.log(data);
-    if(data) {
+    if (data) {
       return {
-      ...state,
-      isUserSearch: !state.isUserSearch,
-    };
+        ...state,
+        isUserSearch: !state.isUserSearch,
+      };
     }
-    
   })
   .on(readyToCreateDialogFx.doneData, (state, data) => {
-    console.log('we are ready to create a dialog', data)
-    if (data && data?.status === "success") {
+    if (data && data?.status === "potentical") {
       return {
         ...state,
         potentialDialog: {

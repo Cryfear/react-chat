@@ -29,12 +29,13 @@ export const initialiseDialogFx = createEffect(
   }) => {
 const dialog = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
-    console.log(dialog)
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
       page: 0,
       myId,
     });
+
+    console.log(messages);
 
     return {
       name: user.data.fullName,
@@ -127,6 +128,7 @@ export const HomeStore = createStore({
   messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
 })
   .on(initialiseDialogFx.doneData, (state, data) => {
+    console.log(data);
     if (data) {
       return {
         loadedDialog: false,
@@ -219,20 +221,6 @@ export const HomeStore = createStore({
         loadedDialog: false,
       };
     }
-    return {
-      ...state,
-      isInitialisedDialog: false,
-      loadedDialog: false,
-      currentUser: null,
-      currentDialog: {
-        id: "",
-        isTyping: false,
-        page: 0,
-        unreadedPage: 0,
-        opponentId: "",
-      },
-      currentDialogMessages: [],
-    };
   })
   .on(SwitchSearch.doneData, (state, _) => {
     return {

@@ -13,7 +13,7 @@ export const Header = () => {
     store.currentUser !== null || dialogsListStore.potentialDialog !== null
       ? store.currentUser?.name || dialogsListStore.potentialDialog?.name
       : "undefined";
-  const isOnlineClassName: "online" | "offline" =
+  const isOnlineClassName =
     store?.currentUser?.isOnline || dialogsListStore?.potentialDialog?.isOnline
       ? "online"
       : "offline";

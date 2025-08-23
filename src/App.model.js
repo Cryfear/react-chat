@@ -3,20 +3,21 @@ import { createStore, createEffect } from "effector";
 import { AuthApi } from "./api/AuthApi";
 
 export const isLoginFx = createEffect(async ({ email, authToken }) => {
-  console.log(email, authToken);
-  console.log(email === "undefined" && authToken === "undefined")
-  if (email !== "undefined" && authToken !== "undefined") {
-    console.log(email, authToken);
+  const dontAuth =
+    (email === "undefined" && authToken === "undefined") ||
+    (email === undefined && authToken === undefined) ||
+    (email === "null" && authToken === "null");
+  if (!dontAuth) {
     const result = await AuthApi.isLoginNow({ email, authToken }).then(
       (data) => {
         socket.emit("send-id", sessionStorage["id"]);
-        console.log(data.data.responseCode);
         if (data.data.responseCode === "success") return data.data;
+        return { responseCode: "failed token auth" };
       }
     );
     return result;
   }
-  return {responseCode: 'fail'};
+  return { responseCode: "Войдите в аккаунт" };
 });
 
 export const logoutFx = createEffect(async () => {

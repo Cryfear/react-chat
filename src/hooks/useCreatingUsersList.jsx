@@ -1,11 +1,10 @@
 import { UsersSearchItem } from "../components/Home/DialogsLIst/UserDialogs/UsersSearchItem/UsersSearchItem";
-import { ItemTypes } from "../components/Home/DialogsLIst/UserDialogs/UserDialogsContainer";
 import React, { useMemo } from "react";
 
-export const useCreatingUsersList = (users: ItemTypes[]) => {
+export const useCreatingUsersList = (users) => {
   return useMemo(() => {
     return users && users.length > 0 ? (
-      users.map((userData: ItemTypes) => {
+      users.map((userData) => {
         return <UsersSearchItem {...userData} key={userData.id} />;
       })
     ) : (

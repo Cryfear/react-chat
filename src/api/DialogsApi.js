@@ -37,6 +37,6 @@ export const DialogsApi = {
         },
       })
       .then((data) => data)
-      .catch((err) => err);
+      .catch((err) => console.log('Создайте свою историю!'));
   },
 };
