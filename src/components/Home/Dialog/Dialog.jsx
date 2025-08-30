@@ -1,12 +1,12 @@
 import React from "react";
 import { Content } from "./Content/Content";
-import { Header } from "./Header/Header";
 
 import "./Dialog.scss";
 import svg from "../../../assets/waving-hand.svg";
 import { useStore } from "effector-react";
 import { HomeStore } from "../Home.model";
 import { DialogsListStore } from "../DialogsLIst/DialogsList.model";
+import { HeaderWrapper } from "./Header/HeaderWrapper";
 
 export const Dialog = () => {
   const $HomeStore = useStore(HomeStore);
@@ -15,7 +15,7 @@ export const Dialog = () => {
   if ($DialogsListStore.potentialDialog !== null) {
     return (
       <div className="dialog__wrapper">
-        <Header />
+        <HeaderWrapper />
         <Content />
       </div>
     );
@@ -23,7 +23,7 @@ export const Dialog = () => {
 
   return $HomeStore.isInitialisedDialog ? (
     <div className="dialog__wrapper">
-      <Header />
+      <HeaderWrapper />
       <Content />
     </div>
   ) : (

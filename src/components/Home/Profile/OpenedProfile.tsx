@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { UsersApi } from "../../../api/UsersApi";
 import { logoutFx } from "../../../App.model";
 import { FileUpload } from "./FileUpload/FileUpload";
+import { Link, NavLink, Route } from "react-router-dom";
 
 type OpenedProfileTypes = {
   isOpen: boolean;
@@ -13,6 +14,7 @@ type OpenedProfileTypes = {
 type statusType = "changed!" | null | "fail.";
 
 export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
+  //let navigate = useNavigate();
   const [isChangingName, setIsChangingName] = useState(false);
   const [isChangingPhoto, setIsChangingPhoto] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -145,7 +147,13 @@ export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
           {uploadStatusPassword}
         </div>
       </div>
-      <button onClick={() => logoutFx()} className="profile__logout-button">Logout</button>
+      <Link to="/home">
+        <button onClick={() => {
+          // navigate('/home');
+          logoutFx();
+        }} className="profile__logout-button">Logout</button>
+      </Link >
     </div>
+
   );
 };

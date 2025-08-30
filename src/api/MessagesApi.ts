@@ -1,7 +1,7 @@
 import instance from "./api";
 
 export const MessagesApi = {
-  getLastDialogMessage(id) {
+  getLastDialogMessage(id: string) {
     return instance
       .post(`/messages/last`, { id }, {
         headers: {
@@ -11,7 +11,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  create(values) {
+  create(values: any): Promise<any> {
     console.log(values, 'createa message')
     return instance
       .post("/messages/create", { ...values }, {
@@ -22,7 +22,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getDialogMessages(values) {
+  getDialogMessages(values: any) {
     return instance
       .post("/messages/all", { ...values }, {
         headers: {
@@ -32,7 +32,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getUnreadedMessagesCount(values) {
+  getUnreadedMessagesCount(values: any) {
     return instance
       .post("/messages/unreadedCount", { ...values }, {
         headers: {
@@ -42,7 +42,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getUnreadedMessagesWithData(values) {
+  getUnreadedMessagesWithData(values: any) {
     return instance
       .post("/messages/unreadedWithData", { ...values }, {
         headers: {

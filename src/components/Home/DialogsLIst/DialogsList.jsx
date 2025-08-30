@@ -25,8 +25,8 @@ export const DialogsList = () => {
   const exp = window.matchMedia("(max-width: 1070px)");
 
   useEffect(() => {
-    // note mutable flag
-    DialogsLoaderFx({ id: sessionStorage["id"], page: 0 });
+    if(sessionStorage["id"] !== 'null' && sessionStorage["id"] !== 'undefined') {
+      DialogsLoaderFx({ id: sessionStorage["id"], page: 0 });
 
     if (exp.matches) isMobileVersionChanger(true);
 
@@ -35,6 +35,8 @@ export const DialogsList = () => {
         ? isMobileVersionChanger(true)
         : isMobileVersionChanger(false);
     });
+    }
+    
   }, [exp, exp.matches, appStore.isMobileVersion]);
 
   const onScrollLoaderFunction = (e) => {

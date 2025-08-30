@@ -41,7 +41,6 @@ export const isAuthData = createStore({
   },
 })
   .on(isLoginFx.doneData, (state, data) => {
-    console.log(data);
     if (data.responseCode === "success") {
       return {
         ...state,

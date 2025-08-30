@@ -4,7 +4,7 @@ import { UsersApi } from "../../../api/UsersApi";
 import { initialiseDialogFx } from "../Home.model";
 import { getUsersBySearch } from "./SearchDialogs/SearchDialogs";
 
-export const createDialogFx = createEffect(async (id1, id2) => {
+export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string, id2: string }): Promise<any> => {
   return await DialogsApi.create({ id_1: id1, id_2: id2 });
 });
 
@@ -12,40 +12,47 @@ export const SwitchSearch = createEffect(() => {
   return "clicked";
 });
 
-export const readyToCreateDialogFx = createEffect(async ({ user, myId }) => {
+export const readyToCreateDialogFx = createEffect(async ({ user, myId }: { user: { id: string, avatar: string, isOnline: boolean }, myId: string }): Promise<any> => {
   const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
-
-  if (dialog) {
+  console.log(user);
+  if (dialog.data) {
     await initialiseDialogFx({
       userId: user.id,
-      myId,
+      myId: myId,
       page: 0,
     });
-    return { status: "founded" };
+    return { status: "founded", user };
   } else {
+    console.log('we are here');
     return { status: "potentical", user };
   }
 });
 
-export const DialogsLoaderFx = createEffect(async ({ id, page }) => {
+export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string, page: number }) => {
   const myDialogs = await DialogsApi.getMyDialogs({ id, page });
 
   const Users = await Promise.all(
-    myDialogs.data.map(async (dialog) => {
-      return dialog.users[0] !== id
-        ? await UsersApi.findUser(dialog.users[0])
-        : await UsersApi.findUser(dialog.users[1]);
+    myDialogs.data.map(async (dialog: any) => {
+      if (dialog && dialog.users[0] && dialog.users[1]) {
+        return dialog.users[0] !== id
+          ? await UsersApi.findUser(dialog.users[0])
+          : await UsersApi.findUser(dialog.users[1]);
+      }
+      return false;
     })
   );
 
   return {
-    data: Users.map((user) => user.data),
+    data: Users.map((user) => {
+      if (user.data !== undefined) return user.data;
+
+    }),
     unConvertedDialogs: myDialogs.data,
     page: page,
   };
 });
 
-export const UsersLoaderFx = createEffect(async (page) => {
+export const UsersLoaderFx = createEffect(async (page: number) => {
   const Users = await UsersApi.getUsers({ page });
   return {
     data: Users.data,
@@ -53,16 +60,14 @@ export const UsersLoaderFx = createEffect(async (page) => {
   };
 });
 
-export const onScrollUsersLoaderFx = createEffect(async ({ e, page }) => {
-  const target = e.currentTarget;
-  if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
+export const onScrollUsersLoaderFx = createEffect(async ({ e, page }: { e: React.UIEvent<HTMLElement>, page: number }) => {
+  if (e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + window.innerHeight) < 1) {
     return await UsersLoaderFx(page);
   }
 });
 
-export const onScrollDialogsLoaderFx = createEffect(async ({ e, page, id }) => {
-  const target = e.target;
-  if (target.scrollHeight - (target.scrollTop + window.innerHeight) < 1) {
+export const onScrollDialogsLoaderFx = createEffect(async ({ e, page, id }: { e: React.UIEvent<HTMLElement>, page: number, id: string }) => {
+  if (e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + window.innerHeight) < 1) {
     return await DialogsLoaderFx({ id, page });
   }
 });
@@ -105,7 +110,7 @@ export const DialogsListStore = createStore({
       return state;
     }
   })
-  .on(DialogsLoaderFx.doneData, (state, { data, page, unConvertedDialogs }) => {
+  .on(DialogsLoaderFx.doneData, (state, { data, page, unConvertedDialogs }): any => {
     if (!state.initialisedDialogs) {
       return {
         ...state,
@@ -150,7 +155,15 @@ export const DialogsListStore = createStore({
       };
     }
   })
-  .on(readyToCreateDialogFx.doneData, (state, data) => {
+  .on(readyToCreateDialogFx.doneData, (state, data: {
+    user: {
+      avatar: string,
+      fullName: string,
+      isOnline: boolean,
+      id: string
+    },
+    status: string
+  }): any => {
     if (data && data?.status === "potentical") {
       return {
         ...state,

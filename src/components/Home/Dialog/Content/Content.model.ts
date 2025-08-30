@@ -4,9 +4,17 @@ import { socket } from "../../../../socket";
 import { MessagesApi } from "../../../../api/MessagesApi";
 import { createEffect } from "effector";
 
+type MessageDataTypes = {
+  creater: string,
+  dialog: {
+    users: [_id: string],
+
+  },
+  data: string
+}
+
 export const sendMessageFx = createEffect(
-  async ({ dialogId, userId, myId, data }) => {
-    console.log(data, dialogId, userId, myId);
+  async ({ dialogId, userId, myId, data }: { dialogId: string, userId: string, myId: string, data: MessageDataTypes }): Promise<MessageDataTypes> => {
     if (dialogId) {
       const message = await MessagesApi.create({ dialogId, myId, data });
 
@@ -21,10 +29,16 @@ export const sendMessageFx = createEffect(
       messageSentSwitcher();
       return message.data;
     } else {
-      const dialogIdRes = await createDialogFx({
-        id1: sessionStorage["id"],
+      const dialogIdRes: {
+        data: {
+          dialogId: string,
+          messages: []
+        }
+      } = await createDialogFx({
+        id1: myId,
         id2: userId,
       });
+
       await initialiseDialogFx({ userId, myId, page: 0 });
 
       const message = await MessagesApi.create({
@@ -32,8 +46,6 @@ export const sendMessageFx = createEffect(
         myId,
         data,
       });
-
-      console.log(message);
 
       socket.emit("qqq", {
         content: message.data,

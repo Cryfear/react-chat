@@ -28,14 +28,17 @@ export const UsersApi = {
       .catch((err) => err);
   },
   findUser(id) {
-    return instance
-      .get(`/users/${id}`, {
-        headers: {
-          id: sessionStorage["id"],
-        },
-      })
-      .then((data) => data)
-      .catch((err) => err);
+    if (id && id !== 'null') {
+      return instance
+        .get(`/users/${id}`, {
+          headers: {
+            id: sessionStorage["id"],
+          },
+        })
+        .then((data) => data)
+        .catch((err) => err);
+    }
+
   },
   changeUserName(values) {
     return instance
