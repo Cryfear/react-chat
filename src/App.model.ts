@@ -1,63 +1,16 @@
-import {socket} from "./socket";
 import {createEffect, createStore} from "effector";
-import {AuthApi} from "./api/AuthApi";
-
-export const isLoginFx = createEffect(async ({email, authToken}: { email: string, authToken: string }) => {
-  const dontAuth =
-    (email === "undefined" && authToken === "undefined") ||
-    (email === undefined && authToken === undefined) ||
-    (email === "null" && authToken === "null");
-  if (!dontAuth) {
-    return await AuthApi.isLoginNow({email, authToken}).then(
-      (data) => {
-        socket.emit("send-id", sessionStorage["id"]);
-        if (data.data.responseCode === "success") return data.data;
-        return {responseCode: "failed token auth"};
-      }
-    );
-  }
-  return {responseCode: "Войдите в аккаунт"};
-});
-
-export const logoutFx = createEffect(async () => {
-  return await AuthApi.logout();
-});
 
 export const isMobileVersionChanger = createEffect((boolean: boolean) => {
   return boolean;
 });
 
-export const isAuthData = createStore({
-  isAuth: false, // залогинен ли
-  isChecked: false, // проверен ли пользователь на авторизованность
-  isMobileVersion: false,
-  myUserData: {
-    // данные самого залогиненного пользователя
-    id: "",
-    avatar: "",
-    name: "",
-    isOnline: false,
-  },
-})
-  .on(isLoginFx.doneData, (state, data) => {
-    if (data.responseCode === "success") {
-      return {
-        ...state,
-        isAuth: true,
-        isChecked: true,
+type AppStoreTypes = {
+  isMobileVersion: boolean;
+}
 
-        myUserData: {
-          // данные самого залогиненного пользователя
-          id: data.id,
-          avatar: data.avatar,
-          name: data.fullName,
-          email: data.email,
-          isOnline: data.isOnline,
-        },
-      };
-    }
-    return {...state, isChecked: true};
-  })
+export const $AppStore = createStore<AppStoreTypes>({
+  isMobileVersion: false
+})
   .on(isMobileVersionChanger.doneData, (state, boolean) => {
     if (state.isMobileVersion !== boolean) {
       return {
@@ -67,12 +20,3 @@ export const isAuthData = createStore({
     }
     return state;
   })
-  .on(logoutFx.doneData, (state, boolean) => {
-    if (boolean) {
-      return {
-        ...state,
-        isAuth: false,
-      };
-    }
-    return state;
-  });

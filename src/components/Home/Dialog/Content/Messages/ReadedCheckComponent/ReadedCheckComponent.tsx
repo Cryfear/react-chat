@@ -3,13 +3,9 @@ import React from "react";
 import nonChecked from "../../../../../../assets/Check.svg";
 import checkedSvg from "../../../../../../assets/double-check.svg";
 
-interface ReadedCheckComponentTypes {
-  checked: boolean;
-}
-
 export const ReadedCheckComponent = ({
   checked,
-}: ReadedCheckComponentTypes) => {
+}: { checked: boolean }) => {
   // компонент отвечающий за значок одной или двух галочек сообщения
   return (
     <img

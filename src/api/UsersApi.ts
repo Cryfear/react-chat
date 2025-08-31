@@ -1,13 +1,14 @@
 import instance from "./api";
 
 export const UsersApi = {
-  create(values) {
+  create(values: {}) {
+    console.log(values); //typize!!
     return instance
       .post("/users/create", values)
       .then((data) => data)
       .catch((err) => err);
   },
-  getUsers(values) {
+  getUsers(values: { page: number }) {
     return instance
       .get(`/getUsers/${values.page}`, {
         headers: {
@@ -17,7 +18,7 @@ export const UsersApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getUsersByName(values) {
+  getUsersByName(values: { page: number, searchText: string }) {
     return instance
       .get(`/getUsersByName/${values.page}/${values.searchText}`, {
         headers: {
@@ -27,7 +28,7 @@ export const UsersApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  findUser(id) {
+  findUser(id: string) {
     if (id && id !== 'null') {
       return instance
         .get(`/users/${id}`, {
@@ -40,7 +41,12 @@ export const UsersApi = {
     }
 
   },
-  changeUserName(values) {
+  changeUserName(values:
+    {
+      authToken: string,
+      newNickName: string,
+      email: string,
+    }) {
     return instance
       .post(`/users/changeName`, values, {
         headers: {
@@ -51,7 +57,12 @@ export const UsersApi = {
       .then((data) => data.data)
       .catch((err) => err);
   },
-  changeUserPassword(values) {
+  changeUserPassword(values: {
+    authToken: string, 
+    newPassword: string,
+    oldPassword: string,
+    email: string
+  }) {
     return instance
       .post(`/users/changeUserPassword`, values, {
         headers: {
@@ -62,7 +73,8 @@ export const UsersApi = {
       .then((data) => data.data)
       .catch((err) => err);
   },
-  changeUserPhoto(formData) {
+  changeUserPhoto(formData: any) {
+    console.log(formData); //don't forget to typize
     return instance
       .post("http://localhost:8888/users/uploadAvatar", formData, {
         headers: {

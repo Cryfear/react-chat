@@ -1,20 +1,6 @@
 import React, { useMemo } from "react";
 import { DialogItem } from "../components/Home/DialogsLIst/UserDialogs/DialogItem/DialogItem";
-
-export type DialogsPreviewType = {
-  avatar: string
-  fullName: string,
-  id: string, // айди пользователя
-  isOnline: string
-}
-
-export type unconvertedDialogType = {
-  createdAt: string,
-  isTyping: boolean
-  updatedAt: string,
-  users: string[],
-  _id: string
-}
+import { DialogsPreviewType, unconvertedDialogType } from "../components/Home/Home.types";
 
 export const useCreatingDialogsList = ({
   Dialogs,

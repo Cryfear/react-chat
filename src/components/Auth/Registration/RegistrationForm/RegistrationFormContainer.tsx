@@ -2,28 +2,7 @@ import { FormikErrors, withFormik } from "formik";
 import { passwordValidate } from "../../../../utils/validations";
 import { RegistrationForm } from "./RegistrationForm";
 import { CreateAccountFx } from "../Registration.model";
-
-interface RegistrationFormValuesTypes {
-  email: string;
-  password: string;
-  name: string;
-  passwordRepeat: string;
-}
-
-export type RegistrationFormDataTypes = {
-  email: string;
-  password: string;
-  name: string;
-  passwordRepeat: string;
-};
-
-export interface RegistrationTypes {
-  errors: RegistrationFormDataTypes;
-  values: RegistrationFormDataTypes;
-  touched: RegistrationFormDataTypes;
-
-  handleChange: Function;
-}
+import {RegistrationFormValuesTypes} from "../../Auth.types";
 
 export const RegistrationFormContainer = withFormik<any, RegistrationFormValuesTypes>({
   mapPropsToValues: () => {

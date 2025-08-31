@@ -3,14 +3,7 @@ import { messageSentSwitcher, initialiseDialogFx } from "../../Home.model";
 import { socket } from "../../../../socket";
 import { MessagesApi } from "../../../../api/MessagesApi";
 import { createEffect } from "effector";
-
-type MessageDataTypes = {
-  creater: string,
-  dialog: {
-    users: [_id: string],
-  },
-  data: string
-}
+import { MessageDataTypes } from "../../Home.types";
 
 export const sendMessageFx = createEffect(
   async ({ dialogId, userId, myId, data }: { dialogId?: string, userId?: string, myId: string, data: string }): Promise<MessageDataTypes> => {
@@ -51,6 +44,7 @@ export const sendMessageFx = createEffect(
       });
 
       messageSentSwitcher();
+      
       return message.data;
     }
   }

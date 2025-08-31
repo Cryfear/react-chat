@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import { $RegistrationStore } from "../Registration.model";
 
 import "./RegistrationForm.scss";
-import { RegistrationTypes } from "./RegistrationFormContainer";
+import {RegistrationTypes} from "../../Auth.types";
 
 export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypes) => {
   const store = useStore($RegistrationStore);

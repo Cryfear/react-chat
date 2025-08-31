@@ -1,19 +1,7 @@
 import { FormikErrors, withFormik } from "formik";
 import { passwordValidate } from "../../../utils/validations";
 import { Login } from "./Login";
-
-export type FormDataTypes = {
-  email: string;
-  password: string;
-};
-
-export interface LoginTypes {
-  errors: FormDataTypes;
-  values: FormDataTypes;
-  touched: FormDataTypes;
-  
-  handleChange: Function;
-}
+import {FormDataTypes, LoginTypes} from "../Auth.types";
 
 export const LoginContainer = withFormik<LoginTypes, FormDataTypes>({
   mapPropsToValues: (props) => {

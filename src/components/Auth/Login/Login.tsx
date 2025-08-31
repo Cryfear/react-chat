@@ -1,28 +1,28 @@
 import React from "react";
-import { Field } from "formik";
+import {Field} from "formik";
 
 import "./Login.scss";
 
-import { passwordValidate } from "../../../utils/validations";
-import { Link, Redirect } from "react-router-dom";
-import { LoginTypes } from "./LoginContainer";
-import { useStore } from "effector-react";
-import { $LoginStore, LoginFx } from "./Login.model";
+import {passwordValidate} from "../../../utils/validations";
+import {Link, Redirect} from "react-router-dom";
+import {useStore} from "effector-react";
+import {$LoginStore, LoginFx} from "./Login.model";
+import {LoginTypes} from "../Auth.types";
 
 export const Login = ({
-  errors,
-  handleChange,
-  values,
-  touched,
-}: LoginTypes) => {
+                        errors,
+                        handleChange,
+                        values,
+                        touched,
+                      }: LoginTypes) => {
   const store = useStore($LoginStore);
 
   const passwordErrors =
     store.isCorrectLogin === false
       ? "Invalid Login Or Password" // если пользователь ввел неправильно логин или пароль
       : errors.password && touched.password // иначе вывести ошибку из формика если прикоснулся
-      ? errors.password
-      : "";
+        ? errors.password
+        : "";
 
   const emailIsErrorClassName =
     errors.email && touched.email
@@ -39,7 +39,7 @@ export const Login = ({
   const emailErrors = errors.email && touched.email ? errors.email : "";
 
   return store.isAuth ? (
-    <Redirect to="/home" />
+    <Redirect to="/home"/>
   ) : (
     <section className="login">
       <h1>Login into account</h1>
@@ -49,7 +49,7 @@ export const Login = ({
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter" || e.key === "NumpadEnter")
-                LoginFx({ email: values.email, password: values.password });
+                LoginFx({email: values.email, password: values.password});
             }}
             placeholder="E-Mail"
             name="email"
@@ -63,7 +63,7 @@ export const Login = ({
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter" || e.key === "NumpadEnter")
-                LoginFx({ email: values.email, password: values.password });
+                LoginFx({email: values.email, password: values.password});
             }}
             placeholder="Password"
             name="password"
@@ -76,7 +76,7 @@ export const Login = ({
         <div className="form__errors">{passwordErrors}</div>
         <button
           onClick={() =>
-            LoginFx({ email: values.email, password: values.password })
+            LoginFx({email: values.email, password: values.password})
           }
           type="button"
           className="login__button"

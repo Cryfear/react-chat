@@ -4,7 +4,7 @@ import { ReadedCheckComponent } from "../ReadedCheckComponent/ReadedCheckCompone
 import { dateFormatter } from "../../../../../../utils/dateFormatter";
 import { useStore } from "effector-react";
 import { HomeStore } from "../../../../Home.model";
-import { isAuthData } from "../../../../../../App.model";
+import {$LoginStore} from "../../../../../Auth/Login/Login.model";
 
 export const MessageItem = ({
   mine,
@@ -19,7 +19,7 @@ export const MessageItem = ({
     isReaded: boolean
   }) => {
   const store = useStore(HomeStore);
-  const authStore = useStore(isAuthData);
+  const authStore = useStore($LoginStore);
 
   const avatar = + mine ? authStore.myUserData.avatar : store.currentUser?.avatar;
 

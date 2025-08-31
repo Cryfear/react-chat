@@ -7,11 +7,11 @@ import "./styles/normalize.css";
 import "./styles/index.scss";
 
 import { Redirect, Route } from "react-router";
-import { isLoginFx, isAuthData } from "./App.model";
 import { useStore } from "effector-react";
+import {$LoginStore, isLoginFx} from "./components/Auth/Login/Login.model";
 
 export const App = () => {
-  const store = useStore(isAuthData);
+  const store = useStore($LoginStore);
 
   useEffect(() => {
     if (!store.isChecked) {

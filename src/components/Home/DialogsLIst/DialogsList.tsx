@@ -12,14 +12,14 @@ import {
 } from "./DialogsList.model";
 import {useStore} from "effector-react";
 import {UserDialogsContainer} from "./UserDialogs/UserDialogsContainer";
-import {isAuthData, isMobileVersionChanger} from "../../../App.model";
+import {$AppStore,  isMobileVersionChanger} from "../../../App.model";
 import {ShowHideButton} from "./Show-hide-button/Show-hide-button";
 import classNames from "classnames";
 import {Show_Hide_ButtonStore} from "./Show-hide-button/Show-hide-button.model";
 
 export const DialogsList = () => {
   const store = useStore(DialogsListStore);
-  const appStore = useStore(isAuthData);
+  const appStore = useStore($AppStore);
   const ShowHideButtonStore = useStore(Show_Hide_ButtonStore);
 
   const exp = window.matchMedia("(max-width: 1070px)");

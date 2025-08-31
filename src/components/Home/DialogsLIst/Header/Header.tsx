@@ -6,10 +6,10 @@ import people from "../../../../assets/people.svg";
 import { SwitchSearch, UsersLoaderFx } from "../DialogsList.model";
 import { Profile } from "../../Profile/Profile";
 import { useStore } from "effector-react";
-import { isAuthData } from "../../../../App.model";
+import {$AppStore} from "../../../../App.model";
 
 export const Header = () => {
-  const appStore = useStore(isAuthData);
+  const appStore = useStore($AppStore);
 
   return (
     <div className="list-header">

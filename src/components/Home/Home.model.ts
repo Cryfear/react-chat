@@ -1,38 +1,41 @@
-import {getUsersBySearch} from "./DialogsLIst/SearchDialogs/SearchDialogs";
-import {createEffect, createStore} from "effector";
-import {DialogsApi, dialogPromiseType} from "../../api/DialogsApi";
-import {MessagesApi} from "../../api/MessagesApi";
-import {UsersApi} from "../../api/UsersApi";
+import { getUsersBySearch } from "./DialogsLIst/SearchDialogs/SearchDialogs";
+import { createEffect, createStore } from "effector";
+import { DialogsApi } from "../../api/DialogsApi";
+import { MessagesApi } from "../../api/MessagesApi";
+import { UsersApi } from "../../api/UsersApi";
 import {
   readyToCreateDialogFx,
   SwitchSearch,
 } from "./DialogsLIst/DialogsList.model";
-import {sendMessageFx} from "./Dialog/Content/Content.model";
-import React from "react";
+import { sendMessageFx } from "./Dialog/Content/Content.model";
+import {
+  dialogPromiseType,
+  HomeStoreTypes,
+  initDialogTypes,
+  initialiseDialogFxTypes, messageType,
+  onScrollLoaderMessagesTypes,
+  unreadMessagesLoaderTypes, unreadMesssagesFxTypes
+} from "./Home.types";
 
 export const setUnreadMessagesFx = createEffect(
-  async ({dialogId, userId}: { dialogId: string, userId: string }) => {
+  async ({ dialogId, userId }: unreadMesssagesFxTypes) => {
     const unreadedMessages = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
       unreadedPage: 0,
       userId,
     });
 
-    return {messages: unreadedMessages.data};
+    return { messages: unreadedMessages.data };
   }
 );
 
 export const initialiseDialogFx = createEffect(
   async ({
-           userId,
-           myId,
-           page,
-         }: {
-    userId: string,
-    myId: string,
-    page: number
-  }) => {
-    const dialog: dialogPromiseType = await DialogsApi.find({id_1: userId, id_2: myId});
+    userId,
+    myId,
+    page,
+  }: initDialogTypes) => {
+    const dialog: dialogPromiseType = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
@@ -60,10 +63,10 @@ export const initialiseDialogFx = createEffect(
 
 const onScrollUnreadedMessagesLoader = createEffect(
   async ({
-           dialogId,
-           unreadedPage,
-           userId,
-         }: { dialogId: string, unreadedPage: number, userId: string }) => {
+    dialogId,
+    unreadedPage,
+    userId,
+  }: unreadMessagesLoaderTypes) => {
     const mes = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
       unreadedPage,
@@ -78,14 +81,7 @@ const onScrollUnreadedMessagesLoader = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({ref, page, dialogId, unreadedPage, myId, userId}: {
-    dialogId: string,
-    unreadedPage: number,
-    userId: string,
-    page: number,
-    myId: string,
-    ref: React.RefObject<HTMLInputElement>
-  }) => {
+  async ({ ref, page, dialogId, unreadedPage, myId, userId }: onScrollLoaderMessagesTypes) => {
     if (ref.current) {
       const scrollHeight = ref.current.scrollHeight;
       const scrollTop = ref.current.scrollTop;
@@ -94,31 +90,17 @@ export const onScrollLoaderMessages = createEffect(
         scrollHeight + scrollTop <
         window.innerHeight - (window.innerHeight / 100) * 4
       ) {
-        const mes = await MessagesApi.getDialogMessages({dialogId, page, myId});
+        const mes = await MessagesApi.getDialogMessages({ dialogId, page, myId });
         return {
           messages: mes.data,
           page: page,
         };
       } else if (scrollTop < 100) {
-        await onScrollUnreadedMessagesLoader({dialogId, unreadedPage, userId});
+        await onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
       }
     }
   }
 );
-
-type messageType = {
-  content: {
-    dialog: {
-      _id: string
-    },
-    creater: string,
-    date: Date,
-    isReaded: boolean,
-    _id: string
-  },
-  to: string,
-  _id: string
-}
 
 export const socketGetMessage = createEffect((msg: messageType) => {
   if (msg) {
@@ -135,37 +117,6 @@ export const socketGetMessage = createEffect((msg: messageType) => {
 });
 
 export const messageSentSwitcher = createEffect(() => true);
-
-type initialiseDialogFxTypes = {
-  name: string,
-  userId: string,
-  avatar: string,
-  isOnline: boolean,
-  currentDialogID: string,
-  currentDialogTyping: boolean,
-  currentDialogOpponentId: string,
-  currentDialogMessages: any
-}
-
-interface HomeStoreTypes {
-  isInitialisedDialog: boolean;
-  loadedDialog: boolean;
-  currentUser: null | {
-    name: string,
-    id: string,
-    avatar: string,
-    isOnline: boolean,
-  };
-  currentDialog: {
-    id: string;
-    isTyping: boolean;
-    page: number;
-    unreadedPage: number;
-    opponentId: string;
-  };
-  currentDialogMessages: any;
-  messageSent: boolean;
-}
 
 export const HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
@@ -207,7 +158,6 @@ export const HomeStore = createStore<HomeStoreTypes>({
     return state;
   })
   .on(sendMessageFx.doneData, (state, data): any => {
-    console.log(state.currentDialogMessages, data);
     return {
       ...state,
       currentDialogMessages: [data, ...state.currentDialogMessages],

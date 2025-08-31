@@ -1,15 +1,10 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 import { UsersApi } from "../../../api/UsersApi";
-import { logoutFx } from "../../../App.model";
+import { logoutFx } from "../../Auth/Login/Login.model";
 import { FileUpload } from "./FileUpload/FileUpload";
-import { Link, NavLink, Route } from "react-router-dom";
-
-type OpenedProfileTypes = {
-  isOpen: boolean;
-  name: string;
-  avatar: string;
-};
+import { Link } from "react-router-dom";
+import { OpenedProfileTypes } from "../Home.types";
 
 type statusType = "changed!" | null | "fail.";
 
