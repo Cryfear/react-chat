@@ -1,0 +1,21 @@
+import {UsersSearchItem} from "../components/Home/DialogsLIst/UserDialogs/UsersSearchItem/UsersSearchItem";
+import React, {useMemo} from "react";
+
+export type usersType = {
+  avatar: string,
+  fullName: string,
+  id: string
+  isOnline: boolean
+}
+
+export const useCreatingUsersList = (users: usersType[]) => {
+  return useMemo(() => {
+    return users && users.length > 0 ? (
+      users.map((userData: usersType) => {
+        return <UsersSearchItem {...userData} key={userData.id}/>;
+      })
+    ) : (
+      <div/>
+    );
+  }, [users]);
+};

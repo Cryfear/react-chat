@@ -17,7 +17,7 @@ export const SendMessage = () => {
   const store = useStore(HomeStore);
   const dialogsListStore = useStore(DialogsListStore);
 
-  const TextAreaKeyDownFunction = (e) => {
+  const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" || e.key === "NumpadEnter") {
       e.preventDefault();
       store.currentDialog.id.length > 0 && inputValue.trim() !== ""
@@ -27,9 +27,9 @@ export const SendMessage = () => {
             data: inputValue,
           })
         : sendMessageFx({
-            userId: dialogsListStore.potentialDialog?.id,
+            userId: dialogsListStore.potentialDialog?.id || '',
             myId: sessionStorage["id"],
-            data: inputValue,
+            data: inputValue
           });
       setInputValue("");
     }

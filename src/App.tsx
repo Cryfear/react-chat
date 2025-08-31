@@ -18,7 +18,7 @@ export const App = () => {
       isLoginFx({
         email: sessionStorage["email"],
         authToken: sessionStorage["auth-token"],
-      });
+      }).then((data) => data).catch(err => err);
     }
   }, [store.isChecked]);
 
@@ -27,9 +27,9 @@ export const App = () => {
       <Route path="/home" component={Home} />
       <Route path="/auth" component={Auth} />
       {store.isAuth ? (
-        <Redirect children={<Home />} to="/home" />
+        <Redirect to="/home" />
       ) : (
-        <Auth /> && <Redirect to="/auth/login" />
+        <Redirect to="/auth/login" />
       )}
     </div>
   );

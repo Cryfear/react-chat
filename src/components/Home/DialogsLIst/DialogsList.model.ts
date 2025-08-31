@@ -1,19 +1,22 @@
-import { createEffect, createStore } from "effector";
-import { DialogsApi } from "../../../api/DialogsApi";
-import { UsersApi } from "../../../api/UsersApi";
-import { initialiseDialogFx } from "../Home.model";
-import { getUsersBySearch } from "./SearchDialogs/SearchDialogs";
+import {createEffect, createStore} from "effector";
+import {DialogsApi} from "../../../api/DialogsApi";
+import {UsersApi} from "../../../api/UsersApi";
+import {initialiseDialogFx} from "../Home.model";
+import {getUsersBySearch} from "./SearchDialogs/SearchDialogs";
 
-export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string, id2: string }): Promise<any> => {
-  return await DialogsApi.create({ id_1: id1, id_2: id2 });
+export const createDialogFx = createEffect(async ({id1, id2}: { id1: string, id2: string }): Promise<any> => {
+  return await DialogsApi.create({id_1: id1, id_2: id2});
 });
 
 export const SwitchSearch = createEffect(() => {
   return "clicked";
 });
 
-export const readyToCreateDialogFx = createEffect(async ({ user, myId }: { user: { id: string, avatar: string, isOnline: boolean }, myId: string }): Promise<any> => {
-  const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
+export const readyToCreateDialogFx = createEffect(async ({user, myId}: {
+  user: { id: string, fullName: string, avatar: string, isOnline: boolean },
+  myId: string
+}): Promise<any> => {
+  const dialog = await DialogsApi.find({id_1: myId, id_2: user.id});
   console.log(user);
   if (dialog.data) {
     await initialiseDialogFx({
@@ -21,15 +24,15 @@ export const readyToCreateDialogFx = createEffect(async ({ user, myId }: { user:
       myId: myId,
       page: 0,
     });
-    return { status: "founded", user };
+    return {status: "founded", user};
   } else {
     console.log('we are here');
-    return { status: "potentical", user };
+    return {status: "potentical", user};
   }
 });
 
-export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string, page: number }) => {
-  const myDialogs = await DialogsApi.getMyDialogs({ id, page });
+export const DialogsLoaderFx = createEffect(async ({id, page}: { id: string, page: number }) => {
+  const myDialogs = await DialogsApi.getMyDialogs({id, page});
 
   const Users = await Promise.all(
     myDialogs.data.map(async (dialog: any) => {
@@ -38,14 +41,14 @@ export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string, p
           ? await UsersApi.findUser(dialog.users[0])
           : await UsersApi.findUser(dialog.users[1]);
       }
-      return false;
+      return null;
     })
   );
 
   return {
     data: Users.map((user) => {
       if (user.data !== undefined) return user.data;
-
+      return null;
     }),
     unConvertedDialogs: myDialogs.data,
     page: page,
@@ -53,26 +56,50 @@ export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string, p
 });
 
 export const UsersLoaderFx = createEffect(async (page: number) => {
-  const Users = await UsersApi.getUsers({ page });
+  const Users = await UsersApi.getUsers({page});
   return {
     data: Users.data,
     page: page,
   };
 });
 
-export const onScrollUsersLoaderFx = createEffect(async ({ e, page }: { e: React.UIEvent<HTMLElement>, page: number }) => {
+export const onScrollUsersLoaderFx = createEffect(async ({e, page}: {
+  e: React.UIEvent<HTMLElement>,
+  page: number
+}) => {
   if (e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + window.innerHeight) < 1) {
     return await UsersLoaderFx(page);
   }
 });
 
-export const onScrollDialogsLoaderFx = createEffect(async ({ e, page, id }: { e: React.UIEvent<HTMLElement>, page: number, id: string }) => {
+export const onScrollDialogsLoaderFx = createEffect(async ({e, page, id}: {
+  e: React.UIEvent<HTMLElement>,
+  page: number,
+  id: string
+}) => {
   if (e.currentTarget.scrollHeight - (e.currentTarget.scrollTop + window.innerHeight) < 1) {
-    return await DialogsLoaderFx({ id, page });
+    return await DialogsLoaderFx({id, page});
   }
 });
 
-export const DialogsListStore = createStore({
+type DialogsListStoreTypes = {
+  initialisedDialogs: boolean,
+  initialisedUsers: boolean,
+  dialogs: [], // уже готовые сконвертированные диалоги для DialogItem
+  unConvertedDialogs: [], // несконвертированные диалоги
+  users: [],
+  isUserSearch: boolean,
+  usersSearchPage: number,
+  dialogsSearchPage: number,
+
+  potentialDialog: null | {
+    isOnline: boolean,
+    name: string,
+    id: string
+  },
+}
+
+export const DialogsListStore = createStore<DialogsListStoreTypes>({
   initialisedDialogs: false,
   initialisedUsers: false,
   dialogs: [], // уже готовые сконвертированные диалоги для DialogItem
@@ -84,7 +111,7 @@ export const DialogsListStore = createStore({
 
   potentialDialog: null,
 })
-  .on(UsersLoaderFx.doneData, (state, { data, page }) => {
+  .on(UsersLoaderFx.doneData, (state, {data, page}) => {
     if (!state.initialisedUsers) {
       return {
         ...state,
@@ -110,7 +137,7 @@ export const DialogsListStore = createStore({
       return state;
     }
   })
-  .on(DialogsLoaderFx.doneData, (state, { data, page, unConvertedDialogs }): any => {
+  .on(DialogsLoaderFx.doneData, (state, {data, page, unConvertedDialogs}): any => {
     if (!state.initialisedDialogs) {
       return {
         ...state,
@@ -146,7 +173,7 @@ export const DialogsListStore = createStore({
       isUserSearch: !state.isUserSearch,
     };
   })
-  .on(createDialogFx.doneData, (state, { data }) => {
+  .on(createDialogFx.doneData, (state, {data}) => {
     console.log(data);
     if (data) {
       return {

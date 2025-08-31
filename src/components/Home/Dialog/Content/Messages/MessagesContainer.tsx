@@ -18,13 +18,13 @@ export const MessagesContainer = () => {
   const { currentDialog, messageSent, currentDialogMessages } =
     useStore(HomeStore);
 
-  const scrollRef = useRef(null);
-  const onSendScrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const onSendScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (onSendScrollRef !== null && onSendScrollRef.current) {
       const executeScroll = () => {
-        if (scrollRef.current)
+        if (scrollRef && scrollRef.current)
           scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       };
 
@@ -43,6 +43,7 @@ export const MessagesContainer = () => {
           scrollRef.current.scrollTop - 85 * data.messages.length;
     });
   }, [
+    scrollRef,
     onSendScrollRef,
     messageSent,
     currentDialog.id,
@@ -58,9 +59,9 @@ export const MessagesContainer = () => {
     onSendScrollRef
   );
 
-  return isEmptyDialog ? (
+  return isEmptyDialog ?
     <EmptyDialog />
-  ) : (
+    :
     <Messages scrollRef={scrollRef} messages={messages} />
-  );
+
 };

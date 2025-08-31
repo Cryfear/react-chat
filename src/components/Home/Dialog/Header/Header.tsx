@@ -2,7 +2,7 @@ import React from "react";
 import dots from "../../../../assets/dots.svg";
 import "./Header.scss";
 
-export const Header = (props) => {
+export const Header = (props: {userName: string | undefined, isOnline: string}) => {
   return (
     <div className="dialog__header">
       <div className="dialog__header-name">

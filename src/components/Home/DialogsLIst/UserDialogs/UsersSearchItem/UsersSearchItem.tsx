@@ -7,6 +7,11 @@ export const UsersSearchItem = ({
   fullName,
   isOnline,
   id
+}: {
+  avatar: string,
+  fullName: string,
+  isOnline: boolean,
+  id: string
 }) => {
   return (
     <div className="dialog__item" onClick={() => readyToCreateDialogFx({user: {avatar, fullName, isOnline, id}, myId: sessionStorage['id']})}>

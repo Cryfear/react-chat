@@ -8,13 +8,12 @@ type MessageDataTypes = {
   creater: string,
   dialog: {
     users: [_id: string],
-
   },
   data: string
 }
 
 export const sendMessageFx = createEffect(
-  async ({ dialogId, userId, myId, data }: { dialogId: string, userId: string, myId: string, data: MessageDataTypes }): Promise<MessageDataTypes> => {
+  async ({ dialogId, userId, myId, data }: { dialogId?: string, userId?: string, myId: string, data: string }): Promise<MessageDataTypes> => {
     if (dialogId) {
       const message = await MessagesApi.create({ dialogId, myId, data });
 
@@ -29,17 +28,13 @@ export const sendMessageFx = createEffect(
       messageSentSwitcher();
       return message.data;
     } else {
-      const dialogIdRes: {
-        data: {
-          dialogId: string,
-          messages: []
-        }
-      } = await createDialogFx({
-        id1: myId,
-        id2: userId,
-      });
+      let dialogIdRes = null;
+      if (userId) {
+        dialogIdRes = await createDialogFx({ id1: myId, id2: userId })
+      }
 
-      await initialiseDialogFx({ userId, myId, page: 0 });
+
+      if (userId) await initialiseDialogFx({ userId, myId, page: 0 });
 
       const message = await MessagesApi.create({
         dialogId: dialogIdRes.data,

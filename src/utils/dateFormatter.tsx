@@ -1,11 +1,11 @@
 import moment from "moment";
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 
 dayjs().format();
 dayjs.extend(dayOfYear);
 
-export const dateFormatter = (date) => {
+export const dateFormatter = (date: string) => {
   const messageDay = dayjs(date).dayOfYear()
   const currentDay = dayjs().dayOfYear()
   const messageYear = dayjs(date).year()
@@ -22,7 +22,7 @@ export const dateFormatter = (date) => {
   }
 };
 
-export const LastMessageDateFormatter = (date) => {
+export const LastMessageDateFormatter = (date: string) => {
   const messageDay = dayjs(date).dayOfYear()
   const currentDay = dayjs().dayOfYear()
   const messageYear = dayjs(date).year()

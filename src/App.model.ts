@@ -1,30 +1,29 @@
-import { socket } from "./socket";
-import { createStore, createEffect } from "effector";
-import { AuthApi } from "./api/AuthApi";
+import {socket} from "./socket";
+import {createEffect, createStore} from "effector";
+import {AuthApi} from "./api/AuthApi";
 
-export const isLoginFx = createEffect(async ({ email, authToken }) => {
+export const isLoginFx = createEffect(async ({email, authToken}: { email: string, authToken: string }) => {
   const dontAuth =
     (email === "undefined" && authToken === "undefined") ||
     (email === undefined && authToken === undefined) ||
     (email === "null" && authToken === "null");
   if (!dontAuth) {
-    const result = await AuthApi.isLoginNow({ email, authToken }).then(
+    return await AuthApi.isLoginNow({email, authToken}).then(
       (data) => {
         socket.emit("send-id", sessionStorage["id"]);
         if (data.data.responseCode === "success") return data.data;
-        return { responseCode: "failed token auth" };
+        return {responseCode: "failed token auth"};
       }
     );
-    return result;
   }
-  return { responseCode: "Войдите в аккаунт" };
+  return {responseCode: "Войдите в аккаунт"};
 });
 
 export const logoutFx = createEffect(async () => {
   return await AuthApi.logout();
 });
 
-export const isMobileVersionChanger = createEffect((boolean) => {
+export const isMobileVersionChanger = createEffect((boolean: boolean) => {
   return boolean;
 });
 
@@ -57,7 +56,7 @@ export const isAuthData = createStore({
         },
       };
     }
-    return { ...state, isChecked: true };
+    return {...state, isChecked: true};
   })
   .on(isMobileVersionChanger.doneData, (state, boolean) => {
     if (state.isMobileVersion !== boolean) {

@@ -10,8 +10,14 @@ export const MessageItem = ({
   mine,
   data,
   date,
-  isReaded,
-}) => {
+  isReaded
+}
+  : {
+    mine: boolean,
+    data: string,
+    date: string,
+    isReaded: boolean
+  }) => {
   const store = useStore(HomeStore);
   const authStore = useStore(isAuthData);
 

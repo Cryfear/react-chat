@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./SearchDialogs.scss";
 import loop from "../../../../assets/loop.svg";
-import { useDebounce } from "use-lodash-debounce";
+import { useDebounce } from "use-lodash-debounce"; // this shit don't give me typescript this file, let me some time to fix it
 import { createEffect } from "effector";
 import { UsersApi } from "../../../../api/UsersApi";
 

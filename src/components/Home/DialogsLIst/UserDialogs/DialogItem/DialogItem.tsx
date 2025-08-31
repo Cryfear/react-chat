@@ -15,6 +15,12 @@ export const DialogItem = ({
   id,
   fullName,
   isOnline,
+}: {
+  avatar: string
+  fullName: string,
+  id: string, // айди пользователя
+  isOnline: string,
+  dialogId: string
 }) => {
   const store = useStore(HomeStore);
   const [lastMessage, setLastMessage] = useState("");

@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { useStore } from "effector-react";
 import { HomeStore } from "../../Home.model";
 import { DialogsListStore } from "../../DialogsLIst/DialogsList.model";
+import React from 'react';
 
 export const HeaderWrapper = () => {
   const store = useStore(HomeStore);

@@ -1,37 +1,38 @@
-import { getUsersBySearch } from "./DialogsLIst/SearchDialogs/SearchDialogs";
-import { createEffect, createStore } from "effector";
-import { DialogsApi, dialogPromiseType } from "../../api/DialogsApi";
-import { MessagesApi } from "../../api/MessagesApi";
-import { UsersApi } from "../../api/UsersApi";
+import {getUsersBySearch} from "./DialogsLIst/SearchDialogs/SearchDialogs";
+import {createEffect, createStore} from "effector";
+import {DialogsApi, dialogPromiseType} from "../../api/DialogsApi";
+import {MessagesApi} from "../../api/MessagesApi";
+import {UsersApi} from "../../api/UsersApi";
 import {
   readyToCreateDialogFx,
   SwitchSearch,
 } from "./DialogsLIst/DialogsList.model";
-import { sendMessageFx } from "./Dialog/Content/Content.model";
+import {sendMessageFx} from "./Dialog/Content/Content.model";
+import React from "react";
 
 export const setUnreadMessagesFx = createEffect(
-  async ({ dialogId, userId }: { dialogId: string, userId: string }) => {
+  async ({dialogId, userId}: { dialogId: string, userId: string }) => {
     const unreadedMessages = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
       unreadedPage: 0,
       userId,
     });
 
-    return { messages: unreadedMessages.data };
+    return {messages: unreadedMessages.data};
   }
 );
 
 export const initialiseDialogFx = createEffect(
   async ({
-    userId,
-    myId,
-    page,
-  }: {
+           userId,
+           myId,
+           page,
+         }: {
     userId: string,
     myId: string,
     page: number
   }) => {
-    const dialog: dialogPromiseType = await DialogsApi.find({ id_1: userId, id_2: myId });
+    const dialog: dialogPromiseType = await DialogsApi.find({id_1: userId, id_2: myId});
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
@@ -55,15 +56,14 @@ export const initialiseDialogFx = createEffect(
           : dialog.data.users[0],
     };
   }
-
 );
 
 const onScrollUnreadedMessagesLoader = createEffect(
   async ({
-    dialogId,
-    unreadedPage,
-    userId,
-  }: { dialogId: string, unreadedPage: number, userId: string }) => {
+           dialogId,
+           unreadedPage,
+           userId,
+         }: { dialogId: string, unreadedPage: number, userId: string }) => {
     const mes = await MessagesApi.getUnreadedMessagesWithData({
       dialogId,
       unreadedPage,
@@ -78,7 +78,14 @@ const onScrollUnreadedMessagesLoader = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({ ref, page, dialogId, unreadedPage, myId, userId }: { dialogId: string, unreadedPage: number, userId: string, page: number, myId: string, ref: React.RefObject<HTMLInputElement> }) => {
+  async ({ref, page, dialogId, unreadedPage, myId, userId}: {
+    dialogId: string,
+    unreadedPage: number,
+    userId: string,
+    page: number,
+    myId: string,
+    ref: React.RefObject<HTMLInputElement>
+  }) => {
     if (ref.current) {
       const scrollHeight = ref.current.scrollHeight;
       const scrollTop = ref.current.scrollTop;
@@ -87,13 +94,13 @@ export const onScrollLoaderMessages = createEffect(
         scrollHeight + scrollTop <
         window.innerHeight - (window.innerHeight / 100) * 4
       ) {
-        const mes = await MessagesApi.getDialogMessages({ dialogId, page, myId });
+        const mes = await MessagesApi.getDialogMessages({dialogId, page, myId});
         return {
           messages: mes.data,
           page: page,
         };
       } else if (scrollTop < 100) {
-        await onScrollUnreadedMessagesLoader({ dialogId, unreadedPage, userId });
+        await onScrollUnreadedMessagesLoader({dialogId, unreadedPage, userId});
       }
     }
   }
@@ -140,27 +147,27 @@ type initialiseDialogFxTypes = {
   currentDialogMessages: any
 }
 
-// interface HomeStoreTypes {
-//   isInitialisedDialog: boolean;
-//   loadedDialog: boolean;
-//   currentUser: null | {
-//     name: string,
-//     id: string,
-//     avatar: string,
-//     isOnline: boolean,
-//   };
-//   currentDialog: {
-//     id: string;
-//     isTyping: boolean;
-//     page: number;
-//     unreadedPage: number;
-//     opponentId: string;
-//   };
-//   currentDialogMessages: any;
-//   messageSent: boolean;
-// }
+interface HomeStoreTypes {
+  isInitialisedDialog: boolean;
+  loadedDialog: boolean;
+  currentUser: null | {
+    name: string,
+    id: string,
+    avatar: string,
+    isOnline: boolean,
+  };
+  currentDialog: {
+    id: string;
+    isTyping: boolean;
+    page: number;
+    unreadedPage: number;
+    opponentId: string;
+  };
+  currentDialogMessages: any;
+  messageSent: boolean;
+}
 
-export const HomeStore = createStore({
+export const HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
   loadedDialog: false, // отвечает за инициализацию выбранного диалога
   currentUser: null,
@@ -179,7 +186,7 @@ export const HomeStore = createStore({
     if (data) {
       return {
         loadedDialog: false, // открыт ли диалог сейчас
-        messageSent: false, // ??? 
+        messageSent: false, // ???
         currentUser: { // наш пользователь
           name: data.name,
           id: data.userId,

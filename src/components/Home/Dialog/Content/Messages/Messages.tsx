@@ -4,11 +4,14 @@ import {
   HomeStore,
   onScrollLoaderMessages,
 } from "../../../Home.model";
+import { MessageType } from "../../../../../hooks/useCreatingMessagesList";
 
 export const Messages = ({
-  messages,
-  scrollRef,
-}) => {
+  messages, //: React.ReactElement<MessageType>,
+  scrollRef }: {
+    scrollRef: any,
+    messages: any
+  }) => {
   const homeStore = useStore(HomeStore);
 
   return (
