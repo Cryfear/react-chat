@@ -12,7 +12,6 @@ export const MessagesApi = {
       .catch((err) => err);
   },
   create(values: any): Promise<any> {
-    console.log(values, 'createa message')
     return instance
       .post("/messages/create", { ...values }, {
         headers: {
@@ -23,6 +22,7 @@ export const MessagesApi = {
       .catch((err) => err);
   },
   getDialogMessages(values: any) {
+    console.log(values);
     return instance
       .post("/messages/all", { ...values }, {
         headers: {

@@ -39,11 +39,11 @@ export const sendMessageFx = createEffect(
         content: message.data,
         to:
           message.data.creater === message.data.dialog.users[0]
-            ? message.data.dialog.users[1]
-            : message.data.dialog.users[0],
+            ? message.data.dialog.users[0]
+            : message.data.dialog.users[1],
       });
 
-      messageSentSwitcher();
+      messageSentSwitcher(); // скролит к концу при отправке сообщения
       
       return message.data;
     }

@@ -17,6 +17,20 @@ import {
   unreadMessagesLoaderTypes, unreadMesssagesFxTypes
 } from "./Home.types";
 
+export const socketGetMessage = createEffect((msg: messageType) => {
+  if (msg) {
+    return {
+      dialogId: msg.content.dialog._id,
+      messageCreater: msg,
+      messageOpponent: msg.to,
+      messageDate: msg.content.date,
+      message: msg.content,
+      isReaded: msg.content.isReaded,
+      messageId: msg.content._id,
+    };
+  }
+});
+
 export const setUnreadMessagesFx = createEffect(
   async ({ dialogId, userId }: unreadMesssagesFxTypes) => {
     const unreadedMessages = await MessagesApi.getUnreadedMessagesWithData({
@@ -40,7 +54,7 @@ export const initialiseDialogFx = createEffect(
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
       page: 0,
-      myId,
+      myId
     });
 
     return {
@@ -74,7 +88,7 @@ const onScrollUnreadedMessagesLoader = createEffect(
     });
 
     return {
-      messages: mes.data.reverse(),
+      messages: mes.data,
       unreadedPage,
     };
   }
@@ -102,54 +116,39 @@ export const onScrollLoaderMessages = createEffect(
   }
 );
 
-export const socketGetMessage = createEffect((msg: messageType) => {
-  if (msg) {
-    return {
-      dialogId: msg.content.dialog._id,
-      messageCreater: msg.content.creater,
-      messageOpponent: msg.to,
-      messageDate: msg.content.date,
-      message: msg.content,
-      isReaded: msg.content.isReaded,
-      messageId: msg.content._id,
-    };
-  }
-});
-
-export const messageSentSwitcher = createEffect(() => true);
+export const messageSentSwitcher = createEffect(() => true); 
 
 export const HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
   loadedDialog: false, // отвечает за инициализацию выбранного диалога
-  currentUser: null,
-  currentDialog: {
+  currentUser: null,  // наш собеседник
+  currentDialog: {  // текущий диалог
     id: "",
-    isTyping: false,
+    isTyping: false, // печатает ли нам собеседник
     page: 0,
     unreadedPage: 0,
-    opponentId: "",
+    opponentId: "", // айди собеседника
   },
   currentDialogMessages: [],
   messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
 })
   .on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes): any => {
-    console.log(data, state);
     if (data) {
       return {
         loadedDialog: false, // открыт ли диалог сейчас
-        messageSent: false, // ???
-        currentUser: { // наш пользователь
+        messageSent: false, 
+        currentUser: { 
           name: data.name,
           id: data.userId,
           avatar: data.avatar,
           isOnline: data.isOnline,
         },
-        currentDialog: { // текущий диалог
+        currentDialog: { 
           id: data.currentDialogID,
-          isTyping: data.currentDialogTyping, // печатает ли нам пользователь
+          isTyping: data.currentDialogTyping, 
           page: 1,
           unreadedPage: 0,
-          opponentId: data.currentDialogOpponentId, // айди собеседника
+          opponentId: data.currentDialogOpponentId, 
         },
         currentDialogMessages: data.currentDialogMessages,
         isInitialisedDialog: true,

@@ -21,34 +21,34 @@ export const MessagesContainer = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const onSendScrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (onSendScrollRef !== null && onSendScrollRef.current) {
-      const executeScroll = () => {
-        if (scrollRef && scrollRef.current)
-          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      };
+  // useEffect(() => {
+  //   if (onSendScrollRef !== null && onSendScrollRef.current) {
+  //     const executeScroll = () => {
+  //       if (scrollRef && scrollRef.current)
+  //         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  //     };
 
-      if (messageSent) {
-        executeScroll();
-        messageSentSwitcher();
-      }
-    }
+  //     if (messageSent) {
+  //       executeScroll();
+  //       messageSentSwitcher();
+  //     }
+  //   }
 
-    setUnreadMessagesFx({
-      dialogId: currentDialog.id,
-      userId: currentDialog.opponentId,
-    }).then((data) => {
-      if (scrollRef.current)
-        scrollRef.current.scrollTop =
-          scrollRef.current.scrollTop - 85 * data.messages.length;
-    });
-  }, [
-    scrollRef,
-    onSendScrollRef,
-    messageSent,
-    currentDialog.id,
-    currentDialog.opponentId,
-  ]);
+  //   setUnreadMessagesFx({
+  //     dialogId: currentDialog.id,
+  //     userId: currentDialog.opponentId,
+  //   }).then((data) => {
+  //     if (scrollRef.current)
+  //       scrollRef.current.scrollTop =
+  //         scrollRef.current.scrollTop - 85 * data.messages.length;
+  //   });
+  // }, [
+  //   scrollRef,
+  //   onSendScrollRef,
+  //   messageSent,
+  //   currentDialog.id,
+  //   currentDialog.opponentId,
+  // ]);
 
   const isEmptyDialog = !(
     currentDialogMessages && currentDialogMessages.length > 0

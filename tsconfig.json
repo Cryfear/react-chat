@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "outDir": "build",
-    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -21,6 +20,7 @@
     "jsx": "react",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": false,
+    "target": "es2015"
   },
   "include": [
     "src"

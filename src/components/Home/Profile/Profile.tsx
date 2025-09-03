@@ -9,8 +9,6 @@ export const Profile = () => {
 
   const authStore = useStore($LoginStore);
 
-  console.log(authStore);
-
   return (
     <div className="profile__wrapper">
       <button className="profile__show-button" onClick={() => setIsOpen(!isOpen)}>

@@ -1,9 +1,9 @@
 import { createStore } from "effector";
 import { AuthApi } from "../../../api/AuthApi";
-
 import { createEffect } from "effector";
 import { socket } from "../../../socket";
 import { LoginStoreTypes } from "../Auth.types";
+import { UsersApi } from "../../../api/UsersApi";
 
 export const $LoginStore = createStore<LoginStoreTypes>({
   isAuth: false,
@@ -18,12 +18,26 @@ export const $LoginStore = createStore<LoginStoreTypes>({
   },
 });
 
+export const uploadFileFx = createEffect<File | null, { success: boolean; avatar?: string }, Error>(async (file: any) => {
+    if (!file) {
+    console.warn("Файл не выбран!");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+    
+  const data = await UsersApi.changeUserPhoto(formData);
+
+  return data;
+  });
+
 export const isLoginFx = createEffect(async ({ email, authToken }: { email: string, authToken: string }) => {
-  const dontAuth =
+  const isInvalidAuth =
     (email === "undefined" && authToken === "undefined") ||
     (email === undefined && authToken === undefined) ||
     (email === "null" && authToken === "null");
-  if (!dontAuth) {
+  if (!isInvalidAuth) {
     return await AuthApi.isLoginNow({ email, authToken }).then(
       (data) => {
         socket.emit("send-id", sessionStorage["id"]);
@@ -48,7 +62,6 @@ export const LoginFx = createEffect(
 
 $LoginStore.on(LoginFx.done, (state, { result }) => {
   if (result.data.responseCode === "success") {
-    console.log(result.data);
     return {
       ...state,
       isAuth: true,

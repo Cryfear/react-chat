@@ -120,7 +120,6 @@ export const DialogsListStore = createStore<DialogsListStoreTypes>({
     }
   })
   .on(DialogsLoaderFx.doneData, (state, { data, page, unConvertedDialogs }): any => {
-    console.log('we are here');
     if (!state.initialisedDialogs) {
       return {
         ...state,
@@ -157,7 +156,6 @@ export const DialogsListStore = createStore<DialogsListStoreTypes>({
     };
   })
   .on(createDialogFx.doneData, (state, { data }) => {
-    console.log(data);
     if (data) {
       return {
         ...state,

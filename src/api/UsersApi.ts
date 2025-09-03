@@ -78,9 +78,10 @@ export const UsersApi = {
     return instance
       .post("http://localhost:8888/users/uploadAvatar", formData, {
         headers: {
-          email: sessionStorage["email"],
+          'email': sessionStorage["email"],
           "auth-token": sessionStorage["auth-token"],
-          "id": sessionStorage['id']
+          "id": sessionStorage['id'],
+          "Content-Type": "multipart/form-data",
         },
       })
       .then(data => data.data)
