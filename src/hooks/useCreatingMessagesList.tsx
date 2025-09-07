@@ -1,36 +1,20 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { MessageItem } from "../components/Home/Dialog/Content/Messages/MessagesTypes/Text";
 import { MessageType } from "../components/Home/Home.types";
 
-export const useCreatingMessagesList = (
+export const creatingMessagesList = (
   messages: MessageType[],
-  isEmptyDialog: boolean,
-  onSendScrollRef: any
+  onSendScrollRef: any,
+  myId: string
 ) => {
-  return useMemo(() => {
-    return !isEmptyDialog
-      ? messages.map((item: any, index, array) => {
-        item.creater = item.creater || item.creater._id;
-        item.dialog = item.dialog || item.dialog._id;
-        console.log(item);
-        return array.length === index + 1 ? (
-          <MessageItem
-            date={item.date}
-            data={item.data}
-            key={item._id}
-            mine={item.creater === sessionStorage["id"]}
-            isReaded={item.isReaded}
-          />
-        ) : (
-          <MessageItem
-            date={item.date}
-            data={item.data}
-            key={item._id}
-            mine={item.creater === sessionStorage["id"]}
-            isReaded={item.isReaded}
-          />
-        );
-      })
-      : messages;
-  }, [messages, isEmptyDialog, onSendScrollRef]);
+  return messages.map((item: any, index) => {
+    const isLastMessage = index === messages.length - 1;
+
+    return <div key={item._id} ref={isLastMessage ? onSendScrollRef : undefined}>
+      <MessageItem
+        {...item}
+        mine={item.creater === myId}
+      />
+    </div>
+  })
 };

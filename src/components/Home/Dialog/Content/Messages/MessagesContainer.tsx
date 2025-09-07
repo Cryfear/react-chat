@@ -4,64 +4,33 @@ import "./MessagesTypes.scss";
 import { useStore } from "effector-react";
 import {
   HomeStore,
-  messageSentSwitcher,
-  setUnreadMessagesFx,
 } from "../../../Home.model";
 
 import { useRef } from "react";
-import { useEffect } from "react";
 import { EmptyDialog } from "../EmptyDialog/EmptyDialog";
 import { Messages } from "./Messages";
-import { useCreatingMessagesList } from "../../../../../hooks/useCreatingMessagesList";
+import { creatingMessagesList } from "../../../../../hooks/useCreatingMessagesList";
+import { $LoginStore } from "../../../../Auth/Login/Login.model";
 
 export const MessagesContainer = () => {
-  const { currentDialog, messageSent, currentDialogMessages } =
+  const { currentDialogMessages } =
     useStore(HomeStore);
-
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const authStore = useStore($LoginStore);
+  
   const onSendScrollRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   if (onSendScrollRef !== null && onSendScrollRef.current) {
-  //     const executeScroll = () => {
-  //       if (scrollRef && scrollRef.current)
-  //         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  //     };
-
-  //     if (messageSent) {
-  //       executeScroll();
-  //       messageSentSwitcher();
-  //     }
-  //   }
-
-  //   setUnreadMessagesFx({
-  //     dialogId: currentDialog.id,
-  //     userId: currentDialog.opponentId,
-  //   }).then((data) => {
-  //     if (scrollRef.current)
-  //       scrollRef.current.scrollTop =
-  //         scrollRef.current.scrollTop - 85 * data.messages.length;
-  //   });
-  // }, [
-  //   scrollRef,
-  //   onSendScrollRef,
-  //   messageSent,
-  //   currentDialog.id,
-  //   currentDialog.opponentId,
-  // ]);
 
   const isEmptyDialog = !(
     currentDialogMessages && currentDialogMessages.length > 0
   );
-  const messages = useCreatingMessagesList(
+  const messages = creatingMessagesList(
     currentDialogMessages,
-    isEmptyDialog,
-    onSendScrollRef
+    onSendScrollRef,
+    authStore.myUserData.id
   );
 
   return isEmptyDialog ?
     <EmptyDialog />
     :
-    <Messages scrollRef={scrollRef} messages={messages} />
+    <Messages messages={messages} />
 
 };

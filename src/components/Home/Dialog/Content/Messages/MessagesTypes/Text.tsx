@@ -11,22 +11,20 @@ export const MessageItem = ({
   data,
   date,
   isReaded,
-  key
 }
   : {
     mine: boolean,
     data: string,
     date: string,
     isReaded: boolean,
-    key: string
   }) => {
   const store = useStore(HomeStore);
   const authStore = useStore($LoginStore);
 
-  const avatar = + mine ? authStore.myUserData.avatar : store.currentUser?.avatar;
+  const avatar = mine ? authStore.myUserData.avatar : store.currentUser?.avatar;
 
   return (
-    <div key={key} className={classnames("message", !mine ? "message-reverse" : "")}>
+    <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">
         <img
           className="message__avatar-photo"

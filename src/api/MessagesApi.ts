@@ -11,7 +11,8 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  create(values: any): Promise<any> {
+  create(values: any) {
+    console.log(values);
     return instance
       .post("/messages/create", { ...values }, {
         headers: {
@@ -21,8 +22,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getDialogMessages(values: any) {
-    console.log(values);
+  getDialogMessages(values: { dialogId: string, myId: string, page: number }) {
     return instance
       .post("/messages/all", { ...values }, {
         headers: {
@@ -32,7 +32,7 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  getUnreadedMessagesCount(values: any) {
+  getUnreadedMessagesCount(values: {dialogId: string, userId: string}) {
     return instance
       .post("/messages/unreadedCount", { ...values }, {
         headers: {
@@ -43,6 +43,7 @@ export const MessagesApi = {
       .catch((err) => err);
   },
   getUnreadedMessagesWithData(values: any) {
+    console.log(values);
     return instance
       .post("/messages/unreadedWithData", { ...values }, {
         headers: {

@@ -27,6 +27,7 @@ export type initialiseDialogFxTypes = {
 
 export type HomeStoreTypes = {
   isInitialisedDialog: boolean;
+  isDialogFullLoaded:boolean;
   loadedDialog: boolean;
   currentUser: null | {
     name: string,
@@ -35,11 +36,10 @@ export type HomeStoreTypes = {
     isOnline: boolean,
   };
   currentDialog: {
-    id: string;
     isTyping: boolean;
     page: number;
+    id: string,
     unreadedPage: number;
-    opponentId: string;
   };
   currentDialogMessages: any;
   messageSent: boolean;
@@ -58,19 +58,12 @@ export type initDialogTypes = {
   page: number
 }
 
-export type unreadMessagesLoaderTypes = {
-  dialogId: string,
-  unreadedPage: number,
-  userId: string
-}
-
 export type onScrollLoaderMessagesTypes = {
   dialogId: string,
-  unreadedPage: number,
-  userId: string,
   page: number,
   myId: string,
   ref: React.RefObject<HTMLInputElement>
+  isDialogFullLoaded: boolean
 }
 
 export type unreadMesssagesFxTypes = {
@@ -91,14 +84,6 @@ export type dialogPromiseType = {
 
 export type promiseDialogsTypes = {
   data: [{users: [string, string]}]
-}
-
-export type MessageDataTypes = {
-  creater: string,
-  dialog: {
-    users: [_id: string],
-  },
-  data: string
 }
 
 export type DialogsListStoreTypes = {

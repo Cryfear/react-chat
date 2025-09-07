@@ -1,17 +1,16 @@
 import { useStore } from "effector-react";
-import React from "react";
+import React, { useRef } from "react";
 import {
   HomeStore,
   onScrollLoaderMessages,
 } from "../../../Home.model";
 
 export const Messages = ({
-  messages, //: React.ReactElement<MessageType>,
-  scrollRef }: {
-    scrollRef: any,
+  messages }: {
     messages: any
   }) => {
   const homeStore = useStore(HomeStore);
+  const scrollRef: any = useRef<HTMLDivElement>(null);
 
   return (
     <div
@@ -22,9 +21,8 @@ export const Messages = ({
           ref: scrollRef,
           dialogId: homeStore.currentDialog.id,
           page: homeStore.currentDialog.page,
-          unreadedPage: homeStore.currentDialog.unreadedPage,
           myId: sessionStorage["id"],
-          userId: homeStore.currentDialog.opponentId,
+          isDialogFullLoaded: homeStore.isDialogFullLoaded
         });
       }}
     >

@@ -11,42 +11,42 @@ import { useStore } from "effector-react";
 import { HomeStore } from "../../../Home.model";
 import { DialogsListStore } from "../../../DialogsLIst/DialogsList.model";
 import { sendMessageFx } from "../Content.model";
+import { $LoginStore } from "../../../../Auth/Login/Login.model";
 
 export const SendMessage = () => {
   const [inputValue, setInputValue] = useState("");
   const store = useStore(HomeStore);
+  const authStore = useStore($LoginStore)
   const dialogsListStore = useStore(DialogsListStore);
 
   const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" || e.key === "NumpadEnter") {
       e.preventDefault();
-      store.currentDialog.id.length > 0 && inputValue.trim() !== ""
-        ? sendMessageFx({
-            dialogId: store.currentDialog.id,
-            myId: sessionStorage["id"],
-            data: inputValue,
-          })
-        : sendMessageFx({
-            userId: dialogsListStore.potentialDialog?.id || '',
-            myId: sessionStorage["id"],
-            data: inputValue
-          });
-      setInputValue("");
+      if (store.currentUser) {
+        sendMessageFx({
+          dialogId: store.currentDialog.id,
+          myId: authStore.myUserData.id,
+          data: inputValue,
+          userId: store.currentUser.id
+        });
+
+        setInputValue("");
+      }
     }
   };
 
   const SendButtonFunction = () => {
     store.currentDialog.id && inputValue.trim() !== ""
       ? sendMessageFx({
-          dialogId: store.currentDialog.id,
-          myId: sessionStorage["id"],
-          data: inputValue,
-        })
+        dialogId: store.currentUser,
+        myId: sessionStorage["id"],
+        data: inputValue,
+      })
       : sendMessageFx({
-          userId: dialogsListStore.potentialDialog?.id,
-          myId: sessionStorage["id"],
-          data: inputValue,
-        });
+        userId: dialogsListStore.potentialDialog?.id,
+        myId: sessionStorage["id"],
+        data: inputValue,
+      });
     setInputValue("");
   };
 
