@@ -5,9 +5,9 @@ import { MessagesApi } from "../../../../api/MessagesApi";
 import { createEffect } from "effector";
 
 export const sendMessageFx = createEffect(
-  async ({ dialogId, userId, myId, data }: any) => {
+  async ({ dialogId, userId, myId, data }: {dialogId?: any, userId?: string, myId: string, data: string}) => {
     if (dialogId) { // если диалог уже есть с собеседником
-      const message = await MessagesApi.create({ dialogId, myId, data }); //data - its a message text
+      const message = await MessagesApi.create({ dialogId, myId, data });
 
       console.log(message);
 

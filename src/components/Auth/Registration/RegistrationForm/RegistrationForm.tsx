@@ -5,25 +5,31 @@ import { Link, Redirect } from "react-router-dom";
 import { $RegistrationStore } from "../Registration.model";
 
 import "./RegistrationForm.scss";
-import {RegistrationTypes} from "../../Auth.types";
+import { RegistrationTypesFormik } from "../../Auth.types";
 
-export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypes) => {
+export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypesFormik) => {
   const store = useStore($RegistrationStore);
 
-  return store.isRegistrated ? <Redirect to="/auth/login" /> :(
+  return store.isRegistrated ? <Redirect to="/auth/login" /> : (
     <div>
       <Form action="post" className="registration__form">
-        <div className={errors.email && touched.email ? "input__error" : touched.email && "input__valid"}>
+        <div className={errors.email && touched.email ? "input__error" : touched.email ? "input__valid" : undefined}>
           <Field placeholder="E-Mail" name="email" type="text" onChange={handleChange} value={values.email} />
         </div>
         <div className="form__errors">{errors.email && touched.email ? errors.email : ""}</div>
-        <div className={errors.name && touched.name ? "input__error" : touched.name && "input__valid"}>
+        <div className={
+          errors.name && touched.name
+            ? "input__error"
+            : touched.name
+              ? "input__valid"
+              : undefined
+        }>
           <Field placeholder="Name" name="name" type="text" onChange={handleChange} value={values.name} />
         </div>
         <div className="form__errors">{errors.name && touched.name ? errors.name : ""}</div>
         <div
           className={
-            errors.password && touched.password ? "input__error" : touched.password && "input__valid"
+            errors.password && touched.password ? "input__error" : touched.password ? "input__valid" : undefined
           }
         >
           <Field
@@ -39,7 +45,7 @@ export const RegistrationForm = ({ errors, touched, handleChange, values }: Regi
           className={
             errors.passwordRepeat && touched.passwordRepeat
               ? "input__error"
-              : touched.passwordRepeat && "input__valid"
+              : touched.passwordRepeat ? "input__valid" : undefined
           }
         >
           <Field

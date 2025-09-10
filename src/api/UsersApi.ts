@@ -1,8 +1,7 @@
 import instance from "./api";
 
 export const UsersApi = {
-  create(values: {}) {
-    console.log(values); //typize!!
+  create(values: { email: string; name: string; password: string; }) {
     return instance
       .post("/users/create", values)
       .then((data) => data)
@@ -41,12 +40,7 @@ export const UsersApi = {
     }
 
   },
-  changeUserName(values:
-    {
-      authToken: string,
-      newNickName: string,
-      email: string,
-    }) {
+  changeUserName(values: { authToken: string, newNickName: string, email: string }) {
     return instance
       .post(`/users/changeName`, values, {
         headers: {
@@ -57,12 +51,7 @@ export const UsersApi = {
       .then((data) => data.data)
       .catch((err) => err);
   },
-  changeUserPassword(values: {
-    authToken: string, 
-    newPassword: string,
-    oldPassword: string,
-    email: string
-  }) {
+  changeUserPassword(values: { authToken: string, newPassword: string, oldPassword: string, email: string }) {
     return instance
       .post(`/users/changeUserPassword`, values, {
         headers: {
@@ -73,8 +62,7 @@ export const UsersApi = {
       .then((data) => data.data)
       .catch((err) => err);
   },
-  changeUserPhoto(formData: any) {
-    console.log(formData); //don't forget to typize
+  changeUserPhoto(formData: FormData) {
     return instance
       .post("http://localhost:8888/users/uploadAvatar", formData, {
         headers: {

@@ -1,5 +1,7 @@
 // выделил отдельный файл для типов, чтобы не засорять код и удобно было к ним вернуться в будущем
 
+import { FormikErrors } from "formik";
+
 export type RegistrationFormValuesTypes = {
   email: string;
   password: string;
@@ -13,6 +15,24 @@ export type RegistrationTypes = {
   touched: RegistrationFormValuesTypes;
 
   handleChange: Function;
+}
+
+export interface RegistrationTypesFormik {
+  values: RegistrationFormValuesTypes;
+
+  errors: FormikErrors<RegistrationFormValuesTypes>;
+
+  touched: {
+    email?: boolean;
+    name?: boolean;
+    password?: boolean;
+    passwordRepeat?: boolean;
+  };
+
+  handleChange: (e: React.ChangeEvent) => void;
+  handleSubmit?: (e?: React.FormEvent<HTMLFormElement>) => void;
+
+  isRegistrated?: boolean;
 }
 
 export type FormDataTypes = {
