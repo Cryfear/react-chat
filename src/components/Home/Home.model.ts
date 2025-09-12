@@ -101,7 +101,7 @@ export const onScrollLoaderMessages = createEffect(
 
 export const messageSentSwitcher = createEffect(() => true);
 
-export const HomeStore = createStore<HomeStoreTypes>({
+export const $HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
   loadedDialog: false, // отвечает за инициализацию выбранного диалога, то есть первоначальная загрузка
   isDialogFullLoaded: false, // долистали ли мы до конца сообщений, чтобы не отправлять лишние запросы

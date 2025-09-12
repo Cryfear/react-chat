@@ -1,9 +1,9 @@
 import React from "react";
 
 import "./MessagesTypes.scss";
-import { useStore } from "effector-react";
+import { useUnit } from "effector-react";
 import {
-  HomeStore,
+  $HomeStore,
 } from "../../../Home.model";
 
 import { useRef } from "react";
@@ -13,10 +13,9 @@ import { creatingMessagesList } from "../../../../../hooks/useCreatingMessagesLi
 import { $LoginStore } from "../../../../Auth/Login/Login.model";
 
 export const MessagesContainer = () => {
-  const { currentDialogMessages } =
-    useStore(HomeStore);
-  const authStore = useStore($LoginStore);
-  
+  const { currentDialogMessages } = useUnit($HomeStore);
+  const authStore = useUnit($LoginStore);
+
   const onSendScrollRef = useRef<HTMLDivElement>(null);
 
   const isEmptyDialog = !(

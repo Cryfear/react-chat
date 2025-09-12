@@ -3,16 +3,15 @@ import { Content } from "./Content/Content";
 
 import "./Dialog.scss";
 import svg from "../../../assets/waving-hand.svg";
-import { useStore } from "effector-react";
-import { HomeStore } from "../Home.model";
-import { DialogsListStore } from "../DialogsLIst/DialogsList.model";
+import { useUnit } from "effector-react";
+import { $HomeStore } from "../Home.model";
+import { $DialogsListStore } from "../DialogsLIst/DialogsList.model";
 import { HeaderWrapper } from "./Header/HeaderWrapper";
 
 export const Dialog = () => {
-  const $HomeStore = useStore(HomeStore);
-  const $DialogsListStore = useStore(DialogsListStore);
+  const { homeStore, dialogsListStore } = useUnit({ homeStore: $HomeStore, dialogsListStore: $DialogsListStore });
 
-  if ($DialogsListStore.potentialDialog !== null) {
+  if (dialogsListStore.potentialDialog !== null) {
     return (
       <div className="dialog__wrapper">
         <HeaderWrapper />
@@ -21,7 +20,7 @@ export const Dialog = () => {
     );
   }
 
-  return $HomeStore.isInitialisedDialog ? (
+  return homeStore.isInitialisedDialog ? (
     <div className="dialog__wrapper">
       <HeaderWrapper />
       <Content />

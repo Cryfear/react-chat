@@ -1,4 +1,4 @@
-import { useStore } from "effector-react";
+import { useUnit } from "effector-react";
 import React, { useState } from "react";
 import { OpenedProfile } from "./OpenedProfile";
 import "./Profile.scss";
@@ -7,7 +7,7 @@ import {$LoginStore} from "../../Auth/Login/Login.model";
 export const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const authStore = useStore($LoginStore);
+  const authStore = useUnit($LoginStore);
 
   return (
     <div className="profile__wrapper">

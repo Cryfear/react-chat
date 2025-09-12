@@ -1,16 +1,16 @@
-import { useStore } from "effector-react";
+import { useUnit } from "effector-react";
 import { Field, Form } from "formik";
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { $RegistrationStore } from "../Registration.model";
 
 import "./RegistrationForm.scss";
 import { RegistrationTypesFormik } from "../../Auth.types";
 
 export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypesFormik) => {
-  const store = useStore($RegistrationStore);
+  const store = useUnit($RegistrationStore);
 
-  return store.isRegistrated ? <Redirect to="/auth/login" /> : (
+  return store.isRegistrated ? <Navigate to="/auth/login" /> : (
     <div>
       <Form action="post" className="registration__form">
         <div className={errors.email && touched.email ? "input__error" : touched.email ? "input__valid" : undefined}>

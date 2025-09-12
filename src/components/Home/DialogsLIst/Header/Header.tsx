@@ -5,11 +5,11 @@ import pencil from "../../../../assets/pencil.svg";
 import people from "../../../../assets/people.svg";
 import { SwitchSearch, UsersLoaderFx } from "../DialogsList.model";
 import { Profile } from "../../Profile/Profile";
-import { useStore } from "effector-react";
+import { useUnit } from "effector-react";
 import {$AppStore} from "../../../../App.model";
 
 export const Header = () => {
-  const appStore = useStore($AppStore);
+  const appStore = useUnit($AppStore);
 
   return (
     <div className="list-header">

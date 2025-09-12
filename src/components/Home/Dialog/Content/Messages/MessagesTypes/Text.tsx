@@ -2,8 +2,8 @@ import React from "react";
 import classnames from "classnames";
 import { ReadedCheckComponent } from "../ReadedCheckComponent/ReadedCheckComponent";
 import { dateFormatter } from "../../../../../../utils/dateFormatter";
-import { useStore } from "effector-react";
-import { HomeStore } from "../../../../Home.model";
+import { useUnit } from "effector-react";
+import { $HomeStore } from "../../../../Home.model";
 import {$LoginStore} from "../../../../../Auth/Login/Login.model";
 
 export const MessageItem = ({
@@ -18,8 +18,8 @@ export const MessageItem = ({
     date: string,
     isReaded: boolean,
   }) => {
-  const store = useStore(HomeStore);
-  const authStore = useStore($LoginStore);
+  const store = useUnit($HomeStore);
+  const authStore = useUnit($LoginStore);
 
   const avatar = mine ? authStore.myUserData.avatar : store.currentUser?.avatar;
 

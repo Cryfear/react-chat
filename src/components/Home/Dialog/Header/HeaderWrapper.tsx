@@ -1,13 +1,13 @@
 import "./Header.scss";
 import { Header } from "./Header";
-import { useStore } from "effector-react";
-import { HomeStore } from "../../Home.model";
-import { DialogsListStore } from "../../DialogsLIst/DialogsList.model";
+import { useUnit } from "effector-react";
+import { $HomeStore } from "../../Home.model";
+import { $DialogsListStore } from "../../DialogsLIst/DialogsList.model";
 import React from 'react';
 
 export const HeaderWrapper = () => {
-  const store = useStore(HomeStore);
-  const dialogsListStore = useStore(DialogsListStore);
+  const store = useUnit($HomeStore);
+  const dialogsListStore = useUnit($DialogsListStore);
 
   const userName =
     store.currentUser !== null || dialogsListStore.potentialDialog !== null

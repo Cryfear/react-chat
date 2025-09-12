@@ -6,12 +6,12 @@ import { Home } from "./components/Home/Home";
 import "./styles/normalize.css";
 import "./styles/index.scss";
 
-import { Redirect, Route } from "react-router";
-import { useStore } from "effector-react";
-import {$LoginStore, isLoginFx} from "./components/Auth/Login/Login.model";
+import { Navigate, Route, Routes } from "react-router";
+import { useUnit } from "effector-react";
+import { $LoginStore, isLoginFx } from "./components/Auth/Login/Login.model";
 
-export const App = () => {
-  const store = useStore($LoginStore);
+export const  App = () => {
+  const store = useUnit($LoginStore);
 
   useEffect(() => {
     if (!store.isChecked) {
@@ -24,12 +24,14 @@ export const App = () => {
 
   return (
     <div className="app">
-      <Route path="/home" component={Home} />
-      <Route path="/auth" component={Auth} />
+      <Routes>
+        <Route path="/home/*" element={<Home />} />
+        <Route path="/auth/*" element={<Auth />} />
+      </Routes>
       {store.isAuth ? (
-        <Redirect to="/home" />
+        <Navigate to="/home" />
       ) : (
-        <Redirect to="/auth/login" />
+        <Navigate to="/auth/login" />
       )}
     </div>
   );

@@ -6,7 +6,7 @@ export const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const el = useRef<HTMLInputElement>(null);
 
-  const [uploadStatus, setUploadStatus] = useState<"changed!" | null | "fail.">(null);
+  const [uploadStatus] = useState<"changed!" | null | "fail.">(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

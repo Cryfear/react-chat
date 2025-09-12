@@ -1,21 +1,21 @@
 import React from "react";
-import {Field} from "formik";
+import { Field } from "formik";
 
 import "./Login.scss";
 
-import {passwordValidate} from "../../../utils/validations";
-import {Link, Redirect} from "react-router-dom";
-import {useStore} from "effector-react";
-import {$LoginStore, LoginFx} from "./Login.model";
-import {LoginTypes} from "../Auth.types";
+import { passwordValidate } from "../../../utils/validations";
+import { Link, Navigate } from "react-router-dom";
+import { useUnit } from "effector-react";
+import { $LoginStore, LoginFx } from "./Login.model";
+import { LoginTypes } from "../Auth.types";
 
 export const Login = ({
-                        errors,
-                        handleChange,
-                        values,
-                        touched,
-                      }: LoginTypes) => {
-  const store = useStore($LoginStore);
+  errors,
+  handleChange,
+  values,
+  touched,
+}: LoginTypes) => {
+  const store = useUnit($LoginStore);
 
   const passwordErrors =
     store.isCorrectLogin === false
@@ -39,7 +39,7 @@ export const Login = ({
   const emailErrors = errors.email && touched.email ? errors.email : "";
 
   return store.isAuth ? (
-    <Redirect to="/home"/>
+    <Navigate to="/home" />
   ) : (
     <section className="login">
       <h1>Login into account</h1>
@@ -49,7 +49,7 @@ export const Login = ({
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter" || e.key === "NumpadEnter")
-                LoginFx({email: values.email, password: values.password});
+                LoginFx({ email: values.email, password: values.password });
             }}
             placeholder="E-Mail"
             name="email"
@@ -63,7 +63,7 @@ export const Login = ({
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter" || e.key === "NumpadEnter")
-                LoginFx({email: values.email, password: values.password});
+                LoginFx({ email: values.email, password: values.password });
             }}
             placeholder="Password"
             name="password"
@@ -76,7 +76,7 @@ export const Login = ({
         <div className="form__errors">{passwordErrors}</div>
         <button
           onClick={() =>
-            LoginFx({email: values.email, password: values.password})
+            LoginFx({ email: values.email, password: values.password })
           }
           type="button"
           className="login__button"

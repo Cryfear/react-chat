@@ -81,7 +81,7 @@ export const onScrollDialogsLoaderFx = createEffect(async ({ e, page, id }: {
   }
 });
 
-export const DialogsListStore = createStore<DialogsListStoreTypes>({
+export const $DialogsListStore = createStore<DialogsListStoreTypes>({
   initialisedDialogs: false,
   initialisedUsers: false,
   dialogs: [], // уже готовые сконвертированные диалоги для DialogItem

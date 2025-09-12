@@ -1,4 +1,4 @@
-// import { useStore } from "effector-react";
+// import { useUnit } from "effector-react";
 // import { HeaderWrapper } from "./HeaderWrapper";
 // import { HomeStore } from "../../Home.model";
 // import { DialogsListStore } from "../../DialogsLIst/DialogsList.model";
@@ -17,8 +17,8 @@
 // }
 
 // export const Header = () => {
-//   const store = useStore(HomeStore);
-//   const dialogsListStore = useStore(DialogsListStore);
+//   const store = useUnit(HomeStore);
+//   const dialogsListStore = useUnit(DialogsListStore);
 
 //   const userName =
 //     store.currentUser !== null || dialogsListStore.potentialDialog !== null

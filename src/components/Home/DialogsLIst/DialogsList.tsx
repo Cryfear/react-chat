@@ -5,12 +5,12 @@ import {SearchDialogs} from "./SearchDialogs/SearchDialogs";
 
 import "./DialogsList.scss";
 import {
-  DialogsListStore,
+  $DialogsListStore,
   DialogsLoaderFx,
   onScrollUsersLoaderFx,
   onScrollDialogsLoaderFx,
 } from "./DialogsList.model";
-import {useStore} from "effector-react";
+import {useUnit} from "effector-react";
 import {UserDialogsContainer} from "./UserDialogs/UserDialogsContainer";
 import {$AppStore,  isMobileVersionChanger} from "../../../App.model";
 import {ShowHideButton} from "./Show-hide-button/Show-hide-button";
@@ -18,9 +18,9 @@ import classNames from "classnames";
 import {Show_Hide_ButtonStore} from "./Show-hide-button/Show-hide-button.model";
 
 export const DialogsList = () => {
-  const store = useStore(DialogsListStore);
-  const appStore = useStore($AppStore);
-  const ShowHideButtonStore = useStore(Show_Hide_ButtonStore);
+  const store = useUnit($DialogsListStore);
+  const appStore = useUnit($AppStore);
+  const ShowHideButtonStore = useUnit(Show_Hide_ButtonStore);
 
   const exp = window.matchMedia("(max-width: 1070px)");
 

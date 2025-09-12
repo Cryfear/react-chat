@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import classnames from "classnames";
-import { HomeStore, initialiseDialogFx } from "../../../Home.model";
-import { useStore } from "effector-react";
+import { $HomeStore, initialiseDialogFx } from "../../../Home.model";
+import { useUnit } from "effector-react";
 import { useState } from "react";
 import { LastMessageDateFormatter } from "../../../../../utils/dateFormatter";
 import {
@@ -22,7 +22,7 @@ export const DialogItem = ({
   isOnline: string,
   dialogId: string
 }) => {
-  const store = useStore(HomeStore);
+  const store = useUnit($HomeStore);
   const [lastMessage, setLastMessage] = useState("");
   const [lastMessageDate, setLastMessageDate] = useState("");
   const [unreadCount, setUnreadCount] = useState(null);

@@ -1,7 +1,7 @@
-import { useStore } from "effector-react";
+import { useUnit } from "effector-react";
 import React, { useRef } from "react";
 import {
-  HomeStore,
+  $HomeStore,
   onScrollLoaderMessages,
 } from "../../../Home.model";
 
@@ -9,7 +9,7 @@ export const Messages = ({
   messages }: {
     messages: any
   }) => {
-  const homeStore = useStore(HomeStore);
+  const homeStore = useUnit($HomeStore);
   const scrollRef: any = useRef<HTMLDivElement>(null);
 
   return (

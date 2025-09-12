@@ -7,27 +7,30 @@ import voice from "../../../../../assets/mic.png";
 import send from "../../../../../assets/send-message.svg";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { useStore } from "effector-react";
-import { HomeStore } from "../../../Home.model";
-import { DialogsListStore } from "../../../DialogsLIst/DialogsList.model";
+import { useUnit } from "effector-react";
+import { $HomeStore } from "../../../Home.model";
+import { $DialogsListStore } from "../../../DialogsLIst/DialogsList.model";
 import { sendMessageFx } from "../Content.model";
 import { $LoginStore } from "../../../../Auth/Login/Login.model";
 
 export const SendMessage = () => {
   const [inputValue, setInputValue] = useState("");
-  const store = useStore(HomeStore);
-  const authStore = useStore($LoginStore)
-  const dialogsListStore = useStore(DialogsListStore);
+
+  const { homeStore, authStore, dialogsListStore } = useUnit({
+    homeStore: $HomeStore,
+    authStore: $LoginStore,
+    dialogsListStore: $DialogsListStore
+  })
 
   const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" || e.key === "NumpadEnter") {
       e.preventDefault();
-      if (store.currentUser) {
+      if (homeStore.currentUser) {
         sendMessageFx({
-          dialogId: store.currentDialog.id,
+          dialogId: homeStore.currentDialog.id,
           myId: authStore.myUserData.id,
           data: inputValue,
-          userId: store.currentUser.id
+          userId: homeStore.currentUser.id
         });
 
         setInputValue("");
@@ -36,9 +39,9 @@ export const SendMessage = () => {
   };
 
   const SendButtonFunction = () => {
-    store.currentDialog.id && inputValue.trim() !== ""
+    homeStore.currentDialog.id && inputValue.trim() !== ""
       ? sendMessageFx({
-        dialogId: store.currentUser,
+        dialogId: homeStore.currentUser,
         myId: sessionStorage["id"],
         data: inputValue,
       })
