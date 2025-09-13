@@ -4,8 +4,6 @@ import img from '../../../assets/bubble-chat.png';
 import { Post } from "./Post/Post";
 
 export const UserPage = () => {
-
-
     return (
         <div className={styles.wrapper}>
             {/* main image header */}

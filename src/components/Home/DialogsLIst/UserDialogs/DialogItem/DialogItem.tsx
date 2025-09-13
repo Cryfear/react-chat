@@ -8,6 +8,7 @@ import {
   getLastDialogMessage,
   getUnreadedMessagesCount,
 } from "./DialogItem.model";
+import { Link } from "react-router-dom";
 
 export const DialogItem = ({
   avatar,
@@ -59,38 +60,40 @@ export const DialogItem = ({
   const userName = fullName.length > 10 ? fullName.slice(0, 10) : fullName;
 
   return (
-    <div
-      className="dialog__item"
-      onClick={() => {
-        initialiseDialogFx({
-          userId: id,
-          myId: sessionStorage["id"],
-          page: store.currentDialog.page,
-        });
-      }}
-    >
+    <Link className="dialog__item__wrapper" to={`/home/dialogs/${id}`}>
       <div
-        className={classnames(
-          "dialog__item-avatar",
-          isOnline ? "dialog__item-online " : "dialog__item-offline"
-        )}
+        className="dialog__item"
+        onClick={() => {
+          initialiseDialogFx({
+            userId: id,
+            myId: sessionStorage["id"],
+            page: store.currentDialog.page,
+          });
+        }}
       >
-        <img src={avatar} alt="user-img" />
-      </div>
-      <div className="dialog__item-wrapper">
-        <div className="dialog__item-header">
-          <span className="dialog__item-name">{userName}</span>
-          <span className="dialog__item-time">{lastMessageDate}</span>
-        </div>
-        <div className="dialog__item-footer">
-          <span className="dialog__item-text">{convertedLastMessage}</span>
-          {unreadCount === 0 ? (
-            ""
-          ) : (
-            <span className={"dialog__item-unreaded"}>{unreadCount}</span>
+        <div
+          className={classnames(
+            "dialog__item-avatar",
+            isOnline ? "dialog__item-online " : "dialog__item-offline"
           )}
+        >
+          <img src={avatar} alt="user-img" />
+        </div>
+        <div className="dialog__item-wrapper">
+          <div className="dialog__item-header">
+            <span className="dialog__item-name">{userName}</span>
+            <span className="dialog__item-time">{lastMessageDate}</span>
+          </div>
+          <div className="dialog__item-footer">
+            <span className="dialog__item-text">{convertedLastMessage}</span>
+            {unreadCount === 0 ? (
+              ""
+            ) : (
+              <span className={"dialog__item-unreaded"}>{unreadCount}</span>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };

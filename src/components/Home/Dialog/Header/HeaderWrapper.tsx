@@ -17,8 +17,9 @@ export const HeaderWrapper = () => {
     store?.currentUser?.isOnline || dialogsListStore?.potentialDialog?.isOnline
       ? "online"
       : "offline";
+  const userId = store.currentUser && store.currentUser.id ? store.currentUser.id : 'null';
 
   return (
-    <Header userName={userName} isOnline={isOnline} />
+    <Header userName={userName} isOnline={isOnline} userId={userId} />
   );
 };

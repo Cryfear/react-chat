@@ -52,7 +52,7 @@ export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
   return (
     <div className={classNames(isOpen ? "profile" : "profile hidden-content")}>
       <span className="profile__name">{name}</span>
-      <img src={avatar} alt="profile_photo" />
+      <img src={avatar || 'https://sun9-2.userapi.com/impg/c858332/v858332899/1fcca3/9VTd5Flcs4U.jpg?size=604x604&quality=96&sign=f60bfc6262e52d446cd3f29bdf555e0c&type=album'} alt="profile_photo" />
       <div
         className="profile__edit profile__edit-data"
         onClick={() => {

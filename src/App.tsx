@@ -28,11 +28,11 @@ export const  App = () => {
         <Route path="/home/*" element={<Home />} />
         <Route path="/auth/*" element={<Auth />} />
       </Routes>
-      {store.isAuth ? (
+      {/* {store.isAuth ? (
         <Navigate to="/home" />
       ) : (
         <Navigate to="/auth/login" />
-      )}
+      )} */}
     </div>
   );
 };
