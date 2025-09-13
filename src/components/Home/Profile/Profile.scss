@@ -2,21 +2,34 @@
     transition: .2s;
     background-color: white;
     display: block;
-    position: absolute;
     width: 150px;
-    left: -10px;
+    left: 10px;
     top: 75px;
     padding: 10px;
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.342) 1px 0px 10px;
+    text-align: center;
+    width: auto;
+    margin-top: 10px;
+
+    &__logout-button {
+        width: 100% !important;
+        padding: 5px !important;
+        margin-top: 10px !important;
+        border-radius: 5px !important;
+        box-shadow: 0px 0px 12px -6px !important;
+    }
+
     &__save-button {
         width: 100%;
     }
+
     & span {
         word-break: break-all;
         text-align: center;
         display: block;
     }
+
     & img {
         width: 70px;
         height: 70px;
@@ -24,42 +37,54 @@
         display: block;
         margin: 0 auto;
     }
+
     &.hidden-content {
         height: 0;
         overflow: hidden;
         padding: 0 10px;
     }
+
     &__wrapper {
-        margin-top: 10px;
+        margin-top: 25px;
         position: relative;
+        width: 200px;
+        margin-left: 20px;
     }
+
     .trans {
         transition: .2s;
         height: 80px;
     }
+
     .trans-xtwo {
         height: 125px;
     }
+
     .hidden-profile-content {
         height: 0;
         overflow: hidden;
     }
+
     &__edit {
         margin-top: 7px;
         margin-bottom: 7px;
         color: rgb(91, 152, 209);
         cursor: pointer;
+
         &-photo {
             margin-bottom: 7px;
+
             .trans {
                 height: 80px;
             }
         }
     }
+
     &__name {
         display: block;
         margin-bottom: 7px;
     }
+
     .change__photo {
         width: 100%;
         box-sizing: border-box;
@@ -67,15 +92,18 @@
         margin-top: 7px;
         margin-bottom: 7px;
     }
+
     .change__password:last-child {
         margin-bottom: 20px;
     }
+
     & input {
         width: 100%;
         box-sizing: border-box;
         margin-top: 7px;
         margin-bottom: 7px;
     }
+
     &__show-button {
         border: none;
         background: none;
@@ -84,9 +112,11 @@
         position: relative;
         top: 0;
         transition: 0.1s;
+
         & span {
             transition: 0.2s;
             color: rgba(255, 255, 255, 0);
+
             &::before {
                 content: "";
                 display: block;
@@ -101,6 +131,7 @@
                 top: 0;
             }
         }
+
         &:hover {
             & span {
                 color: rgb(91, 152, 209);
@@ -113,9 +144,11 @@
     .profile {
         display: inline-block;
         left: -30px;
+
         &__show-button {
             padding: 0;
         }
+
         &__wrapper {
             margin-top: 0;
             display: inline-block;
@@ -127,6 +160,7 @@
     &-success {
         color: green;
     }
+
     &-fail {
         color: red;
     }

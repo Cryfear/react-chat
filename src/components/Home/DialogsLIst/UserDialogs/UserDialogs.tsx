@@ -10,8 +10,6 @@ export const UserDialogs = ({
   Users: React.ReactNode 
   Dialogs: React.ReactNode
 }) => {
-  console.log(Users);
-  console.log(Dialogs)
   return (
     <div className="dialogs">
       {isUserSearch ? (

@@ -5,6 +5,7 @@ import { logoutFx } from "../../Auth/Login/Login.model";
 import { FileUpload } from "./FileUpload/FileUpload";
 import { Link } from "react-router-dom";
 import { OpenedProfileTypes } from "../Home.types";
+import { Button } from "@radix-ui/themes";
 
 type statusType = "changed!" | null | "fail.";
 
@@ -143,10 +144,12 @@ export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
         </div>
       </div>
       <Link to="/home">
-        <button onClick={() => {
+        <Button onClick={() => {
           // navigate('/home');
           logoutFx();
-        }} className="profile__logout-button">Logout</button>
+        }} className="profile__logout-button" color="crimson" variant="soft">
+          Logout
+        </Button>
       </Link >
     </div>
 

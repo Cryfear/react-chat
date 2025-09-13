@@ -54,7 +54,7 @@ export const DialogsList = () => {
   );
 
   return (
-    <div>
+    <div className="dialogs-list__wrapper">
       {appStore.isMobileVersion ? <ShowHideButton/> : null}
       <div className={DialogsListClass} onScroll={onScrollLoaderFunction}>
         <Header/>

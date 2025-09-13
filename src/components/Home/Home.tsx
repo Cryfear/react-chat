@@ -6,15 +6,19 @@ import { DialogsList } from "./DialogsLIst/DialogsList";
 
 import "./Home.scss";
 import { Profile } from "./Profile/Profile";
+import { UserPage } from "./UserPage/UserPage";
 
 export const Home = () => {
   const appStore = useUnit($AppStore);
 
   return (
-      <section className="home">
+    <section className="home">
       <DialogsList />
-      <Dialog />
-      {!appStore.isMobileVersion ? <Profile /> : null}
+      {true ? <UserPage /> : <Dialog />} 
+      {/* если человек заходит в свой профиль или чужой, то отображаем профиль и убираем окно диалога*/}
+
+      {appStore.isMobileVersion ? null : <Profile />} 
+      {/* если это мобильная версия, то не занимаем место профилем */}
     </section>
   );
 };

@@ -56,6 +56,8 @@ export const DialogItem = ({
       ? lastMessage.substr(0, 9) + "..."
       : lastMessage;
 
+  const userName = fullName.length > 10 ? fullName.slice(0, 10) : fullName;
+
   return (
     <div
       className="dialog__item"
@@ -77,7 +79,7 @@ export const DialogItem = ({
       </div>
       <div className="dialog__item-wrapper">
         <div className="dialog__item-header">
-          <span className="dialog__item-name">{fullName}</span>
+          <span className="dialog__item-name">{userName}</span>
           <span className="dialog__item-time">{lastMessageDate}</span>
         </div>
         <div className="dialog__item-footer">
