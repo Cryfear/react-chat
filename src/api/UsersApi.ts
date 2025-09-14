@@ -64,15 +64,13 @@ export const UsersApi = {
   },
   changeUserPhoto(formData: FormData) {
     return instance
-      .post("http://localhost:8888/users/uploadAvatar", formData, {
+      .post("/users/uploadAvatar", formData, {
         headers: {
           'email': sessionStorage["email"],
           "auth-token": sessionStorage["auth-token"],
           "id": sessionStorage['id'],
-          "Content-Type": "multipart/form-data",
         },
       })
       .then(data => data.data)
-      .catch((err) => console.log(err));
   },
 };

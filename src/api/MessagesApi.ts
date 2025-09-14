@@ -12,7 +12,6 @@ export const MessagesApi = {
       .catch((err) => err);
   },
   create(values: { dialogId: string, userId?: string, myId: string, data: string }) {
-    console.log(values);
     return instance
       .post("/messages/create", { ...values }, {
         headers: {
@@ -43,7 +42,6 @@ export const MessagesApi = {
       .catch((err) => err);
   },
   getUnreadedMessagesWithData(values: { dialogId: string, userId: string, unreadedPage: number }) {
-    console.log(values);
     return instance
       .post("/messages/unreadedWithData", { ...values }, {
         headers: {

@@ -9,8 +9,6 @@ export const sendMessageFx = createEffect(
     if (dialogId) { // если диалог уже есть с собеседником
       const message = await MessagesApi.create({ dialogId, myId, data });
 
-      console.log(message);
-
       socket.emit("qqq", {
         content: message.data,
         to: message.data.creater === myId ? myId : userId,
@@ -21,13 +19,10 @@ export const sendMessageFx = createEffect(
       return message.data;
     } else { // если диалог нужно создать
       let dialogIdRes = null;
-      console.log(myId, userId)
 
       if (userId) {
         dialogIdRes = await createDialogFx({ id1: myId, id2: userId })
       }
-
-      console.log(dialogIdRes)
 
       if (userId) await initialiseDialogFx({ userId, myId, page: 0 });
 

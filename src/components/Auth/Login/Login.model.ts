@@ -19,18 +19,16 @@ export const $LoginStore = createStore<LoginStoreTypes>({
 });
 
 export const uploadFileFx = createEffect<File | null, { success: boolean; avatar?: string }, Error>(async (file) => {
-    if (!file) {
+  if (!file) {
     console.warn("Файл не выбран!");
     return;
   }
 
   const formData = new FormData();
   formData.append("file", file);
-    
-  const data = await UsersApi.changeUserPhoto(formData);
 
-  return data;
-  });
+  return await UsersApi.changeUserPhoto(formData);
+});
 
 export const isLoginFx = createEffect(async ({ email, authToken }: { email: string, authToken: string }) => {
   const isInvalidAuth =

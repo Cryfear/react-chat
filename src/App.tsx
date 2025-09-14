@@ -10,7 +10,7 @@ import { Navigate, Route, Routes } from "react-router";
 import { useUnit } from "effector-react";
 import { $LoginStore, isLoginFx } from "./components/Auth/Login/Login.model";
 
-export const  App = () => {
+export const App = () => {
   const store = useUnit($LoginStore);
 
   useEffect(() => {
@@ -28,11 +28,7 @@ export const  App = () => {
         <Route path="/home/*" element={<Home />} />
         <Route path="/auth/*" element={<Auth />} />
       </Routes>
-      {/* {store.isAuth ? (
-        <Navigate to="/home" />
-      ) : (
-        <Navigate to="/auth/login" />
-      )} */}
+      {!store.isAuth && <Navigate to="/auth/login" />}
     </div>
   );
 };
