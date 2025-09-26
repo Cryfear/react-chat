@@ -21,7 +21,7 @@ export const Post = (props: { creater: any, owner: any, id: string, date: Date, 
     return (
         <div className={styles.post_wrapper}>
             <img className={styles.post_avatar} src={props.creater.avatar} alt="avataruser" />
-            <div>
+            <div className={styles.post_wrapper_container}>
                 <div className={styles.post_row}>
                     <span className={styles.post_username}>{props.creater.fullName}</span>
                     <span className={styles.post_date}>{new Date(props.date).toLocaleDateString()}</span>

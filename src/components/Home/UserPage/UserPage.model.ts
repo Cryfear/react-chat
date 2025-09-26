@@ -5,9 +5,11 @@ export const findPostsFx = createEffect(async (id: string): Promise<any> => {
     return await ProfilesApi.findPosts(id);
 })
 
-export const createPostFx = createEffect(async ({id, content, creater}: {id: string, content: string, creater: string}) => {
-    if(content.length < 1) return false;
-    ProfilesApi.createPost({ id, content, date: new Date(), creater})
+export const createPostFx = createEffect(async ({ id, content, creater }: { id: string, content: string, creater: string }): Promise<any> => {
+    if (content.length < 1) return false;
+    
+    await ProfilesApi.createPost({ id, content, date: new Date(), creater });
+    findPostsFx(id);
 })
 
 export const $posts = createStore([]);
@@ -15,7 +17,7 @@ export const $posts = createStore([]);
 sample({
     clock: findPostsFx.doneData,
     target: $posts
-})
+});
 
 export const findProfileFx = createEffect(async (userId: string) => {
     return await ProfilesApi.findProfile(userId);

@@ -9,24 +9,25 @@ import { Profile } from "./Profile/Profile";
 import { UserPage } from "./UserPage/UserPage";
 import { Route, Routes } from "react-router";
 import { HelloDialog } from "./Dialog/HelloDialog";
-import { $HomeStore } from "./Home.model";
 import { $UserPageStore } from "./UserPage/UserPage.model";
+import { $DialogsListStore } from "./DialogsLIst/DialogsList.model";
+import { $HomeStore } from "./Home.model";
 
 export const Home = () => {
-  const {appStore, homeStore} = useUnit({ appStore: $AppStore, homeStore: $HomeStore });
+  const {appStore, dialogsStore} = useUnit({ appStore: $AppStore, dialogsStore: $DialogsListStore });
   const userPageStore = useUnit($UserPageStore);
+  const homeStore = useUnit($HomeStore);
 
   return (
     <section className="home">
       <DialogsList />
-      {!homeStore.isInitialisedDialog && !userPageStore.user ? <HelloDialog /> : null}
+      {!dialogsStore.potentialDialog && !userPageStore.user && !dialogsStore.potentialDialog && !homeStore.currentDialog ? <HelloDialog /> : null}
       <Routes>
         <Route path="/dialogs/*" element={<Dialog />} />
         <Route path="/profile/*" element={<UserPage />} />
       </Routes>
 
       {appStore.isMobileVersion ? null : <Profile />}
-      {/* если это мобильная версия, то не занимаем место профилем */}
     </section>
   );
 };

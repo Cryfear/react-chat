@@ -1,4 +1,4 @@
-import { createDialogFx } from "../../DialogsLIst/DialogsList.model";
+import { createDialogFx, DialogsLoaderFx } from "../../DialogsLIst/DialogsList.model";
 import { messageSentSwitcher, initialiseDialogFx } from "../../Home.model";
 import { socket } from "../../../../socket";
 import { MessagesApi } from "../../../../api/MessagesApi";
@@ -31,6 +31,9 @@ export const sendMessageFx = createEffect(
         myId,
         data,
       });
+
+      const dio = await DialogsLoaderFx({id: sessionStorage['id'], page: 0});
+      console.log(dio);
 
       socket.emit("qqq", {
         content: message.data,

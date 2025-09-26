@@ -14,6 +14,14 @@ import { useLocation } from "react-router";
 export const App = () => {
   const store = useUnit($LoginStore);
   const location = useLocation();
+  const allowedPathsWithoutAuth = [
+    '/auth',
+    '/home/profile/'
+  ];
+
+  const shouldRedirect = !store.isAuth && 
+    store.isChecked && 
+    !allowedPathsWithoutAuth.some(path => location.pathname.startsWith(path));
 
   useEffect(() => {
     if (!store.isChecked) {
@@ -24,14 +32,7 @@ export const App = () => {
     }
   }, [store.isChecked]);
 
-  const allowedPathsWithoutAuth = [
-    '/auth',
-    '/home/profile/'
-  ];
-
-  const shouldRedirect = !store.isAuth && 
-    store.isChecked && 
-    !allowedPathsWithoutAuth.some(path => location.pathname.startsWith(path));
+  
 
   return (
     <div className="app">

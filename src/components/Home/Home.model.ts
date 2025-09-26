@@ -208,10 +208,10 @@ export const $HomeStore = createStore<HomeStoreTypes>({
         },
         loadedDialog: false,
         currentUser: {
-          name: data.user.name,
+          name: data.user.fullName,
           id: data.user.id,
-          avatar: data.user.fullName,
-          isOnline: data.user.inOnline,
+          avatar: data.user.avatar,
+          isOnline: data.user.isOnline,
         }
       };
     }

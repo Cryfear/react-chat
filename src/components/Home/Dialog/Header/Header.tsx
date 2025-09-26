@@ -4,7 +4,6 @@ import "./Header.scss";
 import { findProfileFx } from "../../UserPage/UserPage.model";
 import { Link } from "react-router-dom";
 
-
 export const Header = (props: { userName: string | undefined, isOnline: string, userId: string }) => {
   return (
     <div className="dialog__header">

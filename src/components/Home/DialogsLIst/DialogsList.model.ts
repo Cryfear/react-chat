@@ -18,6 +18,7 @@ export const readyToCreateDialogFx = createEffect(async ({ user, myId }: {
   myId: string
 }) => {
   const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
+  
   if (dialog.data) {
     await initialiseDialogFx({
       userId: user.id,
@@ -121,7 +122,7 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
   })
   .on(DialogsLoaderFx.doneData, (state, { data, page, unConvertedDialogs }): any => {
     if (!state.initialisedDialogs) {
-      return {
+      return { // here s a problem, very unflexible redux type code, no way
         ...state,
         dialogs: data,
         unConvertedDialogs: unConvertedDialogs,
@@ -173,6 +174,7 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
     status: string
   }): any => {
     if (data && data?.status === "potentical") {
+      console.log('we must be here');
       return {
         ...state,
         potentialDialog: {

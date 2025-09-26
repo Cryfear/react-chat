@@ -8,8 +8,6 @@ export const Posts = () => {
   const postsStore = useUnit($posts);
   const postsJsx = useCreatingPostsList(postsStore);
 
-  console.log(postsStore);
-
   return (
     <div className={styles.posts}>
       <div>{postsJsx}</div>
