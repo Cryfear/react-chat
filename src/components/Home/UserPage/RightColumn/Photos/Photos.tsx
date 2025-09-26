@@ -1,4 +1,4 @@
-import styles from '../UserPage.module.css';
+import styles from '../../UserPage.module.css';
 import React from 'react';
 import { Photo } from './Photo/Photo';
 

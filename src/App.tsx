@@ -9,9 +9,11 @@ import "./styles/index.scss";
 import { Navigate, Route, Routes } from "react-router";
 import { useUnit } from "effector-react";
 import { $LoginStore, isLoginFx } from "./components/Auth/Login/Login.model";
+import { useLocation } from "react-router";
 
 export const App = () => {
   const store = useUnit($LoginStore);
+  const location = useLocation();
 
   useEffect(() => {
     if (!store.isChecked) {
@@ -22,13 +24,22 @@ export const App = () => {
     }
   }, [store.isChecked]);
 
+  const allowedPathsWithoutAuth = [
+    '/auth',
+    '/home/profile/'
+  ];
+
+  const shouldRedirect = !store.isAuth && 
+    store.isChecked && 
+    !allowedPathsWithoutAuth.some(path => location.pathname.startsWith(path));
+
   return (
     <div className="app">
       <Routes>
         <Route path="/home/*" element={<Home />} />
         <Route path="/auth/*" element={<Auth />} />
       </Routes>
-      {!store.isAuth && <Navigate to="/auth/login" />}
+      {shouldRedirect && <Navigate to="/auth/login" />}
     </div>
   );
 };

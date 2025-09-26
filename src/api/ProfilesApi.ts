@@ -1,13 +1,13 @@
 import instance from './api';
 
 export const ProfilesApi = {
-    findProfile(id: string) {
-        return instance.get(`/profile/${id}`).then(data => data);
+    findProfile(id: string | null | undefined) {
+        if (id) return instance.get(`/profile/${id}`);
     },
-    createPost(values: {id: string, content: string, date: Date, likes: {count: number, likedUsers: []}, creater: string}) {
-        return instance.post('/profile/createPost', values).then(data => data)
+    createPost(values: { id: string | null | undefined, content: string, date: Date, creater: string }) {
+        if(values.id)  return instance.post('/profile/createPost', values)
     },
-    findPosts(id: any) {
-        return instance.get('/profile/posts/'+ id);
+    findPosts(id: string) {
+        return instance.get('/profile/posts/' + id);
     }
 }

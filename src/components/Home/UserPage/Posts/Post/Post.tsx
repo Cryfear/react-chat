@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from '../UserPage.module.css';
-import likesvg from '../../../../assets/like-svgrepo-com.svg';
-import emptylike from '../../../../assets/like-svgrepo-com (1).svg'
+import styles from '../../UserPage.module.css';
+import likesvg from '../../../../../assets/like-svgrepo-com.svg';
+import emptylike from '../../../../../assets/like-svgrepo-com (1).svg'
 
 export const Post = (props: { creater: any, owner: any, id: string, date: Date, content: string, likes: any, comments: any }) => {
 
@@ -24,7 +24,7 @@ export const Post = (props: { creater: any, owner: any, id: string, date: Date, 
             <div>
                 <div className={styles.post_row}>
                     <span className={styles.post_username}>{props.creater.fullName}</span>
-                    <span className={styles.post_date}>{props.date.toString()}</span>
+                    <span className={styles.post_date}>{new Date(props.date).toLocaleDateString()}</span>
                 </div>
                 <div>
                     <div className={styles.post_content}>
