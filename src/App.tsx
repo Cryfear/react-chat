@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect} from "react";
 
 import { Auth } from "./components/Auth/Auth";
 import { Home } from "./components/Home/Home";
@@ -19,8 +19,8 @@ export const App = () => {
     '/home/profile/'
   ];
 
-  const shouldRedirect = !store.isAuth && 
-    store.isChecked && 
+  const shouldRedirect = !store.isAuth &&
+    store.isChecked &&
     !allowedPathsWithoutAuth.some(path => location.pathname.startsWith(path));
 
   useEffect(() => {
@@ -28,11 +28,9 @@ export const App = () => {
       isLoginFx({
         email: sessionStorage["email"],
         authToken: sessionStorage["auth-token"],
-      }).then((data) => data).catch(err => err);
+      })
     }
   }, [store.isChecked]);
-
-  
 
   return (
     <div className="app">

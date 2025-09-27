@@ -1,22 +1,14 @@
-import {createEffect, createStore} from "effector";
+import { createEvent, createStore, sample } from "effector";
 
-export const isMobileVersionChanger = createEffect((boolean: boolean) => {
-  return boolean;
-});
+export const isMobileVersionChanger = createEvent<boolean>();
 
-type AppStoreTypes = {
-  isMobileVersion: boolean;
-}
-
-export const $AppStore = createStore<AppStoreTypes>({
+export const $AppStore = createStore({
   isMobileVersion: false
 })
-  .on(isMobileVersionChanger.doneData, (state, boolean) => {
-    if (state.isMobileVersion !== boolean) {
-      return {
-        ...state,
-        isMobileVersion: boolean,
-      };
-    }
-    return state;
-  })
+
+sample({
+  clock: isMobileVersionChanger,
+  source: $AppStore,
+  fn: (_, value: boolean) => ({ isMobileVersion: value }),
+  target: $AppStore
+})

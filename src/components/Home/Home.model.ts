@@ -1,5 +1,5 @@
 import { getUsersBySearch } from "./DialogsLIst/SearchDialogs/SearchDialogs";
-import { createEffect, createStore } from "effector";
+import { createEffect, createEvent, createStore, sample } from "effector";
 import { DialogsApi } from "../../api/DialogsApi";
 import { MessagesApi } from "../../api/MessagesApi";
 import { UsersApi } from "../../api/UsersApi";
@@ -12,23 +12,46 @@ import {
   dialogPromiseType,
   HomeStoreTypes,
   initDialogTypes,
-  initialiseDialogFxTypes, messageType,
+  initialiseDialogFxTypes,
   onScrollLoaderMessagesTypes,
   unreadMesssagesFxTypes
 } from "./Home.types";
+import { socketGetMessage } from "../../socket";
 
-export const socketGetMessage = createEffect((msg: messageType) => {
-  if (msg) {
-    return {
-      dialogId: msg.content.dialog._id,
-      messageCreater: msg,
-      messageOpponent: msg.to,
-      messageDate: msg.content.date,
-      message: msg.content,
-      isReaded: msg.content.isReaded,
-      messageId: msg.content._id,
-    };
-  }
+export const $HomeStore = createStore<HomeStoreTypes>({
+  isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
+  loadedDialog: false, // отвечает за инициализацию выбранного диалога, то есть первоначальная загрузка
+  isDialogFullLoaded: false, // долистали ли мы до конца сообщений, чтобы не отправлять лишние запросы
+  currentUser: null,  // это собеседник
+  currentDialog: {  // текущий диалог
+    id: "",
+    isTyping: false, // печатает ли нам собеседник
+    page: 0,
+    unreadedPage: 0
+  },
+  currentDialogMessages: [],
+  messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
+})
+
+export const dialogLoaded = createEvent(); 
+// нужен, когда мы находимся уже на урле диалога, чтобы зафиксировать и отреагировать на загрузку этого диалога
+
+export const loadDialogFx = createEffect(async (id: string): Promise<void> => {
+  const user = await UsersApi.findUser(id);
+  await readyToCreateDialogFx({ myId: sessionStorage['id'], user: user.data });
+  dialogLoaded();
+})
+
+sample({
+  clock: dialogLoaded,
+  source: $HomeStore,
+  fn: (state) => ({
+    ...state, currentDialog: {
+      ...state.currentDialog,
+      page: 1
+    }
+  }),
+  target: $HomeStore,
 });
 
 export const setUnreadMessagesFx = createEffect(
@@ -49,6 +72,7 @@ export const initialiseDialogFx = createEffect(
     myId,
     page,
   }: initDialogTypes) => {
+    console.log(userId, myId, page)
     const dialog: dialogPromiseType = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({
@@ -101,44 +125,30 @@ export const onScrollLoaderMessages = createEffect(
 
 export const messageSentSwitcher = createEffect(() => true);
 
-export const $HomeStore = createStore<HomeStoreTypes>({
-  isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
-  loadedDialog: false, // отвечает за инициализацию выбранного диалога, то есть первоначальная загрузка
-  isDialogFullLoaded: false, // долистали ли мы до конца сообщений, чтобы не отправлять лишние запросы
-  currentUser: null,  // это собеседник
-  currentDialog: {  // текущий диалог
-    id: "",
-    isTyping: false, // печатает ли нам собеседник
-    page: 0,
-    unreadedPage: 0
-  },
-  currentDialogMessages: [],
-  messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
+$HomeStore.on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes): any => {
+  if (data) {
+    return {
+      loadedDialog: false, // открыт ли диалог сейчас
+      messageSent: false,
+      currentUser: {
+        name: data.name,
+        id: data.userId,
+        avatar: data.avatar,
+        isOnline: data.isOnline,
+      },
+      currentDialog: {
+        id: data.currentDialogID,
+        isTyping: data.currentDialogTyping,
+        page: 1,
+        unreadedPage: 0,
+        opponentId: data.currentDialogOpponentId,
+      },
+      currentDialogMessages: data.currentDialogMessages,
+      isInitialisedDialog: true,
+    };
+  }
+  return state;
 })
-  .on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes): any => {
-    if (data) {
-      return {
-        loadedDialog: false, // открыт ли диалог сейчас
-        messageSent: false,
-        currentUser: {
-          name: data.name,
-          id: data.userId,
-          avatar: data.avatar,
-          isOnline: data.isOnline,
-        },
-        currentDialog: {
-          id: data.currentDialogID,
-          isTyping: data.currentDialogTyping,
-          page: 1,
-          unreadedPage: 0,
-          opponentId: data.currentDialogOpponentId,
-        },
-        currentDialogMessages: data.currentDialogMessages,
-        isInitialisedDialog: true,
-      };
-    }
-    return state;
-  })
   .on(sendMessageFx.doneData, (state, data): any => {
     return {
       ...state,

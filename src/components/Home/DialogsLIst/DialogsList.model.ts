@@ -18,7 +18,7 @@ export const readyToCreateDialogFx = createEffect(async ({ user, myId }: {
   myId: string
 }) => {
   const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
-  
+
   if (dialog.data) {
     await initialiseDialogFx({
       userId: user.id,
