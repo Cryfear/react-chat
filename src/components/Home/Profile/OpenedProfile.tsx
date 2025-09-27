@@ -10,7 +10,6 @@ import { Button } from "@radix-ui/themes";
 type statusType = "changed!" | null | "fail.";
 
 export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
-  //let navigate = useNavigate();
   const [isChangingName, setIsChangingName] = useState(false);
   const [isChangingPhoto, setIsChangingPhoto] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -145,13 +144,13 @@ export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
       </div>
       <Link to="/home">
         <Button onClick={() => {
-          // navigate('/home');
           logoutFx();
+          sessionStorage.clear();
+          window.location.href = '/auth/login';
         }} className="profile__logout-button" color="crimson" variant="soft">
           Logout
         </Button>
       </Link >
     </div>
-
   );
 };

@@ -6,7 +6,7 @@ export const findPostsFx = createEffect(async (id: string): Promise<any> => {
 })
 
 export const createPostFx = createEffect(async ({ id, content, creater }: { id: string, content: string, creater: string }): Promise<any> => {
-    if (content.length < 1) return false;
+    if (content.length < 1) return false; // если инпут пришел пустой не отправлять запрос на сервер
     
     await ProfilesApi.createPost({ id, content, date: new Date(), creater });
     findPostsFx(id);

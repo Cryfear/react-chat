@@ -26,8 +26,8 @@ export const $HomeStore = createStore<HomeStoreTypes>({
   currentDialog: {  // текущий диалог
     id: "",
     isTyping: false, // печатает ли нам собеседник
-    page: 0,
-    unreadedPage: 0
+    page: 0, // страница сообщений
+    unreadedPage: 0 // ????
   },
   currentDialogMessages: [],
   messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
@@ -72,7 +72,6 @@ export const initialiseDialogFx = createEffect(
     myId,
     page,
   }: initDialogTypes) => {
-    console.log(userId, myId, page)
     const dialog: dialogPromiseType = await DialogsApi.find({ id_1: userId, id_2: myId });
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({

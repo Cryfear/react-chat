@@ -36,20 +36,14 @@ export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string, p
 
   const Users = await Promise.all(
     myDialogs.data.map(async (dialog: any) => {
-      if (dialog && dialog.users[0] && dialog.users[1]) {
-        return dialog.users[0] !== id
-          ? await UsersApi.findUser(dialog.users[0])
-          : await UsersApi.findUser(dialog.users[1]);
-      }
-      return null;
+      return dialog.users[0] !== id
+        ? await UsersApi.findUser(dialog.users[0])
+        : await UsersApi.findUser(dialog.users[1]);
     })
   );
 
   return {
-    data: Users.map((user) => {
-      if (user.data !== undefined) return user.data;
-      return null;
-    }),
+    data: Users.map(user => user.data),
     unConvertedDialogs: myDialogs.data,
     page: page,
   };

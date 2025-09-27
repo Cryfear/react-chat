@@ -1,19 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from '../UserPage.module.css';
 import { useUnit } from "effector-react";
 import { Photos } from "../RightColumn/Photos/Photos";
-import { $UserPageStore, findPostsFx, findProfileFx } from "../UserPage.model";
-import { useParams } from "react-router";
+import { $UserPageStore } from "../UserPage.model";
 
 export const LeftColumn = () => {
   const userPageStore = useUnit($UserPageStore);
-
-  const id = useParams()["*"]?.slice(3);
-
-  useEffect(() => {
-    if (id) findProfileFx(id);
-    if (id) findPostsFx(id);
-  }, [id]);
 
   return (
     <div className={styles.left_column}>

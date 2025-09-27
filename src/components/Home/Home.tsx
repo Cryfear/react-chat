@@ -9,7 +9,7 @@ import { Profile } from "./Profile/Profile";
 import { UserPage } from "./UserPage/UserPage";
 import { Route, Routes } from "react-router";
 import { HelloDialog } from "./Dialog/HelloDialog";
-import { $UserPageStore } from "./UserPage/UserPage.model";
+import { $UserPageStore, findPostsFx, findProfileFx } from "./UserPage/UserPage.model";
 import { $DialogsListStore } from "./DialogsLIst/DialogsList.model";
 import { $HomeStore, initialiseDialogFx, loadDialogFx } from "./Home.model";
 import { useParams } from "react-router";
@@ -20,26 +20,39 @@ export const Home = () => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  const id: any = useParams()['*']?.replace('dialogs/', '');
+  let id: any = useParams()['*'];
 
-  const [dialogLoader, setDialogLoader] = useState(false);
-
+  // здесь происходит загрузка профиля или диалога, в зависимости от того, где находится пользователь выполняется запрос
   useEffect(() => {
-    if (!dialogLoader && id) {
-      loadDialogFx(id).then(() => setDialogLoader(true));
-      initialiseDialogFx({ userId: id, myId: sessionStorage['id'], page: 0 }).finally(() => {
+    if (isLoading) {
+      if (id.includes('dialogs/')) {
+        const idReplaced = id.replace('dialogs/', '');
+
+        loadDialogFx(idReplaced).then(() => {
+          initialiseDialogFx({ userId: idReplaced, myId: sessionStorage['id'], page: 0 }).finally(() => {
+            setIsLoading(false);
+          });
+        });
+      }
+      else if (id.includes('profile/')) {
+        const idReplaced = id.replace('profile/:id', '');
+
+        if (idReplaced) findProfileFx(idReplaced);
+        if (idReplaced) findPostsFx(idReplaced).then(() => setIsLoading(false));
+
+      }
+      else {
         setIsLoading(false);
-      });
+      }
     }
-    setDialogLoader(true);
-  }, [id, dialogLoader])
+  }, [id, isLoading])
 
   if (isLoading) {
     return (
       <div className="app-loading">
         <div className="loading-spinner">
           <div className="spinner"></div>
-          <p>Загрузка...</p>
+          <p>Loading...</p>
         </div>
       </div>
     );
