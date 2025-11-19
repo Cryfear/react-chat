@@ -1,18 +1,22 @@
 .content {
-  padding: 50px;
   padding-top: 0;
   box-sizing: border-box;
   height: 90%;
   position: relative;
+  display: flex;
+  flex-flow: column;
 
   &__messages {
     position: relative;
-    height: 95%;
+    height: 85%;
     overflow-x: hidden;
     display: flex;
     padding-right: 10px;
     flex-flow: column-reverse;
     padding-top: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-bottom: auto;
   }
 
   &__arrow-to-bottom {

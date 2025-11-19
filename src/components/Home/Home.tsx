@@ -26,7 +26,7 @@ export const Home = () => {
   useEffect(() => {
     if (isLoading) {
       if (id.includes('dialogs/')) {
-        const idReplaced = id.replace('dialogs/', '');
+        const idReplaced = id.replace('dialogs/', '')
 
         loadDialogFx(idReplaced).then(() => {
           initialiseDialogFx({ userId: idReplaced, myId: sessionStorage['id'], page: 0 }).finally(() => {
@@ -45,7 +45,7 @@ export const Home = () => {
         setIsLoading(false);
       }
     }
-  }, [id, isLoading])
+  }, [id, isLoading, homeStore])
 
   if (isLoading) {
     return (

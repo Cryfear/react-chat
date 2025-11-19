@@ -2,9 +2,7 @@ import React from "react";
 
 import "./MessagesTypes.scss";
 import { useUnit } from "effector-react";
-import {
-  $HomeStore,
-} from "../../../Home.model";
+import { $HomeStore } from "../../../Home.model";
 
 import { useRef } from "react";
 import { EmptyDialog } from "../EmptyDialog/EmptyDialog";
@@ -27,9 +25,5 @@ export const MessagesContainer = () => {
     authStore.myUserData.id
   );
 
-  return isEmptyDialog ?
-    <EmptyDialog />
-    :
-    <Messages messages={messages} />
-
+  return isEmptyDialog ? <EmptyDialog /> : <Messages messages={messages} />;
 };

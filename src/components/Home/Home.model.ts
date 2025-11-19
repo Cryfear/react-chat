@@ -111,7 +111,7 @@ export const onScrollLoaderMessages = createEffect(
       ) {
         const mes = await MessagesApi.getDialogMessages({ dialogId, page, myId });
         if (mes.data.length === 0) {
-          return { responseCode: 'dialog end, there no messages up' };
+          return { responseCode: 'dialog end' };
         }
         return {
           messages: mes.data,
@@ -155,7 +155,7 @@ $HomeStore.on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes
     };
   })
   .on(onScrollLoaderMessages.doneData, (state, data): any => {
-    if (data && data.responseCode === 'dialog end, there no messages up') { return { ...state, isDialogFullLoaded: true } }
+    if (data && data.responseCode === 'dialog end') { return { ...state, isDialogFullLoaded: true } }
     if (data && data.messages) {
       if (!state.loadedDialog) {
         return {
