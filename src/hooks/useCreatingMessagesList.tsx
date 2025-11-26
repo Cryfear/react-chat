@@ -10,11 +10,11 @@ export const creatingMessagesList = (
   return messages.map((item: MessageType, index: number) => {
     const isLastMessage = index === messages.length - 1;
 
-    return <div key={item._id} ref={isLastMessage ? onSendScrollRef : undefined}>
+    return item ? <div key={item._id} ref={isLastMessage ? onSendScrollRef : undefined}>
       <MessageItem
         {...item}
         mine={item.creater === myId}
       />
-    </div>
+    </div> : null
   })
 };

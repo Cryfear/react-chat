@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
 import { useUnit } from "effector-react";
-
 import { Header } from "./Header/Header";
 import { SearchDialogs } from "./SearchDialogs/SearchDialogs";
-
 import "./DialogsList.scss";
 import classNames from "classnames";
-
 import {
   $DialogsListStore,
   DialogsLoaderFx,
   onScrollUsersLoaderFx,
   onScrollDialogsLoaderFx,
 } from "./DialogsList.model";
-
 import { UserDialogsContainer } from "./UserDialogs/UserDialogsContainer";
 import { $AppStore, isMobileVersionChanger } from "../../../App.model";
 import { ShowHideButton } from "./Show-hide-button/Show-hide-button";

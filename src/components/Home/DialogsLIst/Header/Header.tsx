@@ -3,7 +3,7 @@ import React from "react";
 import "./Header.scss";
 import pencil from "../../../../assets/pencil.svg";
 import people from "../../../../assets/people.svg";
-import { SwitchSearch, UsersLoaderFx } from "../DialogsList.model";
+import { UsersLoaderFx } from "../DialogsList.model";
 import { Profile } from "../../Profile/Profile";
 import { useUnit } from "effector-react";
 import {$AppStore} from "../../../../App.model";
@@ -19,7 +19,6 @@ export const Header = () => {
       {appStore.isMobileVersion ? <span><Profile /></span> : null}
       <button
         onClick={() => {
-          SwitchSearch();
           UsersLoaderFx(0);
         }}
         className="list-header__button"

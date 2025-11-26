@@ -3,20 +3,18 @@ import React, { useEffect, useState } from "react";
 import { $AppStore } from "../../App.model";
 import { Dialog } from "./Dialog/Dialog";
 import { DialogsList } from "./DialogsLIst/DialogsList";
-
 import "./Home.scss";
 import { Profile } from "./Profile/Profile";
 import { UserPage } from "./UserPage/UserPage";
 import { Route, Routes } from "react-router";
 import { HelloDialog } from "./Dialog/HelloDialog";
 import { $UserPageStore, findPostsFx, findProfileFx } from "./UserPage/UserPage.model";
-import { $DialogsListStore } from "./DialogsLIst/DialogsList.model";
 import { $HomeStore, initialiseDialogFx, loadDialogFx } from "./Home.model";
 import { useParams } from "react-router";
 
 export const Home = () => {
-  const { appStore, dialogsStore, userPageStore, homeStore } = useUnit(
-    { appStore: $AppStore, dialogsStore: $DialogsListStore, userPageStore: $UserPageStore, homeStore: $HomeStore }
+  const { appStore, userPageStore, homeStore } = useUnit(
+    { appStore: $AppStore, userPageStore: $UserPageStore, homeStore: $HomeStore }
   );
 
   const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +59,7 @@ export const Home = () => {
   return (
     <section className="home">
       <DialogsList />
-      {!dialogsStore.potentialDialog && !userPageStore.user && !homeStore.currentDialog.id ? <HelloDialog /> : null}
+      {!userPageStore.user && !homeStore.currentDialog.id ? <HelloDialog /> : null}
       <Routes>
         <Route path="/dialogs/*" element={<Dialog />} />
         <Route path="/profile/*" element={<UserPage />} />

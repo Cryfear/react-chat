@@ -11,10 +11,6 @@ export const createDialogFx = createEffect(
   }
 );
 
-export const SwitchSearch = createEffect(() => {
-  return "clicked";
-});
-
 export const readyToCreateDialogFx = createEffect(
   async ({ user, myId }: { user: usersType; myId: string }) => {
     const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
@@ -26,15 +22,13 @@ export const readyToCreateDialogFx = createEffect(
         page: 0,
       });
       return { status: "success", user };
-    } else {
-      return { status: "potentical", user };
     }
   }
 );
 
 export const DialogsLoaderFx = createEffect(
   async ({ id, page }: { id: string; page: number }) => {
-    const myDialogs = await DialogsApi.getMyDialogs({ id, page });
+    const myDialogs: any = await DialogsApi.getMyDialogs({ id, page });
 
     const Users = await Promise.all(
       myDialogs.data.map(async (dialog: any) => {
@@ -45,8 +39,12 @@ export const DialogsLoaderFx = createEffect(
     );
 
     return {
-      data: Users.map((user) => user.data),
-      unConvertedDialogs: myDialogs.data,
+      dialogs: Users.map((user, index) => {
+        return {
+          user: user.data,
+          id: myDialogs.data[index]._id,
+        };
+      }),
       page: page,
     };
   }
@@ -95,14 +93,11 @@ export const onScrollDialogsLoaderFx = createEffect(
 export const $DialogsListStore = createStore<DialogsListStoreTypes>({
   initialisedDialogs: false,
   initialisedUsers: false,
-  dialogs: [], // уже готовые сконвертированные диалоги для DialogItem
-  unConvertedDialogs: [], // несконвертированные диалоги
+  dialogs: [],
   users: [],
   isUserSearch: false,
   usersSearchPage: 0,
   dialogsSearchPage: 0,
-
-  potentialDialog: null,
 })
   .on(UsersLoaderFx.doneData, (state, { data, page }) => {
     if (!state.initialisedUsers) {
@@ -130,45 +125,29 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
       return state;
     }
   })
-  .on(
-    DialogsLoaderFx.doneData,
-    (state, { data, page, unConvertedDialogs }): any => {
-      if (!state.initialisedDialogs) {
-        return {
-          // here s a problem, very unflexible redux type code, no way
-          ...state,
-          dialogs: data,
-          unConvertedDialogs: unConvertedDialogs,
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-          initialisedDialogs: true,
-        };
-      } else if (state.dialogs.length > 0 && data.length > 0 && page > 0) {
-        return {
-          ...state,
-          dialogs: [...state.dialogs, ...data],
-          unConvertedDialogs: [
-            ...state.unConvertedDialogs,
-            ...unConvertedDialogs,
-          ],
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-        };
-      } else if (data.length > 0 && page > 0) {
-        return {
-          ...state,
-          dialogs: data,
-          unConvertedDialogs: unConvertedDialogs,
-          dialogsSearchPage: state.dialogsSearchPage + 1,
-        };
-      } else {
-        return state;
-      }
+  .on(DialogsLoaderFx.doneData, (state, { dialogs, page }: any): any => {
+    if (!state.initialisedDialogs) {
+      return {
+        ...state,
+        dialogs,
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+        initialisedDialogs: true,
+      };
+    } else if (state.dialogs.length > 0 && dialogs.length > 0 && page > 0) {
+      return {
+        ...state,
+        dialogs: [...state.dialogs, ...dialogs],
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+      };
+    } else if (dialogs.length > 0 && page > 0) {
+      return {
+        ...state,
+        dialogs: dialogs,
+        dialogsSearchPage: state.dialogsSearchPage + 1,
+      };
+    } else {
+      return state;
     }
-  )
-  .on(SwitchSearch.doneData, (state) => {
-    return {
-      ...state,
-      isUserSearch: !state.isUserSearch,
-    };
   })
   .on(createDialogFx.doneData, (state, { data }) => {
     if (data) {
@@ -178,35 +157,6 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
       };
     }
   })
-  .on(
-    readyToCreateDialogFx.doneData,
-    (
-      state,
-      data: {
-        user: {
-          avatar: string;
-          fullName: string;
-          isOnline: boolean;
-          id: string;
-        };
-        status: string;
-      }
-    ): any => {
-      if (data && data?.status === "potentical") {
-        console.log("we must be here");
-        return {
-          ...state,
-          potentialDialog: {
-            avatar: data.user.avatar,
-            name: data.user.fullName,
-            isOnline: data.user.isOnline,
-            id: data.user.id,
-          },
-        };
-      }
-      return state;
-    }
-  )
   .on(getUsersBySearch.doneData, (state, data) => {
     if (data === "close")
       return {

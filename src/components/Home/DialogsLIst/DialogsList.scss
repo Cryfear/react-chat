@@ -4,12 +4,11 @@
   width: 100%;
   box-sizing: border-box;
   border-right: 1px solid #f7f7f7;
-  overflow: scroll;
-  overflow-x: hidden;
-  animation: .1s linear;
-  transition: .1s;
+  overflow-block: auto;
+  scrollbar-width: thin;
+  animation: 0.1s linear;
+  transition: 0.1s;
   z-index: 50;
-  scrollbar-width: none;
 
   &.hidden {
     width: 0;
@@ -23,5 +22,3 @@
 .dialogs {
   margin: 20px;
 }
-
-

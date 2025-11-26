@@ -8,17 +8,15 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useState } from "react";
 import { useUnit } from "effector-react";
 import { $HomeStore } from "../../../Home.model";
-import { $DialogsListStore } from "../../../DialogsLIst/DialogsList.model";
 import { sendMessageFx } from "../Content.model";
 import { $LoginStore } from "../../../../Auth/Login/Login.model";
 
 export const SendMessage = () => {
   const [inputValue, setInputValue] = useState("");
 
-  const { homeStore, authStore, dialogsListStore } = useUnit({
+  const { homeStore, authStore } = useUnit({
     homeStore: $HomeStore,
     authStore: $LoginStore,
-    dialogsListStore: $DialogsListStore,
   });
 
   const TextAreaKeyDownFunction = (
@@ -28,7 +26,6 @@ export const SendMessage = () => {
       e.preventDefault();
       if (homeStore.currentUser) {
         sendMessageFx({
-          dialogId: homeStore.currentDialog.id,
           myId: authStore.myUserData.id,
           data: inputValue,
           userId: homeStore.currentUser.id,
@@ -40,18 +37,12 @@ export const SendMessage = () => {
   };
 
   const SendButtonFunction = () => {
-    homeStore.currentDialog.id && inputValue.trim() !== ""
-      ? sendMessageFx({
-          dialogId: homeStore.currentUser,
-          myId: sessionStorage["id"],
-          data: inputValue,
-        })
-      : sendMessageFx({
-          userId: dialogsListStore.potentialDialog?.id,
-          myId: sessionStorage["id"],
-          data: inputValue,
-        });
-    setInputValue("");
+    // sendMessageFx({
+    //       userId: //,
+    //       myId: sessionStorage["id"],
+    //       data: inputValue,
+    //     });
+    // setInputValue("");
   };
 
   return (
@@ -70,11 +61,6 @@ export const SendMessage = () => {
             className="send-form__input"
             onKeyDown={TextAreaKeyDownFunction}
           />
-          {/* <div className="send-form__input" 
-          contentEditable="true" 
-          onKeyDown={TextAreaKeyDownFunction} 
-          onChange={(e) => setInputValue(e.target.value)}>
-          </div> */}
         </div>
         <span className="send-form__photo">
           <img src={photo} alt="phoo icon" />

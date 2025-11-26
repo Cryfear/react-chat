@@ -16,9 +16,12 @@ export const createPostFx = createEffect(
     creater: string;
   }): Promise<any> => {
     if (content.length < 1) return false; // если инпут пришел пустой не отправлять запрос на сервер
-
-    await ProfilesApi.createPost({ id, content, date: new Date(), creater });
-    findPostsFx(id);
+    try {
+      await ProfilesApi.createPost({ id, content, date: new Date(), creater });
+      findPostsFx(id);
+    } catch (error) {
+      console.log("post not created");
+    }
   }
 );
 

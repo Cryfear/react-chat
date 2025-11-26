@@ -1,25 +1,16 @@
-import { useUnit } from "effector-react";
-import React, { useRef } from "react";
-import { $HomeStore, onScrollLoaderMessages } from "../../../Home.model";
+import React, { useCallback, useRef } from "react";
+import { useDebounceScroll } from "../../../../../hooks/useDebounceScroll";
 
 export const Messages = ({ messages }: { messages: any }) => {
-  const homeStore = useUnit($HomeStore);
-  const scrollRef: any = useRef<HTMLDivElement>(null);
+  const scrollRef: any = useRef(null);
+  const debouncedScroll = useDebounceScroll();
+  
+  const handleScroll = useCallback(() => {
+    debouncedScroll(scrollRef);
+  }, [debouncedScroll]);
 
   return (
-    <div
-      className="content__messages"
-      ref={scrollRef}
-      onScroll={() => {
-        return onScrollLoaderMessages({
-          ref: scrollRef,
-          dialogId: homeStore.currentDialog.id,
-          page: homeStore.currentDialog.page,
-          myId: sessionStorage["id"],
-          isDialogFullLoaded: homeStore.isDialogFullLoaded,
-        });
-      }}
-    >
+    <div className="content__messages" ref={scrollRef} onScroll={handleScroll}>
       {messages}
     </div>
   );

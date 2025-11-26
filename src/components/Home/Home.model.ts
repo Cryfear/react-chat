@@ -3,10 +3,7 @@ import { createEffect, createEvent, createStore, sample } from "effector";
 import { DialogsApi } from "../../api/DialogsApi";
 import { MessagesApi } from "../../api/MessagesApi";
 import { UsersApi } from "../../api/UsersApi";
-import {
-  readyToCreateDialogFx,
-  SwitchSearch,
-} from "./DialogsLIst/DialogsList.model";
+import { readyToCreateDialogFx } from "./DialogsLIst/DialogsList.model";
 import { sendMessageFx } from "./Dialog/Content/Content.model";
 import {
   dialogPromiseType,
@@ -14,7 +11,7 @@ import {
   initDialogTypes,
   initialiseDialogFxTypes,
   onScrollLoaderMessagesTypes,
-  unreadMesssagesFxTypes
+  unreadMesssagesFxTypes,
 } from "./Home.types";
 import { socketGetMessage } from "../../socket";
 
@@ -22,34 +19,36 @@ export const $HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
   loadedDialog: false, // отвечает за инициализацию выбранного диалога, то есть первоначальная загрузка
   isDialogFullLoaded: false, // долистали ли мы до конца сообщений, чтобы не отправлять лишние запросы
-  currentUser: null,  // это собеседник
-  currentDialog: {  // текущий диалог
+  currentUser: null, // это собеседник
+  currentDialog: {
+    // текущий диалог
     id: "",
     isTyping: false, // печатает ли нам собеседник
     page: 0, // страница сообщений
-    unreadedPage: 0 // ????
+    unreadedPage: 0, // непрочитанные сообщения если есть больше десятка
   },
   currentDialogMessages: [],
   messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
-})
+});
 
-export const dialogLoaded = createEvent(); 
+export const dialogLoaded = createEvent();
 // нужен, когда мы находимся уже на урле диалога, чтобы зафиксировать и отреагировать на загрузку этого диалога
 
 export const loadDialogFx = createEffect(async (id: string): Promise<void> => {
   const user = await UsersApi.findUser(id);
-  await readyToCreateDialogFx({ myId: sessionStorage['id'], user: user.data });
+  await readyToCreateDialogFx({ myId: sessionStorage["id"], user: user.data });
   dialogLoaded();
-})
+});
 
 sample({
   clock: dialogLoaded,
   source: $HomeStore,
   fn: (state) => ({
-    ...state, currentDialog: {
+    ...state,
+    currentDialog: {
       ...state.currentDialog,
-      page: 1
-    }
+      page: 1,
+    },
   }),
   target: $HomeStore,
 });
@@ -67,17 +66,16 @@ export const setUnreadMessagesFx = createEffect(
 );
 
 export const initialiseDialogFx = createEffect(
-  async ({
-    userId,
-    myId,
-    page,
-  }: initDialogTypes) => {
-    const dialog: dialogPromiseType = await DialogsApi.find({ id_1: userId, id_2: myId });
+  async ({ userId, myId, page }: initDialogTypes) => {
+    const dialog: dialogPromiseType = await DialogsApi.find({
+      id_1: userId,
+      id_2: myId,
+    });
     const user = await UsersApi.findUser(userId);
     const messages = await MessagesApi.getDialogMessages({
       dialogId: dialog.data._id,
       page: 0,
-      myId
+      myId,
     });
 
     return {
@@ -99,55 +97,61 @@ export const initialiseDialogFx = createEffect(
 );
 
 export const onScrollLoaderMessages = createEffect(
-  async ({ ref, page, dialogId, myId, isDialogFullLoaded }: onScrollLoaderMessagesTypes) => {
-    if (isDialogFullLoaded) return false;
-    if (ref.current) {
-      const scrollHeight = ref.current.scrollHeight;
-      const scrollTop = ref.current.scrollTop;
+  async ({ page, dialogId, myId }: onScrollLoaderMessagesTypes) => {
+    try {
+      const mes = await MessagesApi.getDialogMessages({
+        dialogId,
+        page,
+        myId,
+      });
 
-      if (
-        scrollHeight + scrollTop <
-        window.innerHeight - (window.innerHeight / 100) * 4
-      ) {
-        const mes = await MessagesApi.getDialogMessages({ dialogId, page, myId });
-        if (mes.data.length === 0) {
-          return { responseCode: 'dialog end' };
-        }
-        return {
-          messages: mes.data,
-          page: page,
-        };
+      if (mes.data.length === 0) {
+        return { responseCode: "dialog end" };
       }
+
+      return {
+        messages: mes.data,
+        page: page,
+      };
+    } catch (error) {
+      console.error("Error loading messages:", error);
+      return null;
     }
   }
 );
 
 export const messageSentSwitcher = createEffect(() => true);
 
-$HomeStore.on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes): any => {
-  if (data) {
-    return {
-      loadedDialog: false, // открыт ли диалог сейчас
-      messageSent: false,
-      currentUser: {
-        name: data.name,
-        id: data.userId,
-        avatar: data.avatar,
-        isOnline: data.isOnline,
-      },
-      currentDialog: {
-        id: data.currentDialogID,
-        isTyping: data.currentDialogTyping,
-        page: 1,
-        unreadedPage: 0,
-        opponentId: data.currentDialogOpponentId,
-      },
-      currentDialogMessages: data.currentDialogMessages,
-      isInitialisedDialog: true,
-    };
-  }
-  return state;
-})
+$HomeStore
+  // Упрощаем инициализацию диалога
+  .on(
+    initialiseDialogFx.doneData,
+    (state, data: initialiseDialogFxTypes): any => {
+      if (!data) return state;
+
+      return {
+        ...state,
+        loadedDialog: true, // Сразу устанавливаем в true после инициализации
+        messageSent: false,
+        currentUser: {
+          name: data.name,
+          id: data.userId,
+          avatar: data.avatar,
+          isOnline: data.isOnline,
+        },
+        currentDialog: {
+          id: data.currentDialogID,
+          isTyping: data.currentDialogTyping,
+          page: 1, // Начинаем с page 1
+          unreadedPage: 0,
+          opponentId: data.currentDialogOpponentId,
+        },
+        currentDialogMessages: data.currentDialogMessages,
+        isInitialisedDialog: true,
+        isDialogFullLoaded: false, // Сбрасываем при инициализации нового диалога
+      };
+    }
+  )
   .on(sendMessageFx.doneData, (state, data): any => {
     return {
       ...state,
@@ -155,91 +159,37 @@ $HomeStore.on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes
     };
   })
   .on(onScrollLoaderMessages.doneData, (state, data): any => {
-    if (data && data.responseCode === 'dialog end') { return { ...state, isDialogFullLoaded: true } }
-    if (data && data.messages) {
-      if (!state.loadedDialog) {
-        return {
-          ...state,
-          currentDialogMessages: [
-            ...state.currentDialogMessages,
-            ...data.messages,
-          ],
-          currentDialog: {
-            ...state.currentDialog,
-            page: state.currentDialog.page + 1,
-          },
-          loadedDialog: true,
-        };
-      } else if (data.page !== state.currentDialog.page) {
-        return state;
-      } else if (
-        state.currentDialogMessages.length > 0 &&
-        data.messages.length > 0 &&
-        data.page > 0
-      ) {
-        return {
-          ...state,
-          currentDialogMessages: [
-            ...state.currentDialogMessages,
-            ...data.messages,
-          ],
-          currentDialog: {
-            ...state.currentDialog,
-            page: state.currentDialog.page + 1,
-          },
-        };
-      } else if (data.messages.length > 0 && data.page > 0) {
-        return {
-          ...state,
-          currentDialogMessages: [
-            ...state.currentDialogMessages,
-            ...data.messages,
-          ],
-          currentDialog: {
-            ...state.currentDialog,
-            page: state.currentDialog.page + 1,
-          },
-        };
-      } else {
-        return state;
-      }
-    } else {
-      return state;
+    if (!data) return state;
+
+    if (data.responseCode === "dialog end") {
+      return { ...state, isDialogFullLoaded: true };
     }
-  })
-  .on(readyToCreateDialogFx.doneData, (state, data: { status: string, user: any }): any => {
-    if (data?.status === "success") {
+
+    if (data.messages && data.messages.length > 0) {
+      // Проверяем, нет ли уже таких сообщений в списке
+      const existingIds = new Set(
+        state.currentDialogMessages.map((msg: any) => msg._id)
+      );
+      const newMessages = data.messages.filter(
+        (msg: any) => !existingIds.has(msg._id)
+      );
+
+      if (newMessages.length === 0) {
+        return state; // Все сообщения уже есть, ничего не добавляем
+      }
+
       return {
         ...state,
+        currentDialogMessages: [...state.currentDialogMessages, ...newMessages],
         currentDialog: {
           ...state.currentDialog,
-          page: 0,
+          page: state.currentDialog.page + 1,
         },
-        loadedDialog: false,
-        currentUser: {
-          name: data.user.fullName,
-          id: data.user.id,
-          avatar: data.user.avatar,
-          isOnline: data.user.isOnline,
-        }
+        loadedDialog: true, // Устанавливаем в true после успешной загрузки
       };
     }
-    else {
-      return {
-        ...state,
-        currentUser: {
-          name: data.user.fullName,
-          id: data.user.id,
-          avatar: data.user.avatar,
-          isOnline: data.user.inOnline,
-        }
-      }
-    }
-  })
-  .on(SwitchSearch.doneData, (state, _) => {
-    return {
-      ...state,
-    };
+
+    return state;
   })
   .on(getUsersBySearch.doneData, (state, data) => {
     if (data === "close")
