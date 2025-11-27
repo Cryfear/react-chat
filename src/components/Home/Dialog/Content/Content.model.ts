@@ -10,7 +10,7 @@ export const sendMessageFx = createEffect(
     myId,
     data,
   }: {
-    userId?: string;
+    userId: string;
     myId: string;
     data: string;
   }) => {

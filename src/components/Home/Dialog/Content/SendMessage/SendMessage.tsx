@@ -5,14 +5,23 @@ import photo from "../../../../../assets/send-photo.png";
 import voice from "../../../../../assets/mic.png";
 import send from "../../../../../assets/send-message.png";
 import TextareaAutosize from "react-textarea-autosize";
-import { useState } from "react";
 import { useUnit } from "effector-react";
 import { $HomeStore } from "../../../Home.model";
 import { sendMessageFx } from "../Content.model";
 import { $LoginStore } from "../../../../Auth/Login/Login.model";
 
-export const SendMessage = () => {
-  const [inputValue, setInputValue] = useState("");
+interface SendMessageProps {
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  onToggleEmojiPicker: () => void;
+  showEmojiPicker: boolean;
+}
+
+export const SendMessage = ({ 
+  inputValue, 
+  setInputValue, 
+  onToggleEmojiPicker,
+}: SendMessageProps) => {
 
   const { homeStore, authStore } = useUnit({
     homeStore: $HomeStore,
@@ -37,18 +46,22 @@ export const SendMessage = () => {
   };
 
   const SendButtonFunction = () => {
-    // sendMessageFx({
-    //       userId: //,
-    //       myId: sessionStorage["id"],
-    //       data: inputValue,
-    //     });
-    // setInputValue("");
+    if (!homeStore.currentUser) {
+      return;
+    }
+
+    sendMessageFx({
+      myId: authStore.myUserData.id,
+      data: inputValue,
+      userId: homeStore.currentUser.id,
+    });
+    setInputValue("");
   };
 
   return (
     <form className="send-form">
       <div className="send-form-relative">
-        <span className="send-form__stickers">
+        <span className="send-form__stickers" onClick={onToggleEmojiPicker}>
           <img src={smile} alt="smile icon" />
         </span>
         <div className="send-form__input-wrapper">

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useUnit } from "effector-react";
 import { Header } from "./Header/Header";
 import { SearchDialogs } from "./SearchDialogs/SearchDialogs";
@@ -7,24 +7,33 @@ import classNames from "classnames";
 import {
   $DialogsListStore,
   DialogsLoaderFx,
-  onScrollUsersLoaderFx,
-  onScrollDialogsLoaderFx,
 } from "./DialogsList.model";
 import { UserDialogsContainer } from "./UserDialogs/UserDialogsContainer";
 import { $AppStore, isMobileVersionChanger } from "../../../App.model";
 import { ShowHideButton } from "./Show-hide-button/Show-hide-button";
 import { $Show_Hide_ButtonStore } from "./Show-hide-button/Show-hide-button.model";
+import { useDebounceDialogsScroll } from "../../../hooks/useDebounceScroll";
 
 export const DialogsList = () => {
-  const { store, appStore, ShowHideButtonStore } = useUnit({ store: $DialogsListStore, appStore: $AppStore, ShowHideButtonStore: $Show_Hide_ButtonStore })
+  const { store, appStore, ShowHideButtonStore } = useUnit({
+    store: $DialogsListStore,
+    appStore: $AppStore,
+    ShowHideButtonStore: $Show_Hide_ButtonStore,
+  });
 
-  const exp = window.matchMedia("(max-width: 1070px)")
+  const { debouncedScroll, clearDebounce } = useDebounceDialogsScroll();
+
+  const exp = window.matchMedia("(max-width: 1070px)");
 
   useEffect(() => {
-    if (sessionStorage["id"] !== 'null' && sessionStorage["id"] !== 'undefined') {
+    if (
+      sessionStorage["id"] !== "null" &&
+      sessionStorage["id"] !== "undefined"
+    ) {
       DialogsLoaderFx({ id: sessionStorage["id"], page: 0 });
 
-      if (exp.matches && !appStore.isMobileVersion) isMobileVersionChanger(true);
+      if (exp.matches && !appStore.isMobileVersion)
+        isMobileVersionChanger(true);
 
       exp.addEventListener("change", () => {
         exp.matches
@@ -33,26 +42,25 @@ export const DialogsList = () => {
       });
     }
 
-  }, [exp, exp.matches, appStore.isMobileVersion]);
+    return () => {
+      clearDebounce();
+    };
+  }, [exp, exp.matches, appStore.isMobileVersion, clearDebounce]);
 
-  const onScrollLoaderFunction = (e: React.UIEvent<HTMLDivElement>) => {
-    return store.isUserSearch
-      ? onScrollUsersLoaderFx({ e, page: store.usersSearchPage })
-      : onScrollDialogsLoaderFx({
-        e,
-        id: sessionStorage["id"],
-        page: store.dialogsSearchPage,
-      });
-  };
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    debouncedScroll(e);
+  }, [debouncedScroll]);
 
   const DialogsListClass = classNames(
-    appStore.isMobileVersion && !ShowHideButtonStore.isOpenDialogs ? "dialogs-list hidden" : "dialogs-list"
+    appStore.isMobileVersion && !ShowHideButtonStore.isOpenDialogs
+      ? "dialogs-list hidden"
+      : "dialogs-list"
   );
 
   return (
     <div className="dialogs-list__wrapper">
       {appStore.isMobileVersion ? <ShowHideButton /> : null}
-      <div className={DialogsListClass} onScroll={onScrollLoaderFunction}>
+      <div className={DialogsListClass} onScroll={handleScroll}>
         <Header />
         <SearchDialogs />
         <UserDialogsContainer

@@ -1213,11 +1213,6 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@epic-web/invariant@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@epic-web/invariant/-/invariant-1.0.0.tgz#1073e5dee6dd540410784990eb73e4acd25c9813"
-  integrity sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==
-
 "@esbuild/aix-ppc64@0.25.9":
   version "0.25.9"
   resolved "https://registry.yarnpkg.com/@esbuild/aix-ppc64/-/aix-ppc64-0.25.9.tgz#bef96351f16520055c947aba28802eede3c9e9a9"
@@ -4670,14 +4665,6 @@ cosmiconfig@^7.0.0, cosmiconfig@^7.0.1:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-cross-env@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-10.0.0.tgz#ba25823cfa1ed6af293dcded8796fa16cd162456"
-  integrity sha512-aU8qlEK/nHYtVuN4p7UQgAwVljzMg8hB4YK5ThRqD2l/ziSnryncPNn7bMLt5cFYsKVKBh8HqLqyCoTupEUu7Q==
-  dependencies:
-    "@epic-web/invariant" "^1.0.0"
-    cross-spawn "^7.0.6"
-
 cross-spawn@^7.0.2, cross-spawn@^7.0.3, cross-spawn@^7.0.6:
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.6.tgz#8a58fe78f00dcd70c370451759dfbfaf03e8ee9f"
@@ -5262,6 +5249,13 @@ emittery@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/emittery/-/emittery-0.8.1.tgz#bb23cc86d03b30aa75a7f734819dee2e1ba70860"
   integrity sha512-uDfvUjVrfGJJhymx/kz6prltenw1u7WrCg1oa94zYY8xxVpLLUu045LAT0dhDZdXG58/EpPL/5kA180fQ/qudg==
+
+emoji-picker-react@^4.16.1:
+  version "4.16.1"
+  resolved "https://registry.yarnpkg.com/emoji-picker-react/-/emoji-picker-react-4.16.1.tgz#47f5fef2937b17e35384e27525a0a492efc67092"
+  integrity sha512-MrPX0tOCfRL3uYI4of/2GRZ7S6qS7YlacKiF78uFH84/C62vcuHE2DZyv5b4ZJMk0e06es1jjB4e31Bb+YSM8w==
+  dependencies:
+    flairup "1.0.0"
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -6074,6 +6068,11 @@ find-up@^7.0.0:
     locate-path "^7.2.0"
     path-exists "^5.0.0"
     unicorn-magic "^0.1.0"
+
+flairup@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/flairup/-/flairup-1.0.0.tgz#d3af0052ad02734c12d2446608a869498adb351b"
+  integrity sha512-IKlE+pNvL2R+kVL1kEhUYqRxVqeFnjiIvHWDMLFXNaqyUdFXQM2wte44EfMYJNHkW16X991t2Zg8apKkhv7OBA==
 
 flat-cache@^3.0.4:
   version "3.2.0"
@@ -8085,7 +8084,7 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-moment@*, moment@^2.29.1:
+moment@*:
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==

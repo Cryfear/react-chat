@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from "react";
 import { useDebounceScroll } from "../../../../../hooks/useDebounceScroll";
 
-export const Messages = ({ messages }: { messages: any }) => {
+export const Messages = ({ messages, setShowEmojiPicker }: { messages: any, setShowEmojiPicker:any }) => {
   const scrollRef: any = useRef(null);
   const debouncedScroll = useDebounceScroll();
   
@@ -10,7 +10,7 @@ export const Messages = ({ messages }: { messages: any }) => {
   }, [debouncedScroll]);
 
   return (
-    <div className="content__messages" ref={scrollRef} onScroll={handleScroll}>
+    <div onClick={() => setShowEmojiPicker(false)} className="content__messages" ref={scrollRef} onScroll={handleScroll}>
       {messages}
     </div>
   );

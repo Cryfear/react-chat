@@ -1,37 +1,40 @@
-import moment from "moment";
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import calendar from 'dayjs/plugin/calendar';
 
-dayjs().format();
+// Подключаем плагины
 dayjs.extend(dayOfYear);
+dayjs.extend(relativeTime);
+dayjs.extend(calendar);
 
 export const dateFormatter = (date: string) => {
-  const messageDay = dayjs(date).dayOfYear()
-  const currentDay = dayjs().dayOfYear()
-  const messageYear = dayjs(date).year()
-  const currentYear = dayjs().year()
+  const messageDay = dayjs(date).dayOfYear();
+  const currentDay = dayjs().dayOfYear();
+  const messageYear = dayjs(date).year();
+  const currentYear = dayjs().year();
 
   if (messageDay === currentDay && messageYear === currentYear) {
-    return 'today, ' + moment(date).format("hh:mm");
+    return 'today, ' + dayjs(date).format("HH:mm"); // HH для 24-часового формата
   } 
-  else if(currentDay - messageDay  === 1 && messageYear === currentYear){
-    return 'yesterday, ' + moment(date).format("hh:mm");
+  else if (currentDay - messageDay === 1 && messageYear === currentYear) {
+    return 'yesterday, ' + dayjs(date).format("HH:mm");
   }
   else {
-      return moment(date).format("DD.MM.YY") + ' / ' + moment(date).format("hh:mm");
+    return dayjs(date).format("DD.MM.YY") + ' / ' + dayjs(date).format("HH:mm");
   }
 };
 
 export const LastMessageDateFormatter = (date: string) => {
-  const messageDay = dayjs(date).dayOfYear()
-  const currentDay = dayjs().dayOfYear()
-  const messageYear = dayjs(date).year()
-  const currentYear = dayjs().year()
+  const messageDay = dayjs(date).dayOfYear();
+  const currentDay = dayjs().dayOfYear();
+  const messageYear = dayjs(date).year();
+  const currentYear = dayjs().year();
 
   if (messageDay === currentDay && messageYear === currentYear) {
-    return moment(date).format("hh:mm");
+    return dayjs(date).format("HH:mm");
   }
   else {
-      return moment(date).format("DD.MM.YY");
+    return dayjs(date).format("DD.MM.YY");
   }
 };

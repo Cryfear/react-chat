@@ -60,13 +60,7 @@ export const UsersLoaderFx = createEffect(async (page: number) => {
 
 export const onScrollUsersLoaderFx = createEffect(
   async ({ e, page }: { e: React.UIEvent<HTMLElement>; page: number }) => {
-    if (
-      e.currentTarget.scrollHeight -
-        (e.currentTarget.scrollTop + window.innerHeight) <
-      1
-    ) {
-      return await UsersLoaderFx(page);
-    }
+    return await UsersLoaderFx(page);
   }
 );
 
@@ -80,13 +74,7 @@ export const onScrollDialogsLoaderFx = createEffect(
     page: number;
     id: string;
   }) => {
-    if (
-      e.currentTarget.scrollHeight -
-        (e.currentTarget.scrollTop + window.innerHeight) <
-      1
-    ) {
-      return await DialogsLoaderFx({ id, page });
-    }
+    return await DialogsLoaderFx({ id, page });
   }
 );
 
