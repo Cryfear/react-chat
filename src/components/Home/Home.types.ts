@@ -29,7 +29,7 @@ export type HomeStoreTypes = {
   isInitialisedDialog: boolean;
   isDialogFullLoaded: boolean;
   loadedDialog: boolean;
-  currentUser: null | {
+  currentUser: any | {
     name: string;
     id: string;
     avatar: string;

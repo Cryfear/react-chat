@@ -1,5 +1,5 @@
 import { createDialogFx } from "../../DialogsLIst/DialogsList.model";
-import { messageSentSwitcher, initialiseDialogFx } from "../../Home.model";
+import { initialiseDialogFx } from "../../Home.model";
 import { socket } from "../../../../socket";
 import { MessagesApi } from "../../../../api/MessagesApi";
 import { createEffect } from "effector";
@@ -31,8 +31,6 @@ export const sendMessageFx = createEffect(
       content: message.data,
       to: message.data.creater === userId ? myId : userId,
     });
-
-    messageSentSwitcher(); // скролит к концу при отправке сообщения
 
     return message.data;
   }

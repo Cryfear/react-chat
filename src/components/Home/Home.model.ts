@@ -22,7 +22,7 @@ export const $HomeStore = createStore<HomeStoreTypes>({
   currentUser: null, // это собеседник
   currentDialog: {
     // текущий диалог
-    id: "",
+    id: "", // dialogId
     isTyping: false, // печатает ли нам собеседник
     page: 0, // страница сообщений
     unreadedPage: 0, // непрочитанные сообщения если есть больше десятка
@@ -123,7 +123,6 @@ export const onScrollLoaderMessages = createEffect(
 export const messageSentSwitcher = createEffect(() => true);
 
 $HomeStore
-  // Упрощаем инициализацию диалога
   .on(
     initialiseDialogFx.doneData,
     (state, data: initialiseDialogFxTypes): any => {
@@ -131,7 +130,7 @@ $HomeStore
 
       return {
         ...state,
-        loadedDialog: true, // Сразу устанавливаем в true после инициализации
+        loadedDialog: true,
         messageSent: false,
         currentUser: {
           name: data.name,

@@ -15,22 +15,27 @@ interface SendMessageProps {
   setInputValue: (value: string) => void;
   onToggleEmojiPicker: () => void;
   showEmojiPicker: boolean;
+  startRecording: () => void;
+  stopRecording: () => void;
+  audioURL: any;
+  isRecording: boolean;
 }
 
-export const SendMessage = ({ 
-  inputValue, 
-  setInputValue, 
+export const SendMessage = ({
+  inputValue,
+  setInputValue,
   onToggleEmojiPicker,
+  startRecording,
+  stopRecording,
+  audioURL,
+  isRecording,
 }: SendMessageProps) => {
-
   const { homeStore, authStore } = useUnit({
     homeStore: $HomeStore,
     authStore: $LoginStore,
   });
 
-  const TextAreaKeyDownFunction = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" || e.key === "NumpadEnter") {
       e.preventDefault();
       if (homeStore.currentUser) {
@@ -78,14 +83,15 @@ export const SendMessage = ({
         <span className="send-form__photo">
           <img src={photo} alt="phoo icon" />
         </span>
-        <span className="send-form__voice">
+        <span
+          className="send-form__voice"
+          onClick={() => {
+            return isRecording ? stopRecording() : startRecording();
+          }}
+        >
           <img src={voice} alt="voice icon" />
         </span>
-        <button
-          onClick={SendButtonFunction}
-          type="button"
-          className="send-form__submit"
-        >
+        <button onClick={SendButtonFunction} type="button" className="send-form__submit">
           <img src={send} alt="send icon" />
         </button>
       </div>

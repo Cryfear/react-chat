@@ -1,7 +1,13 @@
 import React from "react";
 
-const Sticker = () => {
-  return <div></div>;
-};
-
-export default Sticker;
+export default function Voice(audioURL: any) {
+  return (
+    <div>
+      {audioURL && (
+        <div style={{ marginTop: 20 }}>
+          <audio controls src={audioURL}></audio>
+        </div>
+      )}
+    </div>
+  );
+}

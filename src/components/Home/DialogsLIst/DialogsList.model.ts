@@ -137,14 +137,6 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
       return state;
     }
   })
-  .on(createDialogFx.doneData, (state, { data }) => {
-    if (data) {
-      return {
-        ...state,
-        isUserSearch: !state.isUserSearch,
-      };
-    }
-  })
   .on(getUsersBySearch.doneData, (state, data) => {
     if (data === "close")
       return {
