@@ -5,7 +5,7 @@ export default function Voice(audioURL: any) {
     <div>
       {audioURL && (
         <div style={{ marginTop: 20 }}>
-          <audio controls src={audioURL}></audio>
+          <audio controls src={audioURL.audioURL}></audio>
         </div>
       )}
     </div>

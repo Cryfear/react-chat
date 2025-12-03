@@ -17,7 +17,6 @@ interface SendMessageProps {
   showEmojiPicker: boolean;
   startRecording: () => void;
   stopRecording: () => void;
-  audioURL: any;
   isRecording: boolean;
 }
 
@@ -27,7 +26,6 @@ export const SendMessage = ({
   onToggleEmojiPicker,
   startRecording,
   stopRecording,
-  audioURL,
   isRecording,
 }: SendMessageProps) => {
   const { homeStore, authStore } = useUnit({
@@ -63,6 +61,14 @@ export const SendMessage = ({
     setInputValue("");
   };
 
+  const handleVoiceClick = () => {
+    if (!isRecording) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  };
+
   return (
     <form className="send-form">
       <div className="send-form-relative">
@@ -83,12 +89,7 @@ export const SendMessage = ({
         <span className="send-form__photo">
           <img src={photo} alt="phoo icon" />
         </span>
-        <span
-          className="send-form__voice"
-          onClick={() => {
-            return isRecording ? stopRecording() : startRecording();
-          }}
-        >
+        <span className="send-form__voice" onClick={handleVoiceClick}>
           <img src={voice} alt="voice icon" />
         </span>
         <button onClick={SendButtonFunction} type="button" className="send-form__submit">

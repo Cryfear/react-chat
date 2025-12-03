@@ -118,4 +118,5 @@ export type MessageType = {
   isReaded: boolean; // прочитал ли собеседник это сообщение
   updatedAt: string; // если сообщение было редактировано, будем знать когда
   _id: string; // айди сообщения
+  enum: string;
 };
