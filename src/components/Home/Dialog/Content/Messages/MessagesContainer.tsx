@@ -10,7 +10,7 @@ import { Messages } from "./Messages";
 import { creatingMessagesList } from "../../../../../hooks/useCreatingMessagesList";
 import { $LoginStore } from "../../../../Auth/Login/Login.model";
 
-export const MessagesContainer = ({setShowEmojiPicker, isRecording}: any) => {
+export const MessagesContainer = ({setShowEmojiPicker}: any) => {
   const { currentDialogMessages } = useUnit($HomeStore);
   const authStore = useUnit($LoginStore);
 
@@ -25,5 +25,5 @@ export const MessagesContainer = ({setShowEmojiPicker, isRecording}: any) => {
     authStore.myUserData.id
   );
 
-  return isEmptyDialog ? <EmptyDialog /> : <Messages isRecording={isRecording} setShowEmojiPicker={setShowEmojiPicker} messages={messages} />;
+  return isEmptyDialog ? <EmptyDialog /> : <Messages setShowEmojiPicker={setShowEmojiPicker} messages={messages} />;
 };

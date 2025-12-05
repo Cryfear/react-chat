@@ -2,31 +2,24 @@ import React from "react";
 import "./SendMessage.scss";
 import smile from "../../../../../assets/smile-send.png";
 import photo from "../../../../../assets/send-photo.png";
-import voice from "../../../../../assets/mic.png";
 import send from "../../../../../assets/send-message.png";
 import TextareaAutosize from "react-textarea-autosize";
 import { useUnit } from "effector-react";
 import { $HomeStore } from "../../../Home.model";
 import { sendMessageFx } from "../Content.model";
 import { $LoginStore } from "../../../../Auth/Login/Login.model";
+import { VoiceMessage } from "./VoiceMessage";
 
 interface SendMessageProps {
   inputValue: string;
   setInputValue: (value: string) => void;
   onToggleEmojiPicker: () => void;
-  showEmojiPicker: boolean;
-  startRecording: () => void;
-  stopRecording: () => void;
-  isRecording: boolean;
 }
 
 export const SendMessage = ({
   inputValue,
   setInputValue,
   onToggleEmojiPicker,
-  startRecording,
-  stopRecording,
-  isRecording,
 }: SendMessageProps) => {
   const { homeStore, authStore } = useUnit({
     homeStore: $HomeStore,
@@ -61,14 +54,6 @@ export const SendMessage = ({
     setInputValue("");
   };
 
-  const handleVoiceClick = () => {
-    if (!isRecording) {
-      startRecording();
-    } else {
-      stopRecording();
-    }
-  };
-
   return (
     <form className="send-form">
       <div className="send-form-relative">
@@ -89,9 +74,7 @@ export const SendMessage = ({
         <span className="send-form__photo">
           <img src={photo} alt="phoo icon" />
         </span>
-        <span className="send-form__voice" onClick={handleVoiceClick}>
-          <img src={voice} alt="voice icon" />
-        </span>
+        <VoiceMessage />
         <button onClick={SendButtonFunction} type="button" className="send-form__submit">
           <img src={send} alt="send icon" />
         </button>

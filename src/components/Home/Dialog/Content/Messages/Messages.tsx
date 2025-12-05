@@ -4,10 +4,8 @@ import { useDebounceScroll } from "../../../../../hooks/useDebounceScroll";
 export const Messages = ({
   messages,
   setShowEmojiPicker,
-  isRecording
 }: {
   messages: any;
-  isRecording: boolean;
   setShowEmojiPicker: any;
 }) => {
   const scrollRef: any = useRef(null);
@@ -26,7 +24,6 @@ export const Messages = ({
     >
       
       {messages}
-      {isRecording && 'Записывается голосовое сообщение...'}
     </div>
   );
 };
