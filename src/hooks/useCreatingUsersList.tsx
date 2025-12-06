@@ -7,7 +7,5 @@ export const useCreatingUsersList = (users: usersType[]) => {
     users.map((userData: usersType) => {
       return <UsersSearchItem {...userData} key={userData.id} />;
     })
-  ) : (
-    <div />
-  );
+  ) : null;
 };

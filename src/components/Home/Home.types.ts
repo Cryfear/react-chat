@@ -85,13 +85,15 @@ export type promiseDialogsTypes = {
 
 export type DialogsListStoreTypes = {
   initialisedDialogs: boolean;
-  initialisedUsers: boolean;
   dialogs: [];
-  users: [];
-  isUserSearch: boolean;
-  usersSearchPage: number;
   dialogsSearchPage: number;
 };
+
+export type UsersListStoreTypes = {
+  initialisedUsers: boolean;
+  users: [];
+  usersSearchPage: number;
+} 
 
 export type OpenedProfileTypes = {
   isOpen: boolean;

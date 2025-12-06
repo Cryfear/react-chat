@@ -50,20 +50,6 @@ export const DialogsLoaderFx = createEffect(
   }
 );
 
-export const UsersLoaderFx = createEffect(async (page: number) => {
-  const Users = await UsersApi.getUsers({ page });
-  return {
-    data: Users.data,
-    page: page,
-  };
-});
-
-export const onScrollUsersLoaderFx = createEffect(
-  async ({ e, page }: { e: React.UIEvent<HTMLElement>; page: number }) => {
-    return await UsersLoaderFx(page);
-  }
-);
-
 export const onScrollDialogsLoaderFx = createEffect(
   async ({
     e,
@@ -80,39 +66,9 @@ export const onScrollDialogsLoaderFx = createEffect(
 
 export const $DialogsListStore = createStore<DialogsListStoreTypes>({
   initialisedDialogs: false,
-  initialisedUsers: false,
   dialogs: [],
-  users: [],
-  isUserSearch: false,
-  usersSearchPage: 0,
   dialogsSearchPage: 0,
 })
-  .on(UsersLoaderFx.doneData, (state, { data, page }) => {
-    if (!state.initialisedUsers) {
-      return {
-        ...state,
-        users: data,
-        usersSearchPage: state.usersSearchPage + 1,
-        initialisedUsers: true,
-      };
-    } else if (page !== state.usersSearchPage) {
-      return state;
-    } else if (state.users.length > 0 && data.length > 0 && page > 0) {
-      return {
-        ...state,
-        users: [...state.users, ...data],
-        usersSearchPage: state.usersSearchPage + 1,
-      };
-    } else if (data.length > 0 && page > 0) {
-      return {
-        ...state,
-        users: data,
-        usersSearchPage: state.usersSearchPage + 1,
-      };
-    } else {
-      return state;
-    }
-  })
   .on(DialogsLoaderFx.doneData, (state, { dialogs, page }: any): any => {
     if (!state.initialisedDialogs) {
       return {

@@ -4,25 +4,12 @@ import "./UserDialogs.scss";
 export const UserDialogs = ({
   isUserSearch,
   Users,
-  Dialogs
+  Dialogs,
 }: {
-  isUserSearch: boolean,
-  Users: React.ReactNode 
-  Dialogs: React.ReactNode
+  isUserSearch: boolean;
+  Users: React.ReactNode;
+  Dialogs: React.ReactNode;
 }) => {
-  return (
-    <div className="dialogs">
-      {isUserSearch ? (
-        Users ? (
-          Users
-        ) : (
-          <div></div>
-        )
-      ) : Dialogs ? (
-        Dialogs
-      ) : (
-        <div></div>
-      )}
-    </div>
-  );
+  console.log(Dialogs)
+  return <div className="dialogs">{isUserSearch ? Users ? Users : <div></div> : Dialogs ? Dialogs : <div></div>}</div>;
 };

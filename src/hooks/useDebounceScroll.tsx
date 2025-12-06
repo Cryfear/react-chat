@@ -7,8 +7,9 @@ import {
 import {
   $DialogsListStore,
   onScrollDialogsLoaderFx,
-  onScrollUsersLoaderFx,
 } from "../components/Home/DialogsLIst/DialogsList.model";
+import { $UsersListStore, onScrollUsersLoaderFx } from "../components/Home/DialogsLIst/UserDialogs/UsersList.model";
+import { $isUserSearch } from "../components/Home/DialogsLIst/UserDialogs/UserDialogsContainer";
 
 export const useDebounceScroll = () => {
   const { currentDialog, isDialogFullLoaded } = useUnit($HomeStore);
@@ -43,7 +44,10 @@ export const useDebounceScroll = () => {
 };
 
 export const useDebounceDialogsScroll = () => {
-  const store = useUnit($DialogsListStore);
+  const dialogsStore = useUnit($DialogsListStore);
+  const usersStore = useUnit($UsersListStore);
+  const isUserSearch = useUnit($isUserSearch);
+
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const debouncedScroll = useCallback(
@@ -61,19 +65,19 @@ export const useDebounceDialogsScroll = () => {
         const { scrollTop, scrollHeight, clientHeight } = target;
 
         if (scrollHeight - scrollTop - clientHeight < 100) {
-          if (store.isUserSearch) {
-            onScrollUsersLoaderFx({ e, page: store.usersSearchPage });
+          if (isUserSearch) {
+            onScrollUsersLoaderFx({ e, page: usersStore.usersSearchPage });
           } else {
             onScrollDialogsLoaderFx({
               e,
               id: sessionStorage["id"],
-              page: store.dialogsSearchPage,
+              page: dialogsStore.dialogsSearchPage,
             });
           }
         }
-      }, 150); // Задержка 150ms
+      }, 150);
     },
-    [store.isUserSearch, store.usersSearchPage, store.dialogsSearchPage]
+    [isUserSearch, usersStore.usersSearchPage, dialogsStore.dialogsSearchPage]
   );
 
   const clearDebounce = useCallback(() => {
