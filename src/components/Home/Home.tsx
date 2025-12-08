@@ -1,71 +1,43 @@
 import { useUnit } from "effector-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { $AppStore } from "../../App.model";
-import { Dialog } from "./Dialog/Dialog";
 import { DialogsList } from "./DialogsLIst/DialogsList";
 import "./Home.scss";
 import { Profile } from "./Profile/Profile";
-import { UserPage } from "./UserPage/UserPage";
 import { Route, Routes } from "react-router";
 import { HelloDialog } from "./Dialog/HelloDialog";
-import { $UserPageStore, findPostsFx, findProfileFx } from "./UserPage/UserPage.model";
-import { $HomeStore, initialiseDialogFx, loadDialogFx } from "./Home.model";
-import { useParams } from "react-router";
+import { $HomeStore } from "./Home.model";
+import { Dialog } from "./Dialog/Dialog";
+import { UserPage } from "./UserPage/UserPage";
 
 export const Home = () => {
-  const { appStore, userPageStore, homeStore } = useUnit(
-    { appStore: $AppStore, userPageStore: $UserPageStore, homeStore: $HomeStore }
-  );
+  const { appStore, homeStore } = useUnit({
+    appStore: $AppStore,
+    homeStore: $HomeStore,
+  });
 
-  const [isLoading, setIsLoading] = useState(true);
-  let id: any = useParams()['*'];
-
-  // здесь происходит загрузка профиля или диалога, в зависимости от того, где находится пользователь выполняется запрос
-  useEffect(() => {
-    if (isLoading) {
-      if (id.includes('dialogs/')) {
-        const idReplaced = id.replace('dialogs/', '')
-
-        loadDialogFx(idReplaced).then(() => {
-          initialiseDialogFx({ userId: idReplaced, myId: sessionStorage['id'], page: 0 }).finally(() => {
-            setIsLoading(false);
-          });
-        });
-      }
-      else if (id.includes('profile/')) {
-        const idReplaced = id.replace('profile/:id', '');
-
-        if (idReplaced) findProfileFx(idReplaced);
-        if (idReplaced) findPostsFx(idReplaced).then(() => setIsLoading(false));
-
-      }
-      else {
-        setIsLoading(false);
-      }
-    }
-  }, [id, isLoading, homeStore])
-
-  if (isLoading) {
-    return (
-      <div className="app-loading">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="app-loading">
+  //       <div className="loading-spinner">
+  //         <div className="spinner"></div>
+  //         <p>Loading...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <section className="home">
       <DialogsList />
-      {!userPageStore.user && !homeStore.currentDialog.id ? <HelloDialog /> : null}
+
+      {!homeStore.currentUser && <HelloDialog />}
       <Routes>
-        <Route path="/dialogs/*" element={<Dialog />} />
-        <Route path="/profile/*" element={<UserPage />} />
+        <Route path="/dialogs/:dialogId" element={<Dialog />} />
+        <Route path="/profile/:profileId" element={<UserPage />} />
       </Routes>
 
-      {appStore.isMobileVersion ? null : <Profile />}
+      {!appStore.isMobileVersion && <Profile />}
     </section>
   );
 };

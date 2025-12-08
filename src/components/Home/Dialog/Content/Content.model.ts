@@ -5,30 +5,47 @@ import { MessagesApi } from "../../../../api/MessagesApi";
 import { createEffect } from "effector";
 
 export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: string }) => {
-  if (!userId || !myId || !data) {
-    return;
+  try {
+    if (!userId || !myId || !data) {
+      return console.error("Missing fields");
+    }
+
+    const dialogIdRes = await createDialogFx({ id1: myId, id2: userId });
+
+    if (!dialogIdRes?.data) {
+      return console.error("Failed to create dialog"); 
+    }
+
+    await initialiseDialogFx({ userId, myId, page: 0 });
+
+    const message = await MessagesApi.create({
+      dialogId: dialogIdRes.data,
+      myId,
+      data,
+    });
+
+    if (!message?.data) {
+      return console.error("Failed to create message");
+    }
+
+    try {
+      socket.emit("qqq", {
+        content: message.data,
+        to: message.data.creater === userId ? myId : userId,
+      });
+    } catch (socketError) {
+      return console.error("Socket emit failed:", socketError);
+    }
+
+    return message.data;
+  } catch (error) {
+    console.error("Error sending message:", error);
   }
-
-  const dialogIdRes = await createDialogFx({ id1: myId, id2: userId });
-  await initialiseDialogFx({ userId, myId, page: 0 });
-
-  const message = await MessagesApi.create({
-    dialogId: dialogIdRes.data.dialogId,
-    myId,
-    data,
-  });
-
-  socket.emit("qqq", {
-    content: message.data,
-    to: message.data.creater === userId ? myId : userId,
-  });
-
-  return message.data;
 });
 
 export const sendVoiceFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: any }) => {
   if (!userId || !myId || !data) return;
-  
+
   const dialogIdRes = await createDialogFx({ id1: myId, id2: userId });
 
   await initialiseDialogFx({ userId, myId, page: 0 });

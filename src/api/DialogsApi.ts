@@ -2,7 +2,7 @@ import { dialogPromiseType, promiseDialogsTypes } from "../components/Home/Home.
 import instance from "./api";
 
 export const DialogsApi = {
-  getMyDialogs(values: { id: string, page: number }): Promise<promiseDialogsTypes> {
+  getMyDialogs(values: { id: string; page: number }): Promise<promiseDialogsTypes> {
     return instance
       .post(
         `/dialogs/my/${values.id}`,
@@ -16,7 +16,7 @@ export const DialogsApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  create(values: {id_1: string, id_2: string}) {
+  create(values: { id_1: string; id_2: string }) {
     return instance
       .post(
         `/dialogs/create`,
@@ -30,7 +30,7 @@ export const DialogsApi = {
       .then((data) => data)
       .catch((err) => err);
   },
-  find(values: { id_1: string, id_2: string }): Promise<dialogPromiseType> {
+  find(values: { id_1: string; id_2: string }): Promise<dialogPromiseType> {
     return instance
       .get(`/dialogs/${values.id_1}&${values.id_2}`, {
         headers: {

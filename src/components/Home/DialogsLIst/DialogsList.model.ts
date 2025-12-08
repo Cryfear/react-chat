@@ -1,65 +1,35 @@
 import { createEffect, createStore } from "effector";
 import { DialogsApi } from "../../../api/DialogsApi";
 import { UsersApi } from "../../../api/UsersApi";
-import { initialiseDialogFx } from "../Home.model";
 import { getUsersBySearch } from "./SearchDialogs/SearchDialogs";
-import { DialogsListStoreTypes, usersType } from "../Home.types";
+import { DialogsListStoreTypes } from "../Home.types";
 
-export const createDialogFx = createEffect(
-  async ({ id1, id2 }: { id1: string; id2: string }): Promise<any> => {
-    return await DialogsApi.create({ id_1: id1, id_2: id2 });
-  }
-);
+export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string; id2: string }): Promise<any> => {
+  return await DialogsApi.create({ id_1: id1, id_2: id2 });
+});
 
-export const readyToCreateDialogFx = createEffect(
-  async ({ user, myId }: { user: usersType; myId: string }) => {
-    const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
+export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string; page: number }) => {
+  const myDialogs: any = await DialogsApi.getMyDialogs({ id, page });
 
-    if (dialog.data) {
-      await initialiseDialogFx({
-        userId: user.id,
-        myId: myId,
-        page: 0,
-      });
-      return { status: "success", user };
-    }
-  }
-);
+  const Users = await Promise.all(
+    myDialogs.data.map(async (dialog: any) => {
+      return dialog.users[0] !== id ? await UsersApi.findUser(dialog.users[0]) : await UsersApi.findUser(dialog.users[1]);
+    })
+  );
 
-export const DialogsLoaderFx = createEffect(
-  async ({ id, page }: { id: string; page: number }) => {
-    const myDialogs: any = await DialogsApi.getMyDialogs({ id, page });
-
-    const Users = await Promise.all(
-      myDialogs.data.map(async (dialog: any) => {
-        return dialog.users[0] !== id
-          ? await UsersApi.findUser(dialog.users[0])
-          : await UsersApi.findUser(dialog.users[1]);
-      })
-    );
-
-    return {
-      dialogs: Users.map((user, index) => {
-        return {
-          user: user.data,
-          id: myDialogs.data[index]._id,
-        };
-      }),
-      page: page,
-    };
-  }
-);
+  return {
+    dialogs: Users.map((user, index) => {
+      return {
+        user: user.data,
+        id: myDialogs.data[index]._id,
+      };
+    }),
+    page: page,
+  };
+});
 
 export const onScrollDialogsLoaderFx = createEffect(
-  async ({
-    e,
-    page,
-    id,
-  }: {
-    e: React.UIEvent<HTMLElement>;
-    page: number;
-    id: string;
-  }) => {
+  async ({ e, page, id }: { e: React.UIEvent<HTMLElement>; page: number; id: string }) => {
     return await DialogsLoaderFx({ id, page });
   }
 );

@@ -60,7 +60,7 @@ export const DialogItem = ({
   const userName = fullName.length > 10 ? fullName.slice(0, 10) : fullName;
 
   return (
-    <Link className="dialog__item__wrapper" to={`/home/dialogs/${id}`}>
+    <Link className="dialog__item__wrapper" to={`/dialogs/${id}`}>
       <div
         className="dialog__item"
         onClick={() => {

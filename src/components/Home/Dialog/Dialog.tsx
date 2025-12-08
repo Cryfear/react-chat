@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Content } from "./Content/Content";
 import "./Dialog.scss";
-import { HeaderWrapper } from "./Header/HeaderWrapper";
+import { useParams } from "react-router";
+import { loadDialogFx } from "../Home.model";
+import { Header } from "./Header/Header";
 
 export const Dialog = () => {
+  const { dialogId } = useParams();
+
+  useEffect(() => {
+    if (dialogId) loadDialogFx(dialogId);
+  }, [dialogId]);
+
   return (
     <div className="dialog__wrapper">
-      <HeaderWrapper />
+      <Header />
       <Content />
     </div>
   );

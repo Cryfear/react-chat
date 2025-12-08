@@ -13,20 +13,22 @@ export const VoiceMessage = () => {
 
   const [isRecording, setIsRecording] = useState(false);
   const [audioURL, setAudioURL] = useState(null);
+  // eslint-disable-next-line
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-
+  
   const mediaRecorderRef: any = useRef(null);
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef: any = useRef([]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       if (audioURL) {
         URL.revokeObjectURL(audioURL);
       }
       stopMediaStream();
-    };
-  }, [audioURL]);
+    },
+    [audioURL]
+  );
 
   const stopMediaStream = () => {
     if (streamRef.current) {
@@ -35,7 +37,7 @@ export const VoiceMessage = () => {
     }
   };
 
-  const startRecording = async () => {
+  async function startRecording() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder: any = new MediaRecorder(stream);
@@ -72,7 +74,7 @@ export const VoiceMessage = () => {
     } catch (err) {
       console.error("Microphone error", err);
     }
-  };
+  }
 
   const stopRecording = () => {
     mediaRecorderRef.current?.stop();
