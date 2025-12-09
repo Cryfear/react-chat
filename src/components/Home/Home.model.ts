@@ -9,6 +9,7 @@ import {
   HomeStoreTypes,
   initDialogTypes,
   initialiseDialogFxTypes,
+  MessageType,
   onScrollLoaderMessagesTypes,
   unreadMesssagesFxTypes,
   usersType,
@@ -155,7 +156,7 @@ $HomeStore
       },
     };
   })
-  .on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes): any => {
+  .on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes) => {
     if (!data) return state;
 
     return {
@@ -180,13 +181,13 @@ $HomeStore
       isDialogFullLoaded: false, // Сбрасываем при инициализации нового диалога
     };
   })
-  .on(sendMessageFx.doneData, (state, data): any => {
+  .on(sendMessageFx.doneData, (state, data) => {
     return {
       ...state,
       currentDialogMessages: [data, ...state.currentDialogMessages],
     };
   })
-  .on(onScrollLoaderMessages.doneData, (state, data): any => {
+  .on(onScrollLoaderMessages.doneData, (state, data) => {
     if (!data) return state;
 
     if (data.responseCode === "dialog end") {
@@ -194,12 +195,11 @@ $HomeStore
     }
 
     if (data.messages && data.messages.length > 0) {
-      // Проверяем, нет ли уже таких сообщений в списке
-      const existingIds = new Set(state.currentDialogMessages.map((msg: any) => msg._id));
-      const newMessages = data.messages.filter((msg: any) => !existingIds.has(msg._id));
+      const existingIds = new Set(state.currentDialogMessages.map((msg: MessageType) => msg._id));
+      const newMessages = data.messages.filter((msg: MessageType) => !existingIds.has(msg._id));
 
       if (newMessages.length === 0) {
-        return state; // Все сообщения уже есть, ничего не добавляем
+        return state;
       }
 
       return {
@@ -209,7 +209,7 @@ $HomeStore
           ...state.currentDialog,
           page: state.currentDialog.page + 1,
         },
-        loadedDialog: true, // Устанавливаем в true после успешной загрузки
+        loadedDialog: true,
       };
     }
 
@@ -234,7 +234,7 @@ $HomeStore
       loadedDialog: false,
     };
   })
-  .on(socketGetMessage.doneData, (state, data): any => {
+  .on(socketGetMessage.doneData, (state, data) => {
     if (data && state.currentDialog.id === data.dialogId) {
       return {
         ...state,
@@ -249,7 +249,7 @@ $HomeStore
       messageSent: !state.messageSent,
     };
   })
-  .on(setUnreadMessagesFx.doneData, (state, data): any => {
+  .on(setUnreadMessagesFx.doneData, (state, data) => {
     if (data) {
       return {
         ...state,

@@ -1,31 +1,30 @@
 import { createEffect, createStore, sample } from "effector";
 import { ProfilesApi } from "../../../api/ProfilesApi";
+import { IPost } from "../../../hooks/useCreatingPostsList";
 
-export const findPostsFx = createEffect(async (id: string): Promise<any> => {
-  return await ProfilesApi.findPosts(id);
+export const findPostsFx = createEffect(async (id: string): Promise<IPost[]> => {
+  const response = await ProfilesApi.findPosts(id);
+  return response.data; // предполагая что API возвращает { data: IPost[] }
 });
 
-export const createPostFx = createEffect(
-  async ({
-    id,
-    content,
-    creater,
-  }: {
-    id: string;
-    content: string;
-    creater: string;
-  }): Promise<any> => {
-    if (content.length < 1) return false; // если инпут пришел пустой не отправлять запрос на сервер
-    try {
-      await ProfilesApi.createPost({ id, content, date: new Date(), creater });
-      findPostsFx(id);
-    } catch (error) {
-      console.log("post not created");
-    }
-  }
-);
+interface CreatePostParams {
+  id: string;
+  content: string;
+  creater: string;
+}
 
-export const $posts = createStore([]);
+export const createPostFx = createEffect(async ({ id, content, creater }: CreatePostParams): Promise<void> => {
+  if (content.length < 1) return;
+
+  try {
+    await ProfilesApi.createPost({ id, content, date: new Date(), creater });
+    findPostsFx(id);
+  } catch {
+    console.log("post not created");
+  }
+});
+
+export const $posts = createStore<IPost[]>([]);;
 
 sample({
   clock: findPostsFx.doneData,
@@ -52,7 +51,8 @@ export const $UserPageStore = createStore({
   user: null,
   bio: "",
   friends: [],
-} as userPageStoreTypes).on(findProfileFx.doneData, (state, data: any) => {
+} as userPageStoreTypes).on(findProfileFx.doneData, (state, data) => {
+  if(!data) return state;
   return {
     ...state,
     profileId: data.data._id,

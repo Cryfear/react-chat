@@ -16,7 +16,7 @@ export const useDebounceScroll = () => {
   const timeoutRef = useRef<NodeJS.Timeout>(null);
 
   const debouncedScroll = useCallback(
-    (ref: React.RefObject<HTMLDivElement>) => {
+    (ref: React.RefObject<HTMLDivElement | null>) => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }

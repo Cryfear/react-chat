@@ -39,7 +39,7 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
   dialogs: [],
   dialogsSearchPage: 0,
 })
-  .on(DialogsLoaderFx.doneData, (state, { dialogs, page }: any): any => {
+  .on(DialogsLoaderFx.doneData, (state, { dialogs, page }) => {
     if (!state.initialisedDialogs) {
       return {
         ...state,

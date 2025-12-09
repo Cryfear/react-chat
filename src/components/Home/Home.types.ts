@@ -22,19 +22,21 @@ export type initialiseDialogFxTypes = {
   currentDialogID: string;
   currentDialogTyping: boolean;
   currentDialogOpponentId: string;
-  currentDialogMessages: any;
+  currentDialogMessages: MessageType;
 };
 
 export type HomeStoreTypes = {
   isInitialisedDialog: boolean;
   isDialogFullLoaded: boolean;
   loadedDialog: boolean;
-  currentUser: any | {
-    name: string;
-    id: string;
-    avatar: string;
-    isOnline: boolean;
-  };
+  currentUser:
+    | any
+    | {
+        name: string;
+        id: string;
+        avatar: string;
+        isOnline: boolean;
+      };
   currentDialog: {
     isTyping: boolean;
     page: number;
@@ -62,7 +64,7 @@ export type onScrollLoaderMessagesTypes = {
   dialogId: string;
   page: number;
   myId: string;
-  ref: React.RefObject<HTMLDivElement>;
+  ref: React.RefObject<HTMLDivElement | null>;
   isDialogFullLoaded: boolean;
 };
 
@@ -83,17 +85,34 @@ export type promiseDialogsTypes = {
   data: [{ users: [string, string] }];
 };
 
-export type DialogsListStoreTypes = {
+export interface IUser {
+  id: string;
+  fullName: string;
+  avatar: string;
+  isOnline: boolean;
+}
+
+export interface IDialogPreview {
+  id: string;
+  user: IUser;
+}
+
+export interface DialogsListStoreTypes {
   initialisedDialogs: boolean;
-  dialogs: [];
+  dialogs: DialogsPreviewType[];
   dialogsSearchPage: number;
-};
+
+  isUserSearch?: boolean;
+  users?: IUser[];
+  initialisedUsers?: boolean;
+  usersSearchPage?: number;
+}
 
 export type UsersListStoreTypes = {
   initialisedUsers: boolean;
   users: [];
   usersSearchPage: number;
-} 
+};
 
 export type OpenedProfileTypes = {
   isOpen: boolean;

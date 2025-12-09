@@ -1,28 +1,28 @@
 import React, { useCallback, useRef } from "react";
 import { useDebounceScroll } from "../../../../../hooks/useDebounceScroll";
 
-export const Messages = ({
-  messages,
-  setShowEmojiPicker,
-}: {
-  messages: any;
-  setShowEmojiPicker: any;
-}) => {
-  const scrollRef: any = useRef(null);
+interface MessagesProps {
+  messages: React.ReactNode;
+  setShowEmojiPicker: (value: boolean) => void;
+}
+
+export const Messages: React.FC<MessagesProps> = ({ messages, setShowEmojiPicker }) => {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const debouncedScroll = useDebounceScroll();
 
   const handleScroll = useCallback(() => {
-    debouncedScroll(scrollRef);
+    if (scrollRef.current) {
+      debouncedScroll(scrollRef);
+    }
   }, [debouncedScroll]);
 
   return (
     <div
-      onClick={() => setShowEmojiPicker(false)}
       className="content__messages"
       ref={scrollRef}
       onScroll={handleScroll}
+      onClick={() => setShowEmojiPicker(false)}
     >
-      
       {messages}
     </div>
   );

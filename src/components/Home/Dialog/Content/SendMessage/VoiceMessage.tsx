@@ -5,30 +5,35 @@ import { $HomeStore } from "../../../Home.model";
 import { $LoginStore } from "../../../../Auth/Login/Login.model";
 import { sendVoiceFx } from "../Content.model";
 
-export const VoiceMessage = () => {
+// Тип данных, отправляемых в sendVoiceFx
+interface SendVoiceParams {
+  myId: string;
+  data: Blob;
+  userId: string;
+}
+
+export const VoiceMessage: React.FC = () => {
   const { homeStore, authStore } = useUnit({
     homeStore: $HomeStore,
     authStore: $LoginStore,
   });
 
-  const [isRecording, setIsRecording] = useState(false);
-  const [audioURL, setAudioURL] = useState(null);
-  // eslint-disable-next-line
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-  
-  const mediaRecorderRef: any = useRef(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const chunksRef: any = useRef([]);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [audioURL, setAudioURL] = useState<string | null>(null);
+  const [, setAudioBlob] = useState<Blob | null>(null);
 
-  useEffect(
-    () => () => {
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const chunksRef = useRef<BlobPart[]>([]);
+
+  useEffect(() => {
+    return () => {
       if (audioURL) {
         URL.revokeObjectURL(audioURL);
       }
       stopMediaStream();
-    },
-    [audioURL]
-  );
+    };
+  }, [audioURL]);
 
   const stopMediaStream = () => {
     if (streamRef.current) {
@@ -40,12 +45,15 @@ export const VoiceMessage = () => {
   async function startRecording() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder: any = new MediaRecorder(stream);
+
+      streamRef.current = stream;
+
+      const mediaRecorder = new MediaRecorder(stream);
 
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
 
-      mediaRecorder.ondataavailable = (e: any) => {
+      mediaRecorder.ondataavailable = (e: BlobEvent) => {
         chunksRef.current.push(e.data);
       };
 
@@ -56,15 +64,18 @@ export const VoiceMessage = () => {
 
         setAudioBlob(blob);
 
-        const url: any = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob);
         setAudioURL(url);
 
-        sendVoiceFx({
+        const params: SendVoiceParams = {
           myId: authStore.myUserData.id,
           data: blob,
           userId: homeStore.currentUser.id,
-        });
+        };
 
+        sendVoiceFx(params);
+
+        // сбрасываем
         setAudioBlob(null);
         setAudioURL(null);
       };

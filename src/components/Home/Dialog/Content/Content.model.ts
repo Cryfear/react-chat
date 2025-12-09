@@ -43,7 +43,7 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
   }
 });
 
-export const sendVoiceFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: any }) => {
+export const sendVoiceFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: Blob }) => {
   if (!userId || !myId || !data) return;
 
   const dialogIdRes = await createDialogFx({ id1: myId, id2: userId });
