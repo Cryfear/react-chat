@@ -1,9 +1,9 @@
 import { createStore } from "effector";
-import { AuthApi } from "../../../api/AuthApi";
+import { AuthApi } from "../api/AuthApi";
 import { createEffect } from "effector";
-import { socket } from "../../../socket";
-import { LoginStoreTypes } from "../Auth.types";
-import { UsersApi } from "../../../api/UsersApi";
+import { socket } from "../socket";
+import { LoginStoreTypes } from "../types/Auth.types";
+import { UsersApi } from "../api/UsersApi";
 
 export const $LoginStore = createStore<LoginStoreTypes>({
   isAuth: false,

@@ -1,16 +1,16 @@
 import React, { useEffect, useCallback } from "react";
 import { useUnit } from "effector-react";
-import { Header } from "./Header/Header";
-import { SearchDialogs } from "./SearchDialogs/SearchDialogs";
 import "./DialogsList.scss";
 import classNames from "classnames";
-import { DialogsLoaderFx } from "./DialogsList.model";
-import { UserDialogsContainer } from "./UserDialogs/UserDialogsContainer";
-import { $AppStore, isMobileVersionChanger } from "../../../App.model";
-import { ShowHideButton } from "./Show-hide-button/Show-hide-button";
-import { $Show_Hide_ButtonStore } from "./Show-hide-button/Show-hide-button.model";
+import { $AppStore, isMobileVersionChanger } from "../../../store/App.model";
 import { useDebounceDialogsScroll } from "../../../hooks/useDebounceScroll";
 import { useMediaQuery } from "../../../hooks/useMediaQuery";
+import { DialogsLoaderFx } from "../../../store/DialogsList.model";
+import { $Show_Hide_ButtonStore } from "./Show-hide-button/Show-hide-button.model";
+import { ShowHideButton } from "./Show-hide-button/Show-hide-button";
+import { Header } from "./Header/Header";
+import { SearchDialogs } from "./SearchDialogs/SearchDialogs";
+import { UserDialogsContainer } from "./UserDialogs/UserDialogsContainer";
 
 export const DialogsList = () => {
   const { appStore, ShowHideButtonStore } = useUnit({

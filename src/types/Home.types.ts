@@ -15,7 +15,7 @@ export type messageType = {
 };
 
 export type initialiseDialogFxTypes = {
-  name: string;
+  fullName: string;
   userId: string;
   avatar: string;
   isOnline: boolean;

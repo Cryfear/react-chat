@@ -3,8 +3,8 @@ import classnames from "classnames";
 import { ReadedCheckComponent } from "../ReadedCheckComponent/ReadedCheckComponent";
 import { dateFormatter } from "../../../../../../utils/dateFormatter";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "../../../../Home.model";
-import {$LoginStore} from "../../../../../Auth/Login/Login.model";
+import { $HomeStore } from "../../../../../../store/Home.model";
+import {$LoginStore} from "../../../../../../store/Login.model";
 
 export const MessageItem = ({
   mine,

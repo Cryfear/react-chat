@@ -1,4 +1,4 @@
-import { MessagesApi } from './../../../../../api/MessagesApi';
+import { MessagesApi } from '../api/MessagesApi';
 import { createEffect } from 'effector';
 
 export const getLastDialogMessage = createEffect(async (dialogId: string) => {

@@ -1,8 +1,8 @@
-import { createDialogFx } from "../../DialogsLIst/DialogsList.model";
-import { initialiseDialogFx } from "../../Home.model";
-import { socket } from "../../../../socket";
-import { MessagesApi } from "../../../../api/MessagesApi";
+import { initialiseDialogFx } from "./Home.model";
+import { socket } from "../socket";
+import { MessagesApi } from "../api/MessagesApi";
 import { createEffect } from "effector";
+import { createDialogFx } from "./DialogsList.model";
 
 export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: string }) => {
   try {

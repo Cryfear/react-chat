@@ -1,4 +1,4 @@
-import { dialogPromiseType, promiseDialogsTypes } from "../components/Home/Home.types";
+import { dialogPromiseType, promiseDialogsTypes } from "../types/Home.types";
 import instance from "./api";
 
 export const DialogsApi = {

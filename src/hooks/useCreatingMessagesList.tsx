@@ -1,6 +1,6 @@
 import React from "react";
 import { MessageItem } from "../components/Home/Dialog/Content/Messages/MessagesTypes/Text";
-import { MessageType } from "../components/Home/Home.types";
+import { MessageType } from "../types/Home.types";
 import Voice from "../components/Home/Dialog/Content/Messages/MessagesTypes/Voice";
 
 export const creatingMessagesList = (messages: MessageType[], onSendScrollRef: React.RefObject<HTMLDivElement | null>, myId: string) => {

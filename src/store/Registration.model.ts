@@ -1,7 +1,7 @@
 import { createStore } from "effector";
 
 import { createEffect } from 'effector';
-import { UsersApi } from "../../../api/UsersApi";
+import { UsersApi } from "../api/UsersApi";
 
 export const CreateAccountFx = createEffect(async (data: { email: string, name: string, password: string }) => {
   return await UsersApi.create(data);

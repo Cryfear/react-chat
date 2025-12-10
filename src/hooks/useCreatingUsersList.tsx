@@ -1,6 +1,6 @@
-import { UsersSearchItem } from "../components/Home/DialogsLIst/UserDialogs/UsersSearchItem/UsersSearchItem";
+import { UsersSearchItem } from "../components/Home/DialogsList/UserDialogs/UsersSearchItem/UsersSearchItem";
 import React from "react";
-import { usersType } from "../components/Home/Home.types";
+import { usersType } from "../types/Home.types";
 
 export const useCreatingUsersList = (users: usersType[]) => {
   return users && users.length > 0 ? (

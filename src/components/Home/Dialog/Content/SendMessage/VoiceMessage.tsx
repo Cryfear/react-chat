@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import voice from "../../../../../assets/mic.png";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "../../../Home.model";
-import { $LoginStore } from "../../../../Auth/Login/Login.model";
-import { sendVoiceFx } from "../Content.model";
+import { $HomeStore } from "../../../../../store/Home.model";
+import { $LoginStore } from "../../../../../store/Login.model";
+import { sendVoiceFx } from "../../../../../store/Content.model";
 
 // Тип данных, отправляемых в sendVoiceFx
 interface SendVoiceParams {

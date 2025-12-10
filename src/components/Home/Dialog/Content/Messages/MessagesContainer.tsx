@@ -2,13 +2,13 @@ import React from "react";
 
 import "./MessagesTypes.scss";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "../../../Home.model";
+import { $HomeStore } from "../../../../../store/Home.model";
 
 import { useRef } from "react";
 import { EmptyDialog } from "../EmptyDialog/EmptyDialog";
 import { Messages } from "./Messages";
 import { creatingMessagesList } from "../../../../../hooks/useCreatingMessagesList";
-import { $LoginStore } from "../../../../Auth/Login/Login.model";
+import { $LoginStore } from "../../../../../store/Login.model";
 
 export const MessagesContainer = ({setShowEmojiPicker}: any) => {
   const { currentDialogMessages } = useUnit($HomeStore);

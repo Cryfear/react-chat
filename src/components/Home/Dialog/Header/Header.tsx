@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import dots from "../../../../assets/dots.svg";
 import "./Header.scss";
-import { findProfileFx } from "../../UserPage/UserPage.model";
+import { findProfileFx } from "../../../../store/UserPage.model";
 import { Link } from "react-router-dom";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "../../Home.model";
+import { $HomeStore } from "../../../../store/Home.model";
 
 export const Header = () => {
   const store = useUnit($HomeStore);
 
-  // Дефолтный объект
   const user = store.currentUser || {
     fullName: 'Loading...',
     id: '',
@@ -18,14 +17,9 @@ export const Header = () => {
 
   const { fullName, id, isOnline } = user;
 
-  useEffect(() => {
-    console.log(fullName, id, isOnline)
-  }, [fullName, id, isOnline])
-
   return (
     <div className="dialog__header">
       <div className="dialog__header-name">
-        {/* Безопасная ссылка */}
         <Link 
           className="dialog__header__link" 
           to={id ? `/profile/${id}` : '#'}

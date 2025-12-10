@@ -5,9 +5,9 @@ import photo from "../../../../../assets/send-photo.png";
 import send from "../../../../../assets/send-message.png";
 import TextareaAutosize from "react-textarea-autosize";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "../../../Home.model";
-import { sendMessageFx } from "../Content.model";
-import { $LoginStore } from "../../../../Auth/Login/Login.model";
+import { $HomeStore } from "../../../../../store/Home.model";
+import { sendMessageFx } from "../../../../../store/Content.model";
+import { $LoginStore } from "../../../../../store/Login.model";
 import { VoiceMessage } from "./VoiceMessage";
 
 interface SendMessageProps {

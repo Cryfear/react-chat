@@ -4,9 +4,9 @@ import pencil from "../../../../assets/pencil.svg";
 import people from "../../../../assets/people.svg";
 import { Profile } from "../../Profile/Profile";
 import { useUnit } from "effector-react";
-import { $AppStore } from "../../../../App.model";
+import { $AppStore } from "../../../../store/App.model";
 import { changeUserSearch } from "../UserDialogs/UserDialogsContainer";
-import { UsersLoaderFx } from "../UserDialogs/UsersList.model";
+import { UsersLoaderFx } from "../../../../store/UsersList.model";
 
 export const Header = () => {
   const appStore = useUnit($AppStore);

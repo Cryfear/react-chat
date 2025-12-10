@@ -3,7 +3,7 @@ import styles from "./UserPage.module.css";
 import { RightColumn } from "./RightColumn/RightColumn";
 import { LeftColumn } from "./LeftColumn/LeftColumn";
 import { useParams } from "react-router";
-import { findPostsFx, findProfileFx } from "./UserPage.model";
+import { findPostsFx, findProfileFx } from "../../../store/UserPage.model";
 
 export const UserPage = () => {
   const { profileId } = useParams();

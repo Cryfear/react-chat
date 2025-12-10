@@ -5,7 +5,7 @@ import "./styles/normalize.css";
 import "./styles/index.scss";
 import { Navigate, Route, Routes } from "react-router";
 import { useUnit } from "effector-react";
-import { $LoginStore, isLoginFx } from "./components/Auth/Login/Login.model";
+import { $LoginStore, isLoginFx } from "./store/Login.model";
 import { useLocation } from "react-router";
 
 export const App = () => {

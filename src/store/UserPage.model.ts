@@ -1,6 +1,6 @@
 import { createEffect, createStore, sample } from "effector";
-import { ProfilesApi } from "../../../api/ProfilesApi";
-import { IPost } from "../../../hooks/useCreatingPostsList";
+import { ProfilesApi } from "../api/ProfilesApi";
+import { IPost } from "../hooks/useCreatingPostsList";
 
 export const findPostsFx = createEffect(async (id: string): Promise<IPost[]> => {
   const response = await ProfilesApi.findPosts(id);

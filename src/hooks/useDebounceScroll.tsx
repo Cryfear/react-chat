@@ -3,13 +3,10 @@ import { useUnit } from "effector-react";
 import {
   $HomeStore,
   onScrollLoaderMessages,
-} from "../components/Home/Home.model";
-import {
-  $DialogsListStore,
-  onScrollDialogsLoaderFx,
-} from "../components/Home/DialogsLIst/DialogsList.model";
-import { $UsersListStore, onScrollUsersLoaderFx } from "../components/Home/DialogsLIst/UserDialogs/UsersList.model";
-import { $isUserSearch } from "../components/Home/DialogsLIst/UserDialogs/UserDialogsContainer";
+} from "../store/Home.model";
+import { $UsersListStore, onScrollUsersLoaderFx } from "../store/UsersList.model";
+import { $isUserSearch } from "../components/Home/DialogsList/UserDialogs/UserDialogsContainer";
+import { $DialogsListStore, onScrollDialogsLoaderFx } from "../store/DialogsList.model";
 
 export const useDebounceScroll = () => {
   const { currentDialog, isDialogFullLoaded } = useUnit($HomeStore);
@@ -83,7 +80,7 @@ export const useDebounceDialogsScroll = () => {
   const clearDebounce = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
-      timeoutRef.current = null; // важно обнулять ссылку
+      timeoutRef.current = null;
     }
   }, []);
 

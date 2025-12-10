@@ -2,7 +2,7 @@ import { useUnit } from "effector-react";
 import React, { useState } from "react";
 import { OpenedProfile } from "./OpenedProfile";
 import "./Profile.scss";
-import {$LoginStore} from "../../Auth/Login/Login.model";
+import {$LoginStore} from "../../../store/Login.model";
 
 export const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);

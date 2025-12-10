@@ -4,8 +4,8 @@ import { useCreatingUsersList } from "../../../../hooks/useCreatingUsersList";
 import { useCreatingDialogsList } from "../../../../hooks/useCreatingDialogsList";
 import { createEvent, createStore } from "effector";
 import { useUnit } from "effector-react";
-import { $DialogsListStore } from "../DialogsList.model";
-import { $UsersListStore } from "./UsersList.model";
+import { $UsersListStore } from "../../../../store/UsersList.model";
+import { $DialogsListStore } from "../../../../store/DialogsList.model";
 
 export const $isUserSearch = createStore(false);
 export const changeUserSearch = createEvent();

@@ -1,8 +1,8 @@
 import { FormikErrors, withFormik } from "formik";
 import { passwordValidate } from "../../../../utils/validations";
 import { RegistrationForm } from "./RegistrationForm";
-import { CreateAccountFx } from "../Registration.model";
-import { RegistrationFormValuesTypes } from "../../Auth.types";
+import { CreateAccountFx } from "../../../../store/Registration.model";
+import { RegistrationFormValuesTypes } from "../../../../types/Auth.types";
 
 export const RegistrationFormContainer = withFormik<{}, RegistrationFormValuesTypes>({
   mapPropsToValues: (): RegistrationFormValuesTypes => ({

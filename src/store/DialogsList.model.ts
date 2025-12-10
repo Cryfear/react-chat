@@ -1,8 +1,8 @@
 import { createEffect, createStore } from "effector";
-import { DialogsApi } from "../../../api/DialogsApi";
-import { UsersApi } from "../../../api/UsersApi";
-import { getUsersBySearch } from "./SearchDialogs/SearchDialogs";
-import { DialogsListStoreTypes } from "../Home.types";
+import { DialogsApi } from "../api/DialogsApi";
+import { UsersApi } from "../api/UsersApi";
+import { DialogsListStoreTypes } from "../types/Home.types";
+import { getUsersBySearch } from "../components/Home/DialogsList/SearchDialogs/SearchDialogs";
 
 export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string; id2: string }): Promise<any> => {
   return await DialogsApi.create({ id_1: id1, id_2: id2 });

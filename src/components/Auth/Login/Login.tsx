@@ -6,8 +6,8 @@ import "./Login.scss";
 import { passwordValidate } from "../../../utils/validations";
 import { Link, Navigate } from "react-router-dom";
 import { useUnit } from "effector-react";
-import { $LoginStore, LoginFx } from "./Login.model";
-import { LoginTypes } from "../Auth.types";
+import { $LoginStore, LoginFx } from "../../../store/Login.model";
+import { LoginTypes } from "../../../types/Auth.types";
 
 export const Login = ({
   errors,

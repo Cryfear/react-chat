@@ -1,9 +1,9 @@
-import { getUsersBySearch } from "./DialogsLIst/SearchDialogs/SearchDialogs";
+import { getUsersBySearch } from "../components/Home/DialogsList/SearchDialogs/SearchDialogs";
 import { createEffect, createEvent, createStore, sample } from "effector";
-import { DialogsApi } from "../../api/DialogsApi";
-import { MessagesApi } from "../../api/MessagesApi";
-import { UsersApi } from "../../api/UsersApi";
-import { sendMessageFx } from "./Dialog/Content/Content.model";
+import { DialogsApi } from "../api/DialogsApi";
+import { MessagesApi } from "../api/MessagesApi";
+import { UsersApi } from "../api/UsersApi";
+import { sendMessageFx } from "./Content.model";
 import {
   dialogPromiseType,
   HomeStoreTypes,
@@ -13,8 +13,8 @@ import {
   onScrollLoaderMessagesTypes,
   unreadMesssagesFxTypes,
   usersType,
-} from "./Home.types";
-import { socketGetMessage } from "../../socket";
+} from "../types/Home.types";
+import { socketGetMessage } from "../socket";
 
 export const $HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
@@ -104,7 +104,7 @@ export const initialiseDialogFx = createEffect(async ({ userId, myId, page }: in
   });
 
   return {
-    name: user.data.fullName,
+    fullName: user.data.fullName,
     userId: user.data.id,
     avatar: user.data.avatar,
     isOnline: user.data.isOnline,
@@ -164,7 +164,7 @@ $HomeStore
       loadedDialog: true,
       messageSent: false,
       currentUser: {
-        name: data.name,
+        fullName: data.fullName,
         id: data.userId,
         avatar: data.avatar,
         isOnline: data.isOnline,

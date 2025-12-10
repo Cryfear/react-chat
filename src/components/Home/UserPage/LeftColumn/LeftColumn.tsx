@@ -2,7 +2,7 @@ import React from "react";
 import styles from '../UserPage.module.css';
 import { useUnit } from "effector-react";
 import { Photos } from "../RightColumn/Photos/Photos";
-import { $UserPageStore } from "../UserPage.model";
+import { $UserPageStore } from "../../../../store/UserPage.model";
 
 export const LeftColumn = () => {
   const userPageStore = useUnit($UserPageStore);

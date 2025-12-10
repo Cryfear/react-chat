@@ -1,6 +1,6 @@
 import { createEffect } from "effector";
 import { io } from "socket.io-client";
-import { messageType } from "./components/Home/Home.types";
+import { messageType } from "./types/Home.types";
 
 export const socketGetMessage = createEffect((msg: messageType) => {
   if (msg) {

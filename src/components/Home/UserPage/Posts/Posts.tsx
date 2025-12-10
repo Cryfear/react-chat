@@ -2,7 +2,7 @@ import React from "react"
 import styles from '../UserPage.module.css';
 import { useUnit } from "effector-react";
 import { useCreatingPostsList } from "../../../../hooks/useCreatingPostsList";
-import { $posts } from "../UserPage.model";
+import { $posts } from "../../../../store/UserPage.model";
 
 export const Posts = () => {
   const postsStore = useUnit($posts);

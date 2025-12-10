@@ -2,10 +2,10 @@ import { useUnit } from "effector-react";
 import { Field, Form } from "formik";
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
-import { $RegistrationStore } from "../Registration.model";
+import { $RegistrationStore } from "../../../../store/Registration.model";
 
 import "./RegistrationForm.scss";
-import { RegistrationTypesFormik } from "../../Auth.types";
+import { RegistrationTypesFormik } from "../../../../types/Auth.types";
 
 export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypesFormik) => {
   const store = useUnit($RegistrationStore);

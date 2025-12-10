@@ -1,6 +1,6 @@
 import React from "react";
-import { DialogItem } from "../components/Home/DialogsLIst/UserDialogs/DialogItem/DialogItem";
-import { DialogsPreviewType } from "../components/Home/Home.types";
+import { DialogItem } from "../components/Home/DialogsList/UserDialogs/DialogItem/DialogItem";
+import { DialogsPreviewType } from "../types/Home.types";
 
 export const useCreatingDialogsList = (dialogs: DialogsPreviewType[]) => {
   return dialogs && dialogs.length > 0 ? (

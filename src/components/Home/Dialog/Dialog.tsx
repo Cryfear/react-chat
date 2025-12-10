@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Content } from "./Content/Content";
 import "./Dialog.scss";
 import { useParams } from "react-router";
-import { loadDialogFx } from "../Home.model";
+import { loadDialogFx } from "../../../store/Home.model";
 import { Header } from "./Header/Header";
 
 export const Dialog = () => {

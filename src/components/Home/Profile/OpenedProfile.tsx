@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 import { UsersApi } from "../../../api/UsersApi";
-import { logoutFx } from "../../Auth/Login/Login.model";
+import { logoutFx } from "../../../store/Login.model";
 import { FileUpload } from "./FileUpload/FileUpload";
 import { Link } from "react-router-dom";
-import { OpenedProfileTypes } from "../Home.types";
+import { OpenedProfileTypes } from "../../../types/Home.types";
 import { Button } from "@radix-ui/themes";
 
 type statusType = "changed!" | null | "fail.";

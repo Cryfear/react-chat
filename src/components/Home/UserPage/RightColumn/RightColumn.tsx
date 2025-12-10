@@ -2,7 +2,7 @@ import React from "react";
 import styles from '../UserPage.module.css';
 import img from '../../../../assets/bubble-chat.png';
 import { useUnit } from "effector-react";
-import { $UserPageStore} from "../UserPage.model";
+import { $UserPageStore} from "../../../../store/UserPage.model";
 import { Posts } from "../Posts/Posts";
 import { CreatePost } from "./CreatePost/CreatePost";
 

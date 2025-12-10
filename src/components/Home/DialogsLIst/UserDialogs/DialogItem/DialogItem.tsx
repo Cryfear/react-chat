@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import classnames from "classnames";
-import { $HomeStore, initialiseDialogFx } from "../../../Home.model";
+import { $HomeStore, initialiseDialogFx } from "../../../../../store/Home.model";
 import { useUnit } from "effector-react";
 import { useState } from "react";
 import { LastMessageDateFormatter } from "../../../../../utils/dateFormatter";
 import {
   getLastDialogMessage,
   getUnreadedMessagesCount,
-} from "./DialogItem.model";
+} from "../../../../../store/DialogItem.model";
 import { Link } from "react-router-dom";
 
 export const DialogItem = ({

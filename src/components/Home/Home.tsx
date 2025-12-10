@@ -1,31 +1,31 @@
 import { useUnit } from "effector-react";
 import React from "react";
-import { $AppStore } from "../../App.model";
-import { DialogsList } from "./DialogsLIst/DialogsList";
+import { $AppStore } from "../../store/App.model";
+import { DialogsList } from "./DialogsList/DialogsList";
 import "./Home.scss";
 import { Profile } from "./Profile/Profile";
 import { Route, Routes } from "react-router";
 import { HelloDialog } from "./Dialog/HelloDialog";
-import { $HomeStore } from "./Home.model";
+import { $HomeStore } from "../../store/Home.model";
 import { Dialog } from "./Dialog/Dialog";
 import { UserPage } from "./UserPage/UserPage";
 
 export const Home = () => {
-  const { appStore, homeStore } = useUnit({
-    appStore: $AppStore,
+  const { homeStore, AppStore } = useUnit({
     homeStore: $HomeStore,
+    AppStore: $AppStore
   });
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="app-loading">
-  //       <div className="loading-spinner">
-  //         <div className="spinner"></div>
-  //         <p>Loading...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (AppStore.isLoading) {
+    return (
+      <div className="app-loading">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="home">
@@ -37,7 +37,7 @@ export const Home = () => {
         <Route path="/profile/:profileId" element={<UserPage />} />
       </Routes>
 
-      {!appStore.isMobileVersion && <Profile />}
+      {!AppStore.isMobileVersion && <Profile />}
     </section>
   );
 };
