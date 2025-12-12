@@ -1,8 +1,8 @@
 import { initialiseDialogFx } from "./Home.model";
-import { socket } from "../socket";
-import { MessagesApi } from "../api/MessagesApi";
+import { MessagesApi } from "@api/MessagesApi";
 import { createEffect } from "effector";
 import { createDialogFx } from "./DialogsList.model";
+import { socket } from "@/socket";
 
 export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: string }) => {
   try {
@@ -13,7 +13,7 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
     const dialogIdRes = await createDialogFx({ id1: myId, id2: userId });
 
     if (!dialogIdRes?.data) {
-      return console.error("Failed to create dialog"); 
+      return console.error("Failed to create dialog");
     }
 
     await initialiseDialogFx({ userId, myId, page: 0 });

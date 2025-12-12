@@ -1,10 +1,9 @@
-import React from "react";
 import classnames from "classnames";
 import { ReadedCheckComponent } from "../ReadedCheckComponent/ReadedCheckComponent";
-import { dateFormatter } from "../../../../../../utils/dateFormatter";
+import { dateFormatter } from "@utils/dateFormatter";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "../../../../../../store/Home.model";
-import {$LoginStore} from "../../../../../../store/Login.model";
+import { $HomeStore } from "@stores/Home.model";
+import {$LoginStore} from "@stores/Login.model";
 
 export const MessageItem = ({
   mine,

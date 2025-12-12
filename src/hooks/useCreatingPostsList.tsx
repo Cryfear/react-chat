@@ -1,5 +1,4 @@
-import React from "react";
-import { Post } from "../components/Home/UserPage/Posts/Post/Post";
+import { Post } from "@components/UserPage/Posts/Post/Post";
 
 export type IPost = {
     creater: {

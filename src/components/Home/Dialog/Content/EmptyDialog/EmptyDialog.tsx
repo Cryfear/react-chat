@@ -1,6 +1,4 @@
-import React from "react";
-
-import svg from "../../../../../assets/waving-hand.svg";
+import svg from "@assets/waving-hand.svg";
 
 export const EmptyDialog = () => {
   return (

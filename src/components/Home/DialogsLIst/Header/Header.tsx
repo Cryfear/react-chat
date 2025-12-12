@@ -1,12 +1,11 @@
-import React from "react";
 import "./Header.scss";
-import pencil from "../../../../assets/pencil.svg";
-import people from "../../../../assets/people.svg";
-import { Profile } from "../../Profile/Profile";
+import pencil from "@assets/pencil.svg";
+import people from "@assets/people.svg";
 import { useUnit } from "effector-react";
-import { $AppStore } from "../../../../store/App.model";
+import { $AppStore } from "@stores/App.model";
 import { changeUserSearch } from "../UserDialogs/UserDialogsContainer";
-import { UsersLoaderFx } from "../../../../store/UsersList.model";
+import { UsersLoaderFx } from "@stores/UsersList.model";
+import { Profile } from "@/components/Profile/Profile";
 
 export const Header = () => {
   const appStore = useUnit($AppStore);

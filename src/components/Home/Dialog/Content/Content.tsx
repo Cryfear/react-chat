@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MessagesContainer } from "./Messages/MessagesContainer";
 import { SendMessage } from "./SendMessage/SendMessage";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
@@ -7,7 +7,7 @@ import "./Content.scss";
 export const Content = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  
+
   const handleEmojiClick = (emojiData: EmojiClickData) => {
     setInputValue((prev) => prev + emojiData.emoji);
   };
@@ -26,11 +26,7 @@ export const Content = () => {
         </div>
       )}
 
-      <SendMessage
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        onToggleEmojiPicker={toggleEmojiPicker}
-      />
+      <SendMessage inputValue={inputValue} setInputValue={setInputValue} onToggleEmojiPicker={toggleEmojiPicker} />
     </div>
   );
 };

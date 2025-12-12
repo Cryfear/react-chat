@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./UserPage.module.css";
 import { RightColumn } from "./RightColumn/RightColumn";
 import { LeftColumn } from "./LeftColumn/LeftColumn";
 import { useParams } from "react-router";
-import { findPostsFx, findProfileFx } from "../../../store/UserPage.model";
+import { findPostsFx, findProfileFx } from "../../store/UserPage.model";
 
 export const UserPage = () => {
   const { profileId } = useParams();
 
   useEffect(() => {
-    console.log(profileId)
+    console.log(profileId);
     if (profileId) findProfileFx(profileId);
     if (profileId) findPostsFx(profileId);
   }, [profileId]);

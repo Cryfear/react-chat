@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./SearchDialogs.scss";
-import loop from "../../../../assets/loop.svg";
+import loop from "@assets/loop.svg";
 import { useDebounce } from "use-lodash-debounce"; // this shit don't give me typescript this file, let me some time to fix it
 import { createEffect } from "effector";
-import { UsersApi } from "../../../../api/UsersApi";
+import { UsersApi } from "@api/UsersApi";
 
-export const getUsersBySearch = createEffect(
-  async (values) => {
-    try {
-      if (values.searchText !== "") {
-        return await UsersApi.getUsersByName(values);
-      } else {
-        return "close";
-      }
-    } catch (_) {
+export const getUsersBySearch = createEffect(async (values) => {
+  try {
+    if (values.searchText !== "") {
+      return await UsersApi.getUsersByName(values);
+    } else {
       return "close";
     }
+  } catch (_) {
+    return "close";
   }
-);
+});
 
 export const SearchDialogs = () => {
   const [searchText, setSearchText] = useState("");

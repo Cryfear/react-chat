@@ -1,8 +1,8 @@
-import { getUsersBySearch } from "../components/Home/DialogsList/SearchDialogs/SearchDialogs";
+import { getUsersBySearch } from "@components/Home/DialogsList/SearchDialogs/SearchDialogs";
 import { createEffect, createEvent, createStore, sample } from "effector";
-import { DialogsApi } from "../api/DialogsApi";
-import { MessagesApi } from "../api/MessagesApi";
-import { UsersApi } from "../api/UsersApi";
+import { DialogsApi } from "@api/DialogsApi";
+import { MessagesApi } from "@api/MessagesApi";
+import { UsersApi } from "@api/UsersApi";
 import { sendMessageFx } from "./Content.model";
 import {
   dialogPromiseType,
@@ -51,7 +51,7 @@ export const readyToCreateDialogFx = createEffect(async ({ user, myId }: { user:
     }
   } catch (error) {
     clearMessages();
-    return { status: "error", user }; 
+    return { status: "error", user };
   }
 });
 

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../../UserPage.module.css";
-import likesvg from "../../../../../assets/like-svgrepo-com.svg";
-import emptylike from "../../../../../assets/like-svgrepo-com (1).svg";
-import { IPost } from "../../../../../hooks/useCreatingPostsList";
+import { IPost } from "@/hooks/useCreatingPostsList";
+import likesvg from '@assets/like-svgrepo-com.svg';
+import emptylike from '@assets/like-svgrepo-com (1).svg';
 
 export const Post = (props: IPost) => {
   const [islike, setIsLike] = useState(false);

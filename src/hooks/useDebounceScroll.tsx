@@ -1,12 +1,9 @@
 import { useRef, useCallback } from "react";
 import { useUnit } from "effector-react";
-import {
-  $HomeStore,
-  onScrollLoaderMessages,
-} from "../store/Home.model";
-import { $UsersListStore, onScrollUsersLoaderFx } from "../store/UsersList.model";
-import { $isUserSearch } from "../components/Home/DialogsList/UserDialogs/UserDialogsContainer";
-import { $DialogsListStore, onScrollDialogsLoaderFx } from "../store/DialogsList.model";
+import { $HomeStore, onScrollLoaderMessages } from "../store/Home.model";
+import { $UsersListStore, onScrollUsersLoaderFx } from "@stores/UsersList.model";
+import { $isUserSearch } from "@components/Home/DialogsList/UserDialogs/UserDialogsContainer";
+import { $DialogsListStore, onScrollDialogsLoaderFx } from "@stores/DialogsList.model";
 
 export const useDebounceScroll = () => {
   const { currentDialog, isDialogFullLoaded } = useUnit($HomeStore);
@@ -56,7 +53,6 @@ export const useDebounceDialogsScroll = () => {
       const target = e.currentTarget;
 
       timeoutRef.current = setTimeout(() => {
-
         if (!target) return;
 
         const { scrollTop, scrollHeight, clientHeight } = target;

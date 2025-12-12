@@ -1,8 +1,7 @@
-import React from "react";
 import styles from '../UserPage.module.css';
 import { useUnit } from "effector-react";
 import { Photos } from "../RightColumn/Photos/Photos";
-import { $UserPageStore } from "../../../../store/UserPage.model";
+import { $UserPageStore } from "@stores/UserPage.model";
 
 export const LeftColumn = () => {
   const userPageStore = useUnit($UserPageStore);

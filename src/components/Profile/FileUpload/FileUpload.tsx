@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useRef, useState } from "react";
-import { uploadFileFx } from "../../../../store/Login.model";
+import { uploadFileFx } from "@stores/Login.model";
 
 export const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);

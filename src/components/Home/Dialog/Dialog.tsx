@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Content } from "./Content/Content";
 import "./Dialog.scss";
 import { useParams } from "react-router";
-import { loadDialogFx } from "../../../store/Home.model";
+import { loadDialogFx } from "@stores/Home.model";
 import { Header } from "./Header/Header";
 
 export const Dialog = () => {

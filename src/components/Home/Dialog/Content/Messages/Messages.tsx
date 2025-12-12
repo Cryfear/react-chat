@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react";
-import { useDebounceScroll } from "../../../../../hooks/useDebounceScroll";
+import { useDebounceScroll } from "@hooks/useDebounceScroll";
 
 interface MessagesProps {
   messages: React.ReactNode;

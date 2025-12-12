@@ -1,6 +1,6 @@
 import { createEffect, createStore } from "effector";
-import { UsersListStoreTypes } from "../types/Home.types";
-import { UsersApi } from "../api/UsersApi";
+import { UsersListStoreTypes } from "@/types/Home.types";
+import { UsersApi } from "@/api/UsersApi";
 
 export const UsersLoaderFx = createEffect(async (page: number) => {
   const Users = await UsersApi.getUsers({ page });

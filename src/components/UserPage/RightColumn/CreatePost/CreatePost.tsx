@@ -1,8 +1,8 @@
 import { useUnit } from "effector-react";
-import React, { useState } from "react";
-import { $UserPageStore, createPostFx } from "../../../../../store/UserPage.model";
-import { $LoginStore } from "../../../../../store/Login.model";
+import { useState } from "react";
 import styles from '../../UserPage.module.css';
+import { $UserPageStore, createPostFx } from "@stores/UserPage.model";
+import { $LoginStore } from "@stores/Login.model";
 
 export const CreatePost = () => {
   const userPageStore = useUnit($UserPageStore);

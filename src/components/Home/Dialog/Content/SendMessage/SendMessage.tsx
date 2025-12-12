@@ -1,13 +1,13 @@
 import React from "react";
 import "./SendMessage.scss";
-import smile from "../../../../../assets/smile-send.png";
-import photo from "../../../../../assets/send-photo.png";
-import send from "../../../../../assets/send-message.png";
+import smile from "@assets/smile-send.png";
+import photo from "@assets/send-photo.png";
+import send from "@assets/send-message.png";
 import TextareaAutosize from "react-textarea-autosize";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "../../../../../store/Home.model";
-import { sendMessageFx } from "../../../../../store/Content.model";
-import { $LoginStore } from "../../../../../store/Login.model";
+import { $HomeStore } from "@stores/Home.model";
+import { sendMessageFx } from "@stores/Content.model";
+import { $LoginStore } from "@stores/Login.model";
 import { VoiceMessage } from "./VoiceMessage";
 
 interface SendMessageProps {
@@ -16,11 +16,7 @@ interface SendMessageProps {
   onToggleEmojiPicker: () => void;
 }
 
-export const SendMessage = ({
-  inputValue,
-  setInputValue,
-  onToggleEmojiPicker,
-}: SendMessageProps) => {
+export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: SendMessageProps) => {
   const { homeStore, authStore } = useUnit({
     homeStore: $HomeStore,
     authStore: $LoginStore,

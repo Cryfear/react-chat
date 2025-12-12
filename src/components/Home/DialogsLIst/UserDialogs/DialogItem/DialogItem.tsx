@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import classnames from "classnames";
-import { $HomeStore, initialiseDialogFx } from "../../../../../store/Home.model";
 import { useUnit } from "effector-react";
 import { useState } from "react";
-import { LastMessageDateFormatter } from "../../../../../utils/dateFormatter";
-import {
-  getLastDialogMessage,
-  getUnreadedMessagesCount,
-} from "../../../../../store/DialogItem.model";
+import { LastMessageDateFormatter } from "@utils/dateFormatter";
+import { getLastDialogMessage, getUnreadedMessagesCount } from "@stores/DialogItem.model";
 import { Link } from "react-router-dom";
+import { $HomeStore, initialiseDialogFx } from "@/store/Home.model";
 
 export const DialogItem = ({
   avatar,
@@ -17,11 +14,11 @@ export const DialogItem = ({
   fullName,
   isOnline,
 }: {
-  avatar: string
-  fullName: string,
-  id: string, // айди пользователя
-  isOnline: string,
-  dialogId: string
+  avatar: string;
+  fullName: string;
+  id: string; // айди пользователя
+  isOnline: string;
+  dialogId: string;
 }) => {
   const store = useUnit($HomeStore);
   const [lastMessage, setLastMessage] = useState("");
@@ -52,10 +49,7 @@ export const DialogItem = ({
     };
   }, [setLastMessage, lastMessage, dialogId, setUnreadCount, unreadCount, id]);
 
-  const convertedLastMessage =
-    lastMessage && lastMessage.length > 10
-      ? lastMessage.substr(0, 9) + "..."
-      : lastMessage;
+  const convertedLastMessage = lastMessage && lastMessage.length > 10 ? lastMessage.substr(0, 9) + "..." : lastMessage;
 
   const userName = fullName.length > 10 ? fullName.slice(0, 10) : fullName;
 
@@ -71,12 +65,7 @@ export const DialogItem = ({
           });
         }}
       >
-        <div
-          className={classnames(
-            "dialog__item-avatar",
-            isOnline ? "dialog__item-online " : "dialog__item-offline"
-          )}
-        >
+        <div className={classnames("dialog__item-avatar", isOnline ? "dialog__item-online " : "dialog__item-offline")}>
           <img src={avatar} alt="user-img" />
         </div>
         <div className="dialog__item-wrapper">
@@ -86,11 +75,7 @@ export const DialogItem = ({
           </div>
           <div className="dialog__item-footer">
             <span className="dialog__item-text">{convertedLastMessage}</span>
-            {unreadCount === 0 ? (
-              ""
-            ) : (
-              <span className={"dialog__item-unreaded"}>{unreadCount}</span>
-            )}
+            {unreadCount === 0 ? "" : <span className={"dialog__item-unreaded"}>{unreadCount}</span>}
           </div>
         </div>
       </div>

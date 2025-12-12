@@ -1,5 +1,3 @@
-// выделил отдельный файл для типов, чтобы не засорять код и удобно было к ним вернуться в будущем
-
 import { FormikErrors } from "formik";
 
 export type RegistrationFormValuesTypes = {
@@ -7,7 +5,7 @@ export type RegistrationFormValuesTypes = {
   password: string;
   name: string;
   passwordRepeat: string;
-}
+};
 
 export type RegistrationTypes = {
   errors: RegistrationFormValuesTypes;
@@ -15,7 +13,7 @@ export type RegistrationTypes = {
   touched: RegistrationFormValuesTypes;
 
   handleChange: Function;
-}
+};
 
 export interface RegistrationTypesFormik {
   values: RegistrationFormValuesTypes;
@@ -46,17 +44,17 @@ export type LoginTypes = {
   touched: FormDataTypes;
 
   handleChange: Function;
-}
+};
 
-export type LoginStoreTypes  = {
+export type LoginStoreTypes = {
   isAuth: boolean;
   isChecked: boolean;
   isCorrectLogin: null | boolean;
   myUserData: {
     // данные самого залогиненного пользователя
-    id: string
-    avatar: string,
-    name: string,
-    isOnline: boolean,
-  },
-}
+    id: string;
+    avatar: string;
+    name: string;
+    isOnline: boolean;
+  };
+};
