@@ -1,12 +1,8 @@
-import { createEffect, createStore } from "effector";
+import { combine, createEffect, createStore } from "effector";
 import { DialogsApi } from "@api/DialogsApi";
 import { UsersApi } from "@api/UsersApi";
 import { DialogsListStoreTypes } from "@/types/Home.types";
 import { getUsersBySearch } from "@components/Home/DialogsList/SearchDialogs/SearchDialogs";
-
-export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string; id2: string }): Promise<any> => {
-  return await DialogsApi.create({ id_1: id1, id_2: id2 });
-});
 
 export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string; page: number }) => {
   const myDialogs: any = await DialogsApi.getMyDialogs({ id, page });
@@ -20,6 +16,9 @@ export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string; p
   return {
     dialogs: Users.map((user, index) => {
       return {
+        lastMessage: myDialogs.data[index].lastMessage.data,
+        lastMessageDate: myDialogs.data[index].lastMessage.date,
+        unreadedCount: myDialogs.data[index].unreadCount,
         user: user.data,
         id: myDialogs.data[index]._id,
       };
@@ -27,12 +26,6 @@ export const DialogsLoaderFx = createEffect(async ({ id, page }: { id: string; p
     page: page,
   };
 });
-
-export const onScrollDialogsLoaderFx = createEffect(
-  async ({ e, page, id }: { e: React.UIEvent<HTMLElement>; page: number; id: string }) => {
-    return await DialogsLoaderFx({ id, page });
-  }
-);
 
 export const $DialogsListStore = createStore<DialogsListStoreTypes>({
   initialisedDialogs: false,
@@ -78,3 +71,13 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
       users: data.data,
     };
   });
+
+export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string; id2: string }): Promise<any> => {
+  return await DialogsApi.create({ id_1: id1, id_2: id2 });
+});
+
+export const onScrollDialogsLoaderFx = createEffect(
+  async ({ e, page, id }: { e: React.UIEvent<HTMLElement>; page: number; id: string }) => {
+    return await DialogsLoaderFx({ id, page });
+  }
+);

@@ -1,0 +1,48 @@
+.skeleton {
+  &_wrapper {
+    margin-bottom: 20px;
+  }
+  &_item_wrapper {
+    display: inline-block;
+    vertical-align: top;
+    width: 62%;
+  }
+  &_avatar {
+    height: 50px;
+    width: 50px;
+    background-color: #f7f8f9;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  &_item {
+    width: auto;
+    margin-top: 15px;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
+    display: inline;
+  }
+
+  &_item_name {
+    height: 20px;
+    background-color: #f7f8f9;
+    border-radius: 10px;
+    color: #f7f8f9;
+    width: 100%;
+    display: block;
+    margin-left: 5px;
+  }
+
+  &_item_text {
+    height: 14px;
+    background-color: #f7f8f9;
+    border-radius: 10px;
+    color: white;
+    width: 100%;
+    display: block;
+    margin-left: 5px;
+    margin-top: 10px;
+  }
+}

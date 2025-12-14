@@ -15,22 +15,12 @@ export const Home = () => {
     AppStore: $AppStore,
   });
 
-  if (AppStore.isLoading) {
-    return (
-      <div className="app-loading">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <section className="home">
       <DialogsList />
 
       {!homeStore.currentUser && <HelloDialog />}
+
       <Routes>
         <Route path="/dialogs/:dialogId" element={<Dialog />} />
         <Route path="/profile/:profileId" element={<UserPage />} />

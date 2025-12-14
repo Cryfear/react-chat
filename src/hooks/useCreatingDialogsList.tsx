@@ -4,7 +4,16 @@ import { DialogsPreviewType } from "@/types/Home.types";
 export const useCreatingDialogsList = (dialogs: DialogsPreviewType[]) => {
   return dialogs && dialogs.length > 0 ? (
     dialogs.map((dialog) => {
-      return <DialogItem dialogId={dialog.id} {...dialog.user} key={dialog.id} />;
+      return (
+        <DialogItem
+          unreadedCount={dialog.unreadedCount}
+          lastMessageDate={dialog.lastMessageDate}
+          lastMessage={dialog.lastMessage}
+          dialogId={dialog.id}
+          {...dialog.user}
+          key={dialog.id}
+        />
+      );
     })
   ) : (
     <div />

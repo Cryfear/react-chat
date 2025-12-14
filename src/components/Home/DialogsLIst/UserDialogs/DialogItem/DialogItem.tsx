@@ -1,57 +1,31 @@
-import { useEffect } from "react";
 import classnames from "classnames";
 import { useUnit } from "effector-react";
-import { useState } from "react";
-import { LastMessageDateFormatter } from "@utils/dateFormatter";
-import { getLastDialogMessage, getUnreadedMessagesCount } from "@stores/DialogItem.model";
 import { Link } from "react-router-dom";
 import { $HomeStore, initialiseDialogFx } from "@/store/Home.model";
 
 export const DialogItem = ({
   avatar,
-  dialogId,
   id,
   fullName,
   isOnline,
+  lastMessageDate,
+  lastMessage,
+  unreadedCount,
 }: {
   avatar: string;
   fullName: string;
-  id: string; // айди пользователя
+  unreadedCount: number;
+  lastMessageDate: string;
+  lastMessage: string;
+  id: string;
   isOnline: string;
   dialogId: string;
 }) => {
   const store = useUnit($HomeStore);
-  const [lastMessage, setLastMessage] = useState("");
-  const [lastMessageDate, setLastMessageDate] = useState("");
-  const [unreadCount, setUnreadCount] = useState(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    if (lastMessage === "")
-      getLastDialogMessage(dialogId).then((data) => {
-        if (isMounted) {
-          setLastMessage(data ? data.text : "");
-          setLastMessageDate(LastMessageDateFormatter(data ? data.date : ""));
-        }
-      });
-
-    if (unreadCount === null) {
-      getUnreadedMessagesCount({ dialogId, userId: id }).then((data) => {
-        if (isMounted) {
-          setUnreadCount(data);
-        }
-      });
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [setLastMessage, lastMessage, dialogId, setUnreadCount, unreadCount, id]);
-
-  const convertedLastMessage = lastMessage && lastMessage.length > 10 ? lastMessage.substr(0, 9) + "..." : lastMessage;
 
   const userName = fullName.length > 10 ? fullName.slice(0, 10) : fullName;
+  const convertedLastMessage = lastMessage && lastMessage.length > 10 ? lastMessage.substr(0, 9) + "..." : lastMessage;
+  const date = new Date(lastMessageDate);
 
   return (
     <Link className="dialog__item__wrapper" to={`/dialogs/${id}`}>
@@ -71,11 +45,11 @@ export const DialogItem = ({
         <div className="dialog__item-wrapper">
           <div className="dialog__item-header">
             <span className="dialog__item-name">{userName}</span>
-            <span className="dialog__item-time">{lastMessageDate}</span>
+            <span className="dialog__item-time">{date.toLocaleDateString()}</span>
           </div>
           <div className="dialog__item-footer">
             <span className="dialog__item-text">{convertedLastMessage}</span>
-            {unreadCount === 0 ? "" : <span className={"dialog__item-unreaded"}>{unreadCount}</span>}
+            {unreadedCount > 0 ? "" : <span className={"dialog__item-unreaded"}>{unreadedCount}</span>}
           </div>
         </div>
       </div>

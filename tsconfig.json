@@ -27,7 +27,8 @@
       "@hooks/*": ["./src/hooks/*"],
       "@stores/*": ["./src/store/*"],
       "@styles/*": ["./src/styles/*"],
-      "@types/*": ["./src/types/*"]
+      "@types/*": ["./src/types/*"],
+      "@gates/*": ["./src/gates/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],

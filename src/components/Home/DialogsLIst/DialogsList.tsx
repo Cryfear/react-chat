@@ -1,16 +1,16 @@
 import React, { useEffect, useCallback } from "react";
-import { useUnit } from "effector-react";
+import { useUnit, useGate } from "effector-react";
 import "./DialogsList.scss";
 import classNames from "classnames";
 import { $AppStore, isMobileVersionChanger } from "@stores/App.model";
 import { useDebounceDialogsScroll } from "@hooks/useDebounceScroll";
 import { useMediaQuery } from "@hooks/useMediaQuery";
-import { DialogsLoaderFx } from "@stores/DialogsList.model";
 import { $Show_Hide_ButtonStore } from "./Show-hide-button/Show-hide-button.model";
 import { ShowHideButton } from "./Show-hide-button/Show-hide-button";
 import { Header } from "./Header/Header";
 import { SearchDialogs } from "./SearchDialogs/SearchDialogs";
 import { UserDialogsContainer } from "./UserDialogs/UserDialogsContainer";
+import { DialogsListGate } from "@/gates/DialogListGate";
 
 export const DialogsList = () => {
   const { appStore, ShowHideButtonStore } = useUnit({
@@ -18,15 +18,13 @@ export const DialogsList = () => {
     ShowHideButtonStore: $Show_Hide_ButtonStore,
   });
 
+  const id = sessionStorage.getItem("id") ?? "";
+
+  useGate(DialogsListGate, id);
+
   const { debouncedScroll, clearDebounce } = useDebounceDialogsScroll();
 
   useEffect(() => {
-    const id = sessionStorage.getItem("id");
-
-    if (id) {
-      DialogsLoaderFx({ id, page: 0 });
-    }
-
     return () => {
       clearDebounce();
     };

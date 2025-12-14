@@ -1,5 +1,10 @@
 import React from "react";
 
+export type AppStoreTypes = {
+  isLoading: boolean;
+  isMobileVersion: boolean;
+};
+
 export type messageType = {
   content: {
     dialog: {
@@ -127,6 +132,9 @@ export type DialogsPreviewType = {
     id: string; // айди пользователя
     isOnline: string;
   };
+  lastMessage: string,
+  lastMessageDate: string;
+  unreadedCount: number;
   id: string;
 };
 
