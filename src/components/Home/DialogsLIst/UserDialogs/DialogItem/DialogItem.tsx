@@ -10,11 +10,11 @@ export const DialogItem = ({
   isOnline,
   lastMessageDate,
   lastMessage,
-  unreadedCount,
+  unreadCount,
 }: {
   avatar: string;
   fullName: string;
-  unreadedCount: number;
+  unreadCount: number;
   lastMessageDate: string;
   lastMessage: string;
   id: string;
@@ -40,7 +40,7 @@ export const DialogItem = ({
         }}
       >
         <div className={classnames("dialog__item-avatar", isOnline ? "dialog__item-online " : "dialog__item-offline")}>
-          <img src={avatar} alt="user-img" />
+          <img src={'http://localhost:8888/' + avatar} alt="user-img" />
         </div>
         <div className="dialog__item-wrapper">
           <div className="dialog__item-header">
@@ -49,7 +49,7 @@ export const DialogItem = ({
           </div>
           <div className="dialog__item-footer">
             <span className="dialog__item-text">{convertedLastMessage}</span>
-            {unreadedCount > 0 ? "" : <span className={"dialog__item-unreaded"}>{unreadedCount}</span>}
+            {unreadCount === 0 ? "" : <span className={"dialog__item-unreaded"}>{unreadCount}</span>}
           </div>
         </div>
       </div>

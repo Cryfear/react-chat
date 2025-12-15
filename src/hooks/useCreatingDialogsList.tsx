@@ -6,12 +6,12 @@ export const useCreatingDialogsList = (dialogs: DialogsPreviewType[]) => {
     dialogs.map((dialog) => {
       return (
         <DialogItem
-          unreadedCount={dialog.unreadedCount}
+          unreadCount={dialog.unreadCount}
           lastMessageDate={dialog.lastMessageDate}
           lastMessage={dialog.lastMessage}
-          dialogId={dialog.id}
+          dialogId={dialog._id}
           {...dialog.user}
-          key={dialog.id}
+          key={dialog._id}
         />
       );
     })

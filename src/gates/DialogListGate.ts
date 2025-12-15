@@ -1,4 +1,4 @@
-import { DialogsLoaderFx } from "@/store/DialogsList.model";
+import { loadInitialDialogsFx } from "@/store/DialogsList.model";
 import { sample } from "effector";
 import { createGate } from "effector-react";
 
@@ -7,7 +7,7 @@ export const DialogsListGate = createGate<string>();
 sample({
   clock: DialogsListGate.open,
   fn: (id) => ({ id, page: 0 }),
-  target: DialogsLoaderFx,
+  target: loadInitialDialogsFx,
 });
 
-export const $isDialogsLoading = DialogsLoaderFx.pending;
+export const $isDialogsLoading = loadInitialDialogsFx.pending;

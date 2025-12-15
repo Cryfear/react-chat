@@ -11,7 +11,6 @@ import {
   initialiseDialogFxTypes,
   MessageType,
   onScrollLoaderMessagesTypes,
-  unreadMesssagesFxTypes,
   usersType,
 } from "../types/Home.types";
 import { socketGetMessage } from "../socket";
@@ -79,16 +78,6 @@ sample({
     },
   }),
   target: $HomeStore,
-});
-
-export const setUnreadMessagesFx = createEffect(async ({ dialogId, userId }: unreadMesssagesFxTypes) => {
-  const unreadedMessages = await MessagesApi.getUnreadedMessagesWithData({
-    dialogId,
-    unreadedPage: 0,
-    userId,
-  });
-
-  return { messages: unreadedMessages.data };
 });
 
 export const initialiseDialogFx = createEffect(async ({ userId, myId, page }: initDialogTypes) => {
@@ -249,16 +238,3 @@ $HomeStore
       messageSent: !state.messageSent,
     };
   })
-  .on(setUnreadMessagesFx.doneData, (state, data) => {
-    if (data) {
-      return {
-        ...state,
-        currentDialogMessages: [...data.messages, ...state.currentDialogMessages],
-        currentDialog: {
-          ...state.currentDialog,
-          unreadedPage: state.currentDialog.unreadedPage + 1,
-        },
-      };
-    }
-    return state;
-  });

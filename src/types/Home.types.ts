@@ -134,8 +134,8 @@ export type DialogsPreviewType = {
   };
   lastMessage: string,
   lastMessageDate: string;
-  unreadedCount: number;
-  id: string;
+  unreadCount: number;
+  _id: string;
 };
 
 export type MessageType = {
