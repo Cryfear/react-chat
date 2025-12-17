@@ -1,6 +1,5 @@
 import { createEffect, createStore } from "effector";
 import { DialogsApi } from "@api/DialogsApi";
-import { UsersApi } from "@api/UsersApi";
 import { DialogsListStoreTypes } from "@/types/Home.types";
 import { getUsersBySearch } from "@components/Home/DialogsList/SearchDialogs/SearchDialogs";
 
@@ -11,18 +10,14 @@ export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string; i
 export const loadInitialDialogsFx = createEffect<{ id: string }, { dialogs: DialogsListStoreTypes["dialogs"] }>(async ({ id }) => {
   const response: any = await DialogsApi.getMyDialogs({ id, page: 0 });
 
-  return {
-    dialogs: response.data
-  };
+  return { dialogs: response.data };
 });
 
 export const loadMoreDialogsFx = createEffect<{ id: string; page: number }, { dialogs: DialogsListStoreTypes["dialogs"] }>(
   async ({ id, page }) => {
     const response: any = await DialogsApi.getMyDialogs({ id, page });
-    
-    return {
-      dialogs: response.data
-    };
+
+    return { dialogs: response.data };
   }
 );
 

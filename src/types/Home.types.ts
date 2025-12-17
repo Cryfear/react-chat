@@ -129,7 +129,7 @@ export type DialogsPreviewType = {
   user: {
     avatar: string;
     fullName: string;
-    id: string; // айди пользователя
+    _id: string; // айди пользователя
     isOnline: string;
   };
   lastMessage: string,

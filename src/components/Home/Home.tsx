@@ -4,7 +4,7 @@ import { DialogsList } from "./DialogsList/DialogsList";
 import "./Home.scss";
 import { Route, Routes } from "react-router";
 import { HelloDialog } from "./Dialog/HelloDialog";
-import { $HomeStore } from "@stores/Home.model";
+import {  $HomeStore } from "@stores/Home.model";
 import { Dialog } from "./Dialog/Dialog";
 import { Profile } from "../Profile/Profile";
 import { UserPage } from "../UserPage/UserPage";

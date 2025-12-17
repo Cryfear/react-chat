@@ -9,7 +9,6 @@ export const UserPage = () => {
   const { profileId } = useParams();
 
   useEffect(() => {
-    console.log(profileId);
     if (profileId) findProfileFx(profileId);
     if (profileId) findPostsFx(profileId);
   }, [profileId]);

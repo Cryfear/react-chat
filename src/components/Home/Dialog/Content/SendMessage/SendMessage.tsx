@@ -8,7 +8,7 @@ import { useUnit } from "effector-react";
 import { $HomeStore } from "@stores/Home.model";
 import { sendMessageFx } from "@stores/Content.model";
 import { $LoginStore } from "@stores/Login.model";
-import { VoiceMessage } from "./VoiceMessage";
+import { VoiceMessage } from "../Messages/MessagesTypes/Voice/VoiceMessage";
 
 interface SendMessageProps {
   inputValue: string;

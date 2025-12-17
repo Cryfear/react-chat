@@ -5,7 +5,6 @@ import { $HomeStore } from "@stores/Home.model";
 import { $LoginStore } from "@stores/Login.model";
 import { sendVoiceFx } from "@stores/Content.model";
 
-// Тип данных, отправляемых в sendVoiceFx
 interface SendVoiceParams {
   myId: string;
   data: Blob;
@@ -45,6 +44,7 @@ export const VoiceMessage: React.FC = () => {
   async function startRecording() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      navigator.vibrate?.(30);
 
       streamRef.current = stream;
 
@@ -101,7 +101,7 @@ export const VoiceMessage: React.FC = () => {
   };
 
   return (
-    <span className="send-form__voice" onClick={handleVoiceClick}>
+    <span className={`send-form__voice ${isRecording ? "recording" : ""}`} onClick={handleVoiceClick}>
       <img src={voice} alt="voice icon" />
     </span>
   );

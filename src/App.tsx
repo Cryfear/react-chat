@@ -28,15 +28,15 @@ export const App = () => {
   }, [store.isChecked]);
 
   if (!store.isChecked) {
-      return (
-        <div className="app-loading">
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>Loading...</p>
-          </div>
+    return (
+      <div className="app-loading">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading...</p>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
   return (
     <div className="app">

@@ -5,7 +5,7 @@ import { $HomeStore, initialiseDialogFx } from "@/store/Home.model";
 
 export const DialogItem = ({
   avatar,
-  id,
+  _id,
   fullName,
   isOnline,
   lastMessageDate,
@@ -17,9 +17,8 @@ export const DialogItem = ({
   unreadCount: number;
   lastMessageDate: string;
   lastMessage: string;
-  id: string;
+  _id: string;
   isOnline: string;
-  dialogId: string;
 }) => {
   const store = useUnit($HomeStore);
 
@@ -28,12 +27,12 @@ export const DialogItem = ({
   const date = new Date(lastMessageDate);
 
   return (
-    <Link className="dialog__item__wrapper" to={`/dialogs/${id}`}>
+    <Link className="dialog__item__wrapper" to={`/dialogs/${_id}`}>
       <div
         className="dialog__item"
         onClick={() => {
           initialiseDialogFx({
-            userId: id,
+            userId: _id,
             myId: sessionStorage["id"],
             page: store.currentDialog.page,
           });

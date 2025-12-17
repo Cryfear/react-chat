@@ -237,4 +237,4 @@ $HomeStore
       ...state,
       messageSent: !state.messageSent,
     };
-  })
+  });

@@ -6,7 +6,7 @@ export const isMobileVersionChanger = createEvent<boolean>();
 export const $AppStore = createStore<AppStoreTypes>({
   isLoading: true,
   isMobileVersion: false,
-})
+});
 
 sample({
   clock: isMobileVersionChanger,

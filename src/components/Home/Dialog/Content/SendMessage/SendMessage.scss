@@ -28,7 +28,6 @@
     outline: none !important;
 
     &-wrapper {
-      
     }
 
     &:focus {
@@ -69,16 +68,45 @@
       }
     }
     &.send-form__voice {
-      width: 16px;
+      width: 20px;
       height: 20px;
       right: 65px;
       top: 15px;
       opacity: 0.5;
       transition: 0.2s;
+      border-radius: 50%;
 
       &:hover {
         opacity: 1;
       }
+
+      transition: background 0.2s ease;
+
+      img {
+        width: 20px;
+        height: 20px;
+        z-index: 2;
+      }
+
+      &.recording {
+        background: #ef4444;
+        animation: pulse 1.2s infinite ease-in-out;
+        padding: 8px;
+        top: 5px;
+        right: 55px;
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6);
+    }
+    70% {
+      box-shadow: 0 0 0 14px rgba(239, 68, 68, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
     }
   }
 
@@ -102,5 +130,33 @@
     &:hover {
       opacity: 1;
     }
+  }
+}
+
+.audio-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+
+  button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: #0f3997;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    right: -70px;
+  }
+
+  canvas {
+    border-radius: 15px;
+    color: #3674ff;
+    background-color: #3674ff;
+    padding: 6px 100px;
+    width: 140px;
+    border-bottom-left-radius: 0;
   }
 }

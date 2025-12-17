@@ -9,7 +9,6 @@ export const useCreatingDialogsList = (dialogs: DialogsPreviewType[]) => {
           unreadCount={dialog.unreadCount}
           lastMessageDate={dialog.lastMessageDate}
           lastMessage={dialog.lastMessage}
-          dialogId={dialog._id}
           {...dialog.user}
           key={dialog._id}
         />

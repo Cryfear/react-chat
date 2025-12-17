@@ -1,8 +1,8 @@
-import { initialiseDialogFx } from "./Home.model";
 import { MessagesApi } from "@api/MessagesApi";
 import { createEffect } from "effector";
 import { createDialogFx } from "./DialogsList.model";
 import { socket } from "@/socket";
+import { initialiseDialogFx } from "./Home.model";
 
 export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: string }) => {
   try {
@@ -16,7 +16,7 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
       return console.error("Failed to create dialog");
     }
 
-    await initialiseDialogFx({ userId, myId, page: 0 });
+    console.log(dialogIdRes)
 
     const message = await MessagesApi.create({
       dialogId: dialogIdRes.data,
@@ -29,7 +29,7 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
     }
 
     try {
-      socket.emit("qqq", {
+      socket.emit("socketMessage", {
         content: message.data,
         to: message.data.creater === userId ? myId : userId,
       });
@@ -52,15 +52,15 @@ export const sendVoiceFx = createEffect(async ({ userId, myId, data }: { userId:
 
   const formData = new FormData();
   formData.append("audio", data);
-  formData.append("dialogId", dialogIdRes.data.dialogId);
+  formData.append("dialogId", dialogIdRes.data);
   formData.append("myId", myId);
   formData.append("userId", userId);
 
   const message = await MessagesApi.createAudio(formData);
 
-  socket.emit("qqq", {
+  socket.emit("socketMessage", {
     content: message.data,
-    to: message.data.creater === userId ? myId : userId,
+    to: message.data.creater === userId ? userId : myId,
   });
 
   return message.data;
