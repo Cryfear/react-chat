@@ -148,4 +148,5 @@ export type MessageType = {
   updatedAt: string; // если сообщение было редактировано, будем знать когда
   _id: string; // айди сообщения
   enum: string;
+  blob: Blob;
 };

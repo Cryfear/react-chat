@@ -75,7 +75,6 @@ export const VoiceMessage: React.FC = () => {
 
         sendVoiceFx(params);
 
-        // сбрасываем
         setAudioBlob(null);
         setAudioURL(null);
       };

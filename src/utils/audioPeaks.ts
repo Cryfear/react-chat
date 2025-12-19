@@ -1,41 +1,42 @@
-interface AudioSource {
-  blob?: Blob;
-  url?: string;
-}
-
-export async function getAudioPeaks(
-  source: AudioSource,
-  barsCount = 40
+export async function getAudioPeaksFromElement(
+  audio: HTMLAudioElement,
+  samples = 60
 ): Promise<number[]> {
   const audioContext = new AudioContext();
-  let arrayBuffer: ArrayBuffer;
 
-  if (source.blob) {
-    arrayBuffer = await source.blob.arrayBuffer();
-  } else if (source.url) {
-    console.log(source)
-    const response = await fetch(source.url);
-    arrayBuffer = await response.arrayBuffer();
-  } else {
-    throw new Error("No audio source");
-  }
+  await audioContext.resume();
 
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-  const channelData = audioBuffer.getChannelData(0);
+  const source = audioContext.createMediaElementSource(audio);
+  const analyser = audioContext.createAnalyser();
 
-  const blockSize = Math.floor(channelData.length / barsCount);
+  analyser.fftSize = 2048;
+  source.connect(analyser);
+  analyser.connect(audioContext.destination);
+
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
   const peaks: number[] = [];
 
-  for (let i = 0; i < barsCount; i++) {
-    let sum = 0;
-    const start = i * blockSize;
+  audio.currentTime = 0;
+  await audio.play();
 
-    for (let j = 0; j < blockSize; j++) {
-      sum += Math.abs(channelData[start + j]);
+  for (let i = 0; i < samples; i++) {
+    analyser.getByteTimeDomainData(dataArray);
+
+    let max = 0;
+    for (let j = 0; j < bufferLength; j++) {
+      const v = Math.abs(dataArray[j] - 128);
+      if (v > max) max = v;
     }
 
-    peaks.push(sum / blockSize);
+    peaks.push(max / 128);
+    await new Promise((r) => setTimeout(r, 20));
   }
 
+  audio.pause();
+  audio.currentTime = 0;
+
+  audioContext.close();
   return peaks;
 }

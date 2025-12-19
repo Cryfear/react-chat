@@ -6,7 +6,6 @@ import Voice from "@/components/Home/Dialog/Content/Messages/MessagesTypes/Voice
 export const creatingMessagesList = (messages: MessageType[], onSendScrollRef: React.RefObject<HTMLDivElement | null>, myId: string) => {
   return messages.map((item: MessageType, index: number) => {
     const isLastMessage = index === messages.length - 1;
-
     if (item?.enum?.includes("audio")) {
       return <Voice url={"http://localhost:8888" + item.data} key={item._id} />;
     }

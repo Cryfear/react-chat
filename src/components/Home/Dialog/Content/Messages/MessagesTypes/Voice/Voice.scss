@@ -1,0 +1,43 @@
+.voice {
+  &__duration {
+    align-content: center;
+    color: white;
+    margin-left: 15px;
+    font-size: 12px;
+  }
+}
+
+.voice__button {
+  background-color: #0f3997;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  color: white;
+  padding-top: 5px;
+  cursor: pointer;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top: 17px;
+  font-family: "Arial", "Segoe UI Symbol", sans-serif;
+}
+
+.voice__wrapper {
+  display: flex;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background-color: #418fff;
+  border-radius: 15px;
+  width: min-content;
+  padding-right: 15px;
+  border-bottom-left-radius: 0;
+}
+
+.voice__time {
+  display: none;
+}
+
+.voice__main {
+  border-radius: 15px;
+}
