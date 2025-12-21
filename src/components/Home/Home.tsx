@@ -8,6 +8,7 @@ import {  $HomeStore } from "@stores/Home.model";
 import { Dialog } from "./Dialog/Dialog";
 import { Profile } from "../Profile/Profile";
 import { UserPage } from "../UserPage/UserPage";
+import { $isDialogsLoading } from "@/gates/DialogListGate";
 
 export const Home = () => {
   const { homeStore, AppStore } = useUnit({

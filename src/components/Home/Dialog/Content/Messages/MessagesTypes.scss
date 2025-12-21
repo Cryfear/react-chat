@@ -63,12 +63,6 @@
     max-width: 80%;
     word-break: break-all;
     position: relative;
-
-    & .checked-message {
-      position: absolute;
-      right: -20px;
-      bottom: 18px;
-    }
   }
 
   &__avatar {
@@ -89,6 +83,12 @@
     width: auto !important;
     height: 100%;
   }
+}
+
+.checked-message {
+  position: absolute;
+  right: -20px;
+  bottom: 18px;
 }
 
 // VoiceRecorder.scss

@@ -8,9 +8,11 @@ import { useGate, useUnit } from "effector-react";
 import { $LoginStore, isLoginFx } from "@stores/Login.model";
 import { useLocation } from "react-router";
 import { AppGate } from "./gates/AppGate";
+import { $AppStore } from "./store/App.model";
 
 export const App = () => {
   const store = useUnit($LoginStore);
+  const appStore = useUnit($AppStore);
   const location = useLocation();
   const allowedPathsWithoutAuth = ["/auth", "/home/profile/"];
 
@@ -39,7 +41,7 @@ export const App = () => {
   }
 
   return (
-    <div className="app">
+    <div className={appStore.isMobileVersion ? "mobile app" : "app"}>
       <Routes>
         <Route path="/*" element={<Home />} />
         <Route path="/auth/*" element={<Auth />} />

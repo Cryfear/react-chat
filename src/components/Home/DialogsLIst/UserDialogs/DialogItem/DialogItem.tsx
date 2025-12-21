@@ -22,7 +22,7 @@ export const DialogItem = ({
 }) => {
   const store = useUnit($HomeStore);
 
-  const userName = fullName.length > 10 ? fullName.slice(0, 10) : fullName;
+  const userName = fullName.length > 9 ? fullName.slice(0, 9) + "..." : fullName ;
   const convertedLastMessage = lastMessage && lastMessage.length > 10 ? lastMessage.substr(0, 9) + "..." : lastMessage;
   const date = new Date(lastMessageDate);
 

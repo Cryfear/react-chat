@@ -16,8 +16,6 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
       return console.error("Failed to create dialog");
     }
 
-    console.log(dialogIdRes)
-
     const message = await MessagesApi.create({
       dialogId: dialogIdRes.data,
       myId,

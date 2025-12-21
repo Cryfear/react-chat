@@ -16,5 +16,16 @@ export const MessagesContainer = ({ setShowEmojiPicker }: any) => {
   const isEmptyDialog = !(currentDialogMessages && currentDialogMessages.length > 0);
   const messages = creatingMessagesList(currentDialogMessages, onSendScrollRef, authStore.myUserData.id);
 
+  // if(true) {
+  //   return (
+  //     <div className="app-loading">
+  //       <div className="loading-spinner">
+  //         <div className="spinner"></div>
+  //         <p>Loading...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
   return isEmptyDialog ? <EmptyDialog /> : <Messages setShowEmojiPicker={setShowEmojiPicker} messages={messages} />;
 };
