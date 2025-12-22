@@ -1,7 +1,6 @@
 import { createEffect, createStore } from "effector";
 import { DialogsApi } from "@api/DialogsApi";
 import { DialogsListStoreTypes } from "@/types/Home.types";
-import { getUsersBySearch } from "@components/Home/DialogsList/SearchDialogs/SearchDialogs";
 
 export const createDialogFx = createEffect(async ({ id1, id2 }: { id1: string; id2: string }): Promise<any> => {
   return await DialogsApi.create({ id_1: id1, id_2: id2 });
@@ -26,21 +25,6 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
   dialogs: [],
   dialogsSearchPage: 0,
 })
-  .on(getUsersBySearch.doneData, (state, data) => {
-    if (data === "close")
-      return {
-        ...state,
-        isUserSearch: false,
-        users: [],
-        initialisedUsers: false,
-        usersSearchPage: 0,
-      };
-    return {
-      ...state,
-      isUserSearch: true,
-      users: data.data,
-    };
-  })
   .on(loadInitialDialogsFx.doneData, (_, { dialogs }) => ({ dialogs, dialogsSearchPage: 1, initialisedDialogs: true }))
   .on(loadMoreDialogsFx.doneData, (state, { dialogs }) => ({
     ...state,

@@ -2,6 +2,6 @@ import nonChecked from "@assets/Check.svg";
 import checkedSvg from "@assets/double-check.svg";
 
 export const ReadedCheckComponent = ({ checked }: { checked: boolean }) => {
-  // компонент отвечающий за значок одной или двух галочек сообщения
+  // компонент отвечающий за значок прочитано ли сообщение
   return <img className="checked-message" src={checked ? checkedSvg : nonChecked} alt="checked-icon" />;
 };

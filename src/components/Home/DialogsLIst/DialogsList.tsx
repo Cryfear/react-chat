@@ -1,26 +1,22 @@
 import React, { useEffect, useCallback } from "react";
 import { useUnit, useGate } from "effector-react";
-import "./DialogsList.scss";
 import classNames from "classnames";
-import { $AppStore, isMobileVersionChanger } from "@stores/App.model";
+import { $AppStore } from "@stores/App.model";
 import { useDebounceDialogsScroll } from "@hooks/useDebounceScroll";
-import { useMediaQuery } from "@hooks/useMediaQuery";
 import { $Show_Hide_ButtonStore } from "./Show-hide-button/Show-hide-button.model";
 import { ShowHideButton } from "./Show-hide-button/Show-hide-button";
-import { Header } from "./Header/Header";
-import { SearchDialogs } from "./SearchDialogs/SearchDialogs";
-import { UserDialogsContainer } from "./UserDialogs/UserDialogsContainer";
+import { UsersAndDialogs } from "./UserDialogs/UsersAndDialogs";
 import { DialogsListGate } from "@/gates/DialogListGate";
+import "./DialogsList.scss";
+import { DialogsListHeader } from "./UserDialogs/DialogsListHeader/DialogsListHeader";
+import { useMobileSync } from "@/hooks/useMobileSync";
+import { SearchUsers } from "./UserDialogs/SearchUsers/SearchUsers";
 
 export const DialogsList = () => {
   const { appStore, ShowHideButtonStore } = useUnit({
     appStore: $AppStore,
     ShowHideButtonStore: $Show_Hide_ButtonStore,
   });
-
-  const id = sessionStorage.getItem("id") ?? "";
-
-  useGate(DialogsListGate, id);
 
   const { debouncedScroll, clearDebounce } = useDebounceDialogsScroll();
 
@@ -29,14 +25,6 @@ export const DialogsList = () => {
       clearDebounce();
     };
   }, [clearDebounce]);
-
-  const isMobile = useMediaQuery("(max-width: 1070px)");
-
-  useEffect(() => {
-    if (isMobile !== appStore.isMobileVersion) {
-      isMobileVersionChanger(isMobile);
-    }
-  }, [isMobile, appStore.isMobileVersion]);
 
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
@@ -49,13 +37,16 @@ export const DialogsList = () => {
     appStore.isMobileVersion && !ShowHideButtonStore.isOpenDialogs ? "dialogs-list hidden" : "dialogs-list"
   );
 
+  useMobileSync();
+  useGate(DialogsListGate, sessionStorage.getItem("id") ?? "");
+
   return (
     <div className="dialogs-list__wrapper">
       {appStore.isMobileVersion && <ShowHideButton />}
       <div className={DialogsListClass} onScroll={handleScroll}>
-        <Header />
-        <SearchDialogs />
-        <UserDialogsContainer />
+        <DialogsListHeader />
+        <SearchUsers />
+        <UsersAndDialogs />
       </div>
     </div>
   );

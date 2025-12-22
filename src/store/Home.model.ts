@@ -1,4 +1,3 @@
-import { getUsersBySearch } from "@components/Home/DialogsList/SearchDialogs/SearchDialogs";
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { DialogsApi } from "@api/DialogsApi";
 import { MessagesApi } from "@api/MessagesApi";
@@ -14,6 +13,7 @@ import {
   usersType,
 } from "../types/Home.types";
 import { socketGetMessage } from "../socket";
+import { getUsersBySearch } from "./UsersList.model";
 
 export const $HomeStore = createStore<HomeStoreTypes>({
   isInitialisedDialog: false, // отвечает за инициализацию списка диалогов

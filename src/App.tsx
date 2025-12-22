@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
-import { Auth } from "./components/Auth/Auth";
-import { Home } from "./components/Home/Home";
-import "./styles/normalize.css";
-import "./styles/index.scss";
-import { Navigate, Route, Routes } from "react-router";
+import { useEffect } from "react";
+import { Navigate } from "react-router";
 import { useGate, useUnit } from "effector-react";
+
 import { $LoginStore, isLoginFx } from "@stores/Login.model";
 import { useLocation } from "react-router";
 import { AppGate } from "./gates/AppGate";
 import { $AppStore } from "./store/App.model";
+import { Loading } from "./utils/Loading";
+import { HostRoutes } from "./components/Routes/HostRoutes";
+
+import "./styles/normalize.scss";
+import "./styles/index.scss";
 
 export const App = () => {
   const store = useUnit($LoginStore);
@@ -30,22 +32,12 @@ export const App = () => {
   }, [store.isChecked]);
 
   if (!store.isChecked) {
-    return (
-      <div className="app-loading">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
     <div className={appStore.isMobileVersion ? "mobile app" : "app"}>
-      <Routes>
-        <Route path="/*" element={<Home />} />
-        <Route path="/auth/*" element={<Auth />} />
-      </Routes>
+      <HostRoutes />
       {shouldRedirect && <Navigate to="/auth/login" />}
     </div>
   );

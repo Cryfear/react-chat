@@ -1,6 +1,6 @@
 .home {
   padding: 0px 10%;
-  background-color: #F4F7FD;
+  background-color: #f4f7fd;
   height: 100%;
   display: flex;
   overflow: hidden;
@@ -17,10 +17,14 @@
     width: 100px;
   }
 
+  .list-header .profile__wrapper {
+    margin-top: -15px;
+  }
+
   .dialogs-list {
     position: absolute;
     left: 0;
-    width: 370px;
+    width: 100%;
   }
 
   .dialog__wrapper {

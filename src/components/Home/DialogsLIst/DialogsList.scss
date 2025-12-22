@@ -18,3 +18,50 @@
 .dialogs {
   margin: 20px;
 }
+
+.list-header {
+  height: 65px;
+  border-bottom: 1px solid #f7f7f7;
+  padding: 23px 15px;
+  box-sizing: border-box;
+  display: flex;
+  margin-top: 5px;
+  place-content: space-between;
+
+
+  &__icon {
+    margin-right: 15px;
+  }
+
+  &__button {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+}
+
+.dialogs-search {
+  padding: 10px;
+  background-color: #f7f8f9;
+  margin: 20px;
+
+  &__wrapper {
+    padding: 5px 10px;
+
+    & img {
+      width: 14px;
+      height: 14px;
+      position: relative;
+      top: 1px;
+    }
+  }
+
+  & input {
+    width: 80%;
+    border: none;
+    outline: none;
+    background-color: #f7f8f9;
+    padding-left: 10px;
+  }
+}
