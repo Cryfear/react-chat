@@ -10,11 +10,11 @@ export const UsersLoaderFx = createEffect(async (page: number) => {
   };
 });
 
-export const onScrollUsersLoaderFx = createEffect(async ({ e, page }: { e: React.UIEvent<HTMLElement>; page: number }) => {
+export const onScrollUsersLoaderFx = createEffect(async ({ page }: { page: number }) => {
   return await UsersLoaderFx(page);
 });
 
-export const getUsersBySearch = createEffect(async (values: any) => {
+export const getUsersBySearch = createEffect(async (values: { page: number; searchText: string }) => {
   try {
     if (values.searchText !== "") {
       return await UsersApi.getUsersByName(values);

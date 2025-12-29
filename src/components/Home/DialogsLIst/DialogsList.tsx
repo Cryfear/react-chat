@@ -13,10 +13,8 @@ import { useMobileSync } from "@/hooks/useMobileSync";
 import { SearchUsers } from "./UserDialogs/SearchUsers/SearchUsers";
 
 export const DialogsList = () => {
-  const { appStore, ShowHideButtonStore } = useUnit({
-    appStore: $AppStore,
-    ShowHideButtonStore: $Show_Hide_ButtonStore,
-  });
+  const { isMobileVersion } = useUnit($AppStore);
+  const { isOpenDialogs } = useUnit($Show_Hide_ButtonStore);
 
   const { debouncedScroll, clearDebounce } = useDebounceDialogsScroll();
 
@@ -33,16 +31,14 @@ export const DialogsList = () => {
     [debouncedScroll]
   );
 
-  const DialogsListClass = classNames(
-    appStore.isMobileVersion && !ShowHideButtonStore.isOpenDialogs ? "dialogs-list hidden" : "dialogs-list"
-  );
+  const DialogsListClass = classNames(isMobileVersion && isOpenDialogs ? "dialogs-list hidden" : "dialogs-list");
 
   useMobileSync();
   useGate(DialogsListGate, sessionStorage.getItem("id") ?? "");
 
   return (
     <div className="dialogs-list__wrapper">
-      {appStore.isMobileVersion && <ShowHideButton />}
+      {isMobileVersion && <ShowHideButton />}
       <div className={DialogsListClass} onScroll={handleScroll}>
         <DialogsListHeader />
         <SearchUsers />

@@ -17,19 +17,17 @@ interface SendMessageProps {
 }
 
 export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: SendMessageProps) => {
-  const { homeStore, authStore } = useUnit({
-    homeStore: $HomeStore,
-    authStore: $LoginStore,
-  });
+  const { currentUser } = useUnit($HomeStore);
+  const { myUserData } = useUnit($LoginStore);
 
   const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" || e.key === "NumpadEnter") {
       e.preventDefault();
-      if (homeStore.currentUser) {
+      if (currentUser) {
         sendMessageFx({
-          myId: authStore.myUserData.id,
+          myId: myUserData.id,
           data: inputValue,
-          userId: homeStore.currentUser.id,
+          userId: currentUser.id,
         });
 
         setInputValue("");
@@ -38,14 +36,14 @@ export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: 
   };
 
   const SendButtonFunction = () => {
-    if (!homeStore.currentUser) {
+    if (!currentUser) {
       return;
     }
 
     sendMessageFx({
-      myId: authStore.myUserData.id,
+      myId: myUserData.id,
       data: inputValue,
-      userId: homeStore.currentUser.id,
+      userId: currentUser.id,
     });
     setInputValue("");
   };

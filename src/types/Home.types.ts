@@ -19,36 +19,35 @@ export type messageType = {
   _id: string;
 };
 
-export type initialiseDialogFxTypes = {
-  fullName: string;
-  userId: string;
-  avatar: string;
-  isOnline: boolean;
-  currentDialogID: string;
-  currentDialogTyping: boolean;
-  currentDialogOpponentId: string;
-  currentDialogMessages: MessageType;
+export type dialogServerType = {
+  createdAt: string;
+  creater: string;
+  data: string;
+  date: string;
+  dialog: string;
+  enum: string;
+  isReaded: boolean;
+  updatedAt: string;
+  __v: number;
+  _id: string;
 };
 
 export type HomeStoreTypes = {
-  isInitialisedDialog: boolean;
   isDialogFullLoaded: boolean;
   loadedDialog: boolean;
-  currentUser:
-    | any
-    | {
-        name: string;
-        id: string;
-        avatar: string;
-        isOnline: boolean;
-      };
+  currentUser: {
+    name: string | null;
+    id: string | null;
+    avatar: string | null;
+    isOnline: boolean;
+  };
   currentDialog: {
     isTyping: boolean;
     page: number;
     id: string;
     unreadedPage: number;
   };
-  currentDialogMessages: any;
+  currentDialogMessages: dialogServerType[];
   messageSent: boolean;
 };
 
@@ -60,7 +59,7 @@ export type usersType = {
 };
 
 export type initDialogTypes = {
-  userId: string;
+  userId: string | undefined;
   myId: string;
   page: number;
 };
@@ -78,18 +77,6 @@ export type unreadMesssagesFxTypes = {
   userId: string;
 };
 
-export type dialogPromiseType = {
-  data: {
-    users: [_id1: string, _id2: string];
-    isTyping: boolean;
-    _id: string;
-  };
-};
-
-export type promiseDialogsTypes = {
-  data: [{ users: [string, string] }];
-};
-
 export interface IUser {
   id: string;
   fullName: string;
@@ -102,9 +89,28 @@ export interface IDialogPreview {
   user: IUser;
 }
 
+export interface IDialog {
+  _id: string;
+  users: string[];
+  isTyping: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastMessage: string;
+  lastMessageDate: string;
+  unreadCount: number;
+  user?: {
+    _id: string;
+    avatar: string | undefined;
+    fullName: string;
+    isOnline: boolean;
+  };
+}
+
+export type GetMyDialogsResponse = IDialog[];
+
 export interface DialogsListStoreTypes {
   initialisedDialogs: boolean;
-  dialogs: DialogsPreviewType[];
+  dialogs: IDialog[];
   dialogsSearchPage: number;
 
   isUserSearch?: boolean;
@@ -123,19 +129,6 @@ export type OpenedProfileTypes = {
   isOpen: boolean;
   name: string;
   avatar: string;
-};
-
-export type DialogsPreviewType = {
-  user: {
-    avatar: string;
-    fullName: string;
-    _id: string; // айди пользователя
-    isOnline: string;
-  };
-  lastMessage: string,
-  lastMessageDate: string;
-  unreadCount: number;
-  _id: string;
 };
 
 export type MessageType = {

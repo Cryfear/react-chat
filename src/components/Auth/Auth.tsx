@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { LoginContainer } from "./Login/LoginContainer";
 import { Registratation } from "./Registration/Registration";

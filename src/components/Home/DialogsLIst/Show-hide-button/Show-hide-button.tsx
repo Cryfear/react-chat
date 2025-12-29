@@ -5,9 +5,9 @@ import { $Show_Hide_ButtonStore, isOpenDialogsSwitcherFx } from "./Show-hide-but
 import "./Show-hide-button.scss";
 
 export const ShowHideButton = () => {
-  const store = useUnit($Show_Hide_ButtonStore);
+  const { isOpenDialogs } = useUnit($Show_Hide_ButtonStore);
 
-  const buttonClass = classNames(store.isOpenDialogs ? "show-dialogs__button" : "hide-dialogs__button");
+  const buttonClass = classNames(isOpenDialogs ? "show-dialogs__button" : "hide-dialogs__button");
 
   return <div className={buttonClass} onClick={() => isOpenDialogsSwitcherFx()}></div>;
 };

@@ -4,10 +4,9 @@ import { MessagesApi } from "@api/MessagesApi";
 import { UsersApi } from "@api/UsersApi";
 import { sendMessageFx } from "./Content.model";
 import {
-  dialogPromiseType,
+  dialogServerType,
   HomeStoreTypes,
   initDialogTypes,
-  initialiseDialogFxTypes,
   MessageType,
   onScrollLoaderMessagesTypes,
   usersType,
@@ -16,10 +15,14 @@ import { socketGetMessage } from "../socket";
 import { getUsersBySearch } from "./UsersList.model";
 
 export const $HomeStore = createStore<HomeStoreTypes>({
-  isInitialisedDialog: false, // отвечает за инициализацию списка диалогов
   loadedDialog: false, // отвечает за инициализацию выбранного диалога, то есть первоначальная загрузка
   isDialogFullLoaded: false, // долистали ли мы до конца сообщений, чтобы не отправлять лишние запросы
-  currentUser: null, // это собеседник
+  currentUser: {
+    name: null,
+    id: null,
+    avatar: null,
+    isOnline: false,
+  }, // это собеседник
   currentDialog: {
     // текущий диалог
     id: "", // dialogId
@@ -33,7 +36,8 @@ export const $HomeStore = createStore<HomeStoreTypes>({
 
 const clearMessages = createEvent();
 
-export const readyToCreateDialogFx = createEffect(async ({ user, myId }: { user: usersType; myId: string }) => {
+export const readyToCreateDialogFx = createEffect(async ({ user, myId }: { user: usersType; myId: string | undefined }) => {
+  if (!myId || !user) return;
   try {
     const dialog = await DialogsApi.find({ id_1: myId, id_2: user.id });
 
@@ -81,7 +85,9 @@ sample({
 });
 
 export const initialiseDialogFx = createEffect(async ({ userId, myId, page }: initDialogTypes) => {
-  const dialog: dialogPromiseType = await DialogsApi.find({
+  if (!myId || !userId) return;
+
+  const dialog = await DialogsApi.find({
     id_1: userId,
     id_2: myId,
   });
@@ -138,14 +144,16 @@ $HomeStore
     };
   })
   .on(readyToCreateDialogFx.doneData, (state, data) => {
+    if (!data) return state;
     return {
       ...state,
       currentUser: {
         ...data.user,
+        name: data.user.fullName,
       },
     };
   })
-  .on(initialiseDialogFx.doneData, (state, data: initialiseDialogFxTypes) => {
+  .on(initialiseDialogFx.doneData, (state, data) => {
     if (!data) return state;
 
     return {
@@ -153,7 +161,7 @@ $HomeStore
       loadedDialog: true,
       messageSent: false,
       currentUser: {
-        fullName: data.fullName,
+        name: data.fullName,
         id: data.userId,
         avatar: data.avatar,
         isOnline: data.isOnline,
@@ -166,7 +174,6 @@ $HomeStore
         opponentId: data.currentDialogOpponentId,
       },
       currentDialogMessages: data.currentDialogMessages,
-      isInitialisedDialog: true,
       isDialogFullLoaded: false, // Сбрасываем при инициализации нового диалога
     };
   })
@@ -184,7 +191,7 @@ $HomeStore
     }
 
     if (data.messages && data.messages.length > 0) {
-      const existingIds = new Set(state.currentDialogMessages.map((msg: MessageType) => msg._id));
+      const existingIds = new Set(state.currentDialogMessages.map((msg: dialogServerType) => msg._id));
       const newMessages = data.messages.filter((msg: MessageType) => !existingIds.has(msg._id));
 
       if (newMessages.length === 0) {
@@ -224,10 +231,11 @@ $HomeStore
     };
   })
   .on(socketGetMessage.doneData, (state, data) => {
+    console.log();
     if (data && state.currentDialog.id === data.dialogId) {
       return {
         ...state,
-        currentDialogMessages: [data.message, ...state.currentDialogMessages],
+        currentDialogMessages: [...state.currentDialogMessages],
       };
     }
     return state;

@@ -6,16 +6,14 @@ import { $LoginStore } from "@stores/Login.model";
 import { sendVoiceFx } from "@stores/Content.model";
 
 interface SendVoiceParams {
-  myId: string;
+  myId: string | null;
   data: Blob;
-  userId: string;
+  userId: string | null;
 }
 
 export const VoiceMessage: React.FC = () => {
-  const { homeStore, authStore } = useUnit({
-    homeStore: $HomeStore,
-    authStore: $LoginStore,
-  });
+  const { currentUser } = useUnit($HomeStore);
+  const { myUserData } = useUnit($LoginStore);
 
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [audioURL, setAudioURL] = useState<string | null>(null);
@@ -68,9 +66,9 @@ export const VoiceMessage: React.FC = () => {
         setAudioURL(url);
 
         const params: SendVoiceParams = {
-          myId: authStore.myUserData.id,
+          myId: myUserData.id,
           data: blob,
-          userId: homeStore.currentUser.id,
+          userId: currentUser.id,
         };
 
         sendVoiceFx(params);

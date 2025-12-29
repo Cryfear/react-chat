@@ -2,8 +2,9 @@ import classnames from "classnames";
 import { useUnit } from "effector-react";
 import { Link } from "react-router-dom";
 import { $HomeStore, initialiseDialogFx } from "@/store/Home.model";
+import React from "react";
 
-export const DialogItem = ({
+const DialogItem = ({
   avatar,
   _id,
   fullName,
@@ -12,17 +13,17 @@ export const DialogItem = ({
   lastMessage,
   unreadCount,
 }: {
-  avatar: string;
-  fullName: string;
+  avatar: string | undefined;
+  fullName: string | undefined;
   unreadCount: number;
   lastMessageDate: string;
   lastMessage: string;
-  _id: string;
-  isOnline: string;
+  _id: string | undefined;
+  isOnline: boolean | undefined;
 }) => {
-  const store = useUnit($HomeStore);
+  const { currentDialog } = useUnit($HomeStore);
 
-  const userName = fullName.length > 9 ? fullName.slice(0, 9) + "..." : fullName ;
+  const userName = fullName ? fullName.length > 9 ? fullName.slice(0, 9) + "..." : fullName: 'Loading...';
   const convertedLastMessage = lastMessage && lastMessage.length > 10 ? lastMessage.substr(0, 9) + "..." : lastMessage;
   const date = new Date(lastMessageDate);
 
@@ -34,12 +35,12 @@ export const DialogItem = ({
           initialiseDialogFx({
             userId: _id,
             myId: sessionStorage["id"],
-            page: store.currentDialog.page,
+            page: currentDialog.page,
           });
         }}
       >
         <div className={classnames("dialog__item-avatar", isOnline ? "dialog__item-online " : "dialog__item-offline")}>
-          <img src={'http://localhost:8888/' + avatar} alt="user-img" />
+          <img src={"http://localhost:8888/" + avatar} alt="user-img" />
         </div>
         <div className="dialog__item-wrapper">
           <div className="dialog__item-header">
@@ -55,3 +56,5 @@ export const DialogItem = ({
     </Link>
   );
 };
+
+export const MemoDialogItem = React.memo(DialogItem);

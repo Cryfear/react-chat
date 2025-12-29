@@ -58,7 +58,7 @@ export const useDebounceDialogsScroll = () => {
 
         if (scrollHeight - scrollTop - clientHeight < 100) {
           if (isUserSearch) {
-            onScrollUsersLoaderFx({ e, page: usersStore.usersSearchPage });
+            onScrollUsersLoaderFx({ page: usersStore.usersSearchPage });
           } else {
             loadMoreDialogsFx({
               id: sessionStorage["id"],

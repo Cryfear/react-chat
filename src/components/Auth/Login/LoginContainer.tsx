@@ -3,8 +3,8 @@ import { passwordValidate } from "../../../utils/validations";
 import { Login } from "./Login";
 import {FormDataTypes} from "../../../types/Auth.types";
 
-export const LoginContainer = withFormik<any, FormDataTypes>({
-  mapPropsToValues: (props) => {
+export const LoginContainer = withFormik<{}, FormDataTypes>({
+  mapPropsToValues: () => {
     return {
       email: "",
       password: "",

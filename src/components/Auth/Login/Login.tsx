@@ -1,5 +1,5 @@
 import React from "react";
-import { Field } from "formik";
+import { Field, FormikProps } from "formik";
 
 import "./Login.scss";
 
@@ -7,49 +7,38 @@ import { passwordValidate } from "../../../utils/validations";
 import { Link, Navigate } from "react-router-dom";
 import { useUnit } from "effector-react";
 import { $LoginStore, LoginFx } from "../../../store/Login.model";
-import { LoginTypes } from "../../../types/Auth.types";
+import { FormDataTypes } from "../../../types/Auth.types";
 
-export const Login = ({
-  errors,
-  handleChange,
-  values,
-  touched,
-}: LoginTypes) => {
-  const store = useUnit($LoginStore);
+
+export const Login= ({ errors, handleChange, values, touched }: FormikProps<FormDataTypes>) => {
+  const { isCorrectLogin, isAuth } = useUnit($LoginStore);
 
   const passwordErrors =
-    store.isCorrectLogin === false
+    isCorrectLogin === false
       ? "Invalid Login Or Password" // если пользователь ввел неправильно логин или пароль
       : errors.password && touched.password // иначе вывести ошибку из формика если прикоснулся
-        ? errors.password
-        : "";
+      ? errors.password
+      : "";
 
-  const emailIsErrorClassName =
-    errors.email && touched.email
-      ? "input__error"
-      : touched.email && "input__valid";
+  const emailIsErrorClassName = errors.email && touched.email ? "input__error" : touched.email && "input__valid";
 
   // при классе input__valid добавляется галочка к полю, поэтому нужна проверка на touched
 
-  const passwordIsErrorClassName =
-    errors.password && touched.password
-      ? "input__error"
-      : touched.password && "input__valid";
+  const passwordIsErrorClassName = errors.password && touched.password ? "input__error" : touched.password && "input__valid";
 
   const emailErrors = errors.email && touched.email ? errors.email : "";
 
-  return store.isAuth ? (
+  return isAuth ? (
     <Navigate to="/home" />
   ) : (
     <section className="login">
       <h1>Login into account</h1>
       <p>Please fill in your account's data</p>
       <form action="post" className="login__form">
-        <div className={emailIsErrorClassName}>
+        <div className={emailIsErrorClassName ? emailIsErrorClassName : ''}>
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === "Enter" || e.key === "NumpadEnter")
-                LoginFx({ email: values.email, password: values.password });
+              if (e.key === "Enter" || e.key === "NumpadEnter") LoginFx({ email: values.email, password: values.password });
             }}
             placeholder="E-Mail"
             name="email"
@@ -59,11 +48,10 @@ export const Login = ({
           />
         </div>
         <div className="form__errors">{emailErrors}</div>
-        <div className={passwordIsErrorClassName}>
+        <div className={passwordIsErrorClassName ? passwordIsErrorClassName: ''}>
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === "Enter" || e.key === "NumpadEnter")
-                LoginFx({ email: values.email, password: values.password });
+              if (e.key === "Enter" || e.key === "NumpadEnter") LoginFx({ email: values.email, password: values.password });
             }}
             placeholder="Password"
             name="password"
@@ -74,13 +62,7 @@ export const Login = ({
           />
         </div>
         <div className="form__errors">{passwordErrors}</div>
-        <button
-          onClick={() =>
-            LoginFx({ email: values.email, password: values.password })
-          }
-          type="button"
-          className="login__button"
-        >
+        <button onClick={() => LoginFx({ email: values.email, password: values.password })} type="button" className="login__button">
           Login
         </button>
       </form>

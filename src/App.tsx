@@ -13,30 +13,31 @@ import "./styles/normalize.scss";
 import "./styles/index.scss";
 
 export const App = () => {
-  const store = useUnit($LoginStore);
-  const appStore = useUnit($AppStore);
+  const { isAuth, isChecked } = useUnit($LoginStore);
+  const { isMobileVersion } = useUnit($AppStore);
+
   const location = useLocation();
   const allowedPathsWithoutAuth = ["/auth", "/home/profile/"];
 
-  const shouldRedirect = !store.isAuth && store.isChecked && !allowedPathsWithoutAuth.some((path) => location.pathname.startsWith(path));
+  const shouldRedirect = !isAuth && isChecked && !allowedPathsWithoutAuth.some((path) => location.pathname.startsWith(path));
 
   useGate(AppGate);
 
   useEffect(() => {
-    if (!store.isChecked) {
+    if (!isChecked) {
       isLoginFx({
         email: sessionStorage["email"],
         authToken: sessionStorage["auth-token"],
       });
     }
-  }, [store.isChecked]);
+  }, [isChecked]);
 
-  if (!store.isChecked) {
+  if (!isChecked) {
     return <Loading />;
   }
 
   return (
-    <div className={appStore.isMobileVersion ? "mobile app" : "app"}>
+    <div className={isMobileVersion ? "mobile app" : "app"}>
       <HostRoutes />
       {shouldRedirect && <Navigate to="/auth/login" />}
     </div>

@@ -4,7 +4,7 @@ import { createDialogFx } from "./DialogsList.model";
 import { socket } from "@/socket";
 import { initialiseDialogFx } from "./Home.model";
 
-export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: string }) => {
+export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string | null; myId: string; data: string }) => {
   try {
     if (!userId || !myId || !data) {
       return console.error("Missing fields");
@@ -41,7 +41,7 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
   }
 });
 
-export const sendVoiceFx = createEffect(async ({ userId, myId, data }: { userId: string; myId: string; data: Blob }) => {
+export const sendVoiceFx = createEffect(async ({ userId, myId, data }: { userId: string | null; myId: string | null; data: Blob }) => {
   if (!userId || !myId || !data) return;
 
   const dialogIdRes = await createDialogFx({ id1: myId, id2: userId });

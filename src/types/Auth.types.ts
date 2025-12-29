@@ -38,14 +38,6 @@ export type FormDataTypes = {
   password: string;
 };
 
-export type LoginTypes = {
-  errors: FormDataTypes;
-  values: FormDataTypes;
-  touched: FormDataTypes;
-
-  handleChange: Function;
-};
-
 export type LoginStoreTypes = {
   isAuth: boolean;
   isChecked: boolean;

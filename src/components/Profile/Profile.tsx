@@ -7,15 +7,16 @@ import { $LoginStore } from "@stores/Login.model";
 export const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const authStore = useUnit($LoginStore);
+  const { myUserData } = useUnit($LoginStore);
 
   return (
     <div className="profile__wrapper">
       <button className="profile__show-button" onClick={() => setIsOpen(!isOpen)}>
-        {authStore.myUserData.name}<span>Show</span>
+        {myUserData.name}
+        <span>Show</span>
       </button>
 
-      <OpenedProfile isOpen={isOpen} {...authStore.myUserData}/>
+      <OpenedProfile isOpen={isOpen} {...myUserData} />
     </div>
   );
 };

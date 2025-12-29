@@ -6,17 +6,15 @@ import people from "@assets/people.svg";
 import { useUnit } from "effector-react";
 
 export const DialogsListHeader = () => {
-  const { appStore, isUserSearch } = useUnit({
-    appStore: $AppStore,
-    isUserSearch: $isUserSearch,
-  });
+  const { isMobileVersion } = useUnit($AppStore);
+  const isUserSearch = useUnit($isUserSearch);
 
   return (
     <div className="list-header">
       <img src={people} alt="icon" className="list-header__icon" />
       <span>Dialogs List</span>
-      {appStore.isMobileVersion && <span>|</span>}
-      {appStore.isMobileVersion && (
+      {isMobileVersion && <span>|</span>}
+      {isMobileVersion && (
         <span>
           <Profile />
         </span>

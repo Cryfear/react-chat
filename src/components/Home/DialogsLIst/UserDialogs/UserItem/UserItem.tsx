@@ -3,7 +3,7 @@ import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { readyToCreateDialogFx } from "../../../../../store/Home.model";
 
-export const UsersSearchItem = ({
+const UsersSearchItem = ({
   avatar,
   fullName,
   isOnline,
@@ -32,3 +32,5 @@ export const UsersSearchItem = ({
     </Link>
   );
 };
+
+export const MemoUserItem = React.memo(UsersSearchItem);

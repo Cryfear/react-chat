@@ -1,6 +1,5 @@
 import { useUnit } from "effector-react";
 import { Field, Form } from "formik";
-import React from "react";
 import { Link, Navigate } from "react-router-dom";
 import { $RegistrationStore } from "../../../../store/Registration.model";
 
@@ -8,45 +7,27 @@ import "./RegistrationForm.scss";
 import { RegistrationTypesFormik } from "../../../../types/Auth.types";
 
 export const RegistrationForm = ({ errors, touched, handleChange, values }: RegistrationTypesFormik) => {
-  const store = useUnit($RegistrationStore);
+  const { isRegistrated } = useUnit($RegistrationStore);
 
-  return store.isRegistrated ? <Navigate to="/auth/login" /> : (
+  return isRegistrated ? (
+    <Navigate to="/auth/login" />
+  ) : (
     <div>
       <Form action="post" className="registration__form">
         <div className={errors.email && touched.email ? "input__error" : touched.email ? "input__valid" : undefined}>
           <Field placeholder="E-Mail" name="email" type="text" onChange={handleChange} value={values.email} />
         </div>
         <div className="form__errors">{errors.email && touched.email ? errors.email : ""}</div>
-        <div className={
-          errors.name && touched.name
-            ? "input__error"
-            : touched.name
-              ? "input__valid"
-              : undefined
-        }>
+        <div className={errors.name && touched.name ? "input__error" : touched.name ? "input__valid" : undefined}>
           <Field placeholder="Name" name="name" type="text" onChange={handleChange} value={values.name} />
         </div>
         <div className="form__errors">{errors.name && touched.name ? errors.name : ""}</div>
-        <div
-          className={
-            errors.password && touched.password ? "input__error" : touched.password ? "input__valid" : undefined
-          }
-        >
-          <Field
-            placeholder="Create password"
-            name="password"
-            type="password"
-            onChange={handleChange}
-            value={values.password}
-          />
+        <div className={errors.password && touched.password ? "input__error" : touched.password ? "input__valid" : undefined}>
+          <Field placeholder="Create password" name="password" type="password" onChange={handleChange} value={values.password} />
         </div>
         <div className="form__errors">{errors.password && touched.password ? errors.password : ""}</div>
         <div
-          className={
-            errors.passwordRepeat && touched.passwordRepeat
-              ? "input__error"
-              : touched.passwordRepeat ? "input__valid" : undefined
-          }
+          className={errors.passwordRepeat && touched.passwordRepeat ? "input__error" : touched.passwordRepeat ? "input__valid" : undefined}
         >
           <Field
             placeholder="Repeat password"
@@ -56,9 +37,7 @@ export const RegistrationForm = ({ errors, touched, handleChange, values }: Regi
             value={values.passwordRepeat}
           />
         </div>
-        <div className="form__errors">
-          {errors.passwordRepeat && touched.passwordRepeat ? errors.passwordRepeat : ""}
-        </div>
+        <div className="form__errors">{errors.passwordRepeat && touched.passwordRepeat ? errors.passwordRepeat : ""}</div>
         <button type="submit" className="registration__button">
           Registration
         </button>
