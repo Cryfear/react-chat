@@ -9,9 +9,11 @@ import { useUnit } from "effector-react";
 import { $LoginStore, LoginFx } from "../../../store/Login.model";
 import { FormDataTypes } from "../../../types/Auth.types";
 
-
-export const Login= ({ errors, handleChange, values, touched }: FormikProps<FormDataTypes>) => {
-  const { isCorrectLogin, isAuth } = useUnit($LoginStore);
+export const Login = ({ errors, handleChange, values, touched }: FormikProps<FormDataTypes>) => {
+  const { isCorrectLogin, isAuth } = useUnit({
+    isCorrectLogin: $LoginStore.map((s) => s.isCorrectLogin),
+    isAuth: $LoginStore.map((s) => s.isAuth),
+  });
 
   const passwordErrors =
     isCorrectLogin === false
@@ -31,11 +33,11 @@ export const Login= ({ errors, handleChange, values, touched }: FormikProps<Form
   return isAuth ? (
     <Navigate to="/home" />
   ) : (
-    <section className="login">
+    <div className="login">
       <h1>Login into account</h1>
       <p>Please fill in your account's data</p>
       <form action="post" className="login__form">
-        <div className={emailIsErrorClassName ? emailIsErrorClassName : ''}>
+        <div className={emailIsErrorClassName ? emailIsErrorClassName : ""}>
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter" || e.key === "NumpadEnter") LoginFx({ email: values.email, password: values.password });
@@ -48,7 +50,7 @@ export const Login= ({ errors, handleChange, values, touched }: FormikProps<Form
           />
         </div>
         <div className="form__errors">{emailErrors}</div>
-        <div className={passwordIsErrorClassName ? passwordIsErrorClassName: ''}>
+        <div className={passwordIsErrorClassName ? passwordIsErrorClassName : ""}>
           <Field
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter" || e.key === "NumpadEnter") LoginFx({ email: values.email, password: values.password });
@@ -69,6 +71,6 @@ export const Login= ({ errors, handleChange, values, touched }: FormikProps<Form
       <Link to="/auth/registration" className="login__to-registration">
         Go to registration
       </Link>
-    </section>
+    </div>
   );
 };

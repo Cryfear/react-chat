@@ -7,7 +7,7 @@ import { $LoginStore } from "@stores/Login.model";
 export const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { myUserData } = useUnit($LoginStore);
+  const { myUserData } = useUnit({ myUserData: $LoginStore.map((s) => s.myUserData) });
 
   return (
     <div className="profile__wrapper">

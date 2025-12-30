@@ -9,7 +9,7 @@ import { HelloDialog } from "./HelloDialog";
 
 export const Dialog = () => {
   const { dialogId } = useParams();
-  const { currentUser } = useUnit($HomeStore);
+  const { currentUser } = useUnit({currentUser: $HomeStore.map(s => s.currentUser)});
   const [loading, setLoading] = useState(true);
 
   const user = currentUser || {

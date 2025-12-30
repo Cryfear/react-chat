@@ -15,29 +15,30 @@ export const MessagesContainer = ({
   loading: boolean;
   setShowEmojiPicker: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { currentDialogMessages } = useUnit($HomeStore);
-  const { myUserData } = useUnit($LoginStore);
+  const { currentDialogMessages, myUserData, currentUser } = useUnit({
+    currentDialogMessages: $HomeStore.map((s) => s.currentDialogMessages),
+    myUserData: $LoginStore.map((s) => s.myUserData),
+    currentUser: $LoginStore.map((s) => s.myUserData),
+  });
 
   const isEmptyDialog = !(currentDialogMessages && currentDialogMessages.length > 0);
 
-  const messages = React.useMemo(
-    () =>
-      currentDialogMessages.map((item) => {
-        return item ? (
-          <div key={item._id}>
-            <MemoMessageItem
-              data={item.data}
-              date={item.date}
-              isReaded={item.isReaded}
-              id={item._id}
-              type={item?.enum}
-              mine={item.creater === myUserData.id}
-            />
-          </div>
-        ) : null;
-      }),
-    [currentDialogMessages, myUserData.id]
-  );
+  const messages = currentDialogMessages.map((item) => {
+    return item ? (
+      <div key={item._id}>
+        <MemoMessageItem
+          currentUser={currentUser}
+          myUserData={myUserData}
+          data={item.data}
+          date={item.date}
+          isReaded={item.isReaded}
+          id={item._id}
+          type={item?.enum}
+          mine={item.creater === myUserData.id}
+        />
+      </div>
+    ) : null;
+  });
 
   if (loading) {
     return <Loading />;

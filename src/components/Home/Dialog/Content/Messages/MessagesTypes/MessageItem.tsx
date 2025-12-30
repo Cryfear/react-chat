@@ -1,11 +1,15 @@
 import classnames from "classnames";
 import { ReadedCheckComponent } from "../ReadedCheckComponent/ReadedCheckComponent";
 import { dateFormatter } from "@utils/dateFormatter";
-import { useUnit } from "effector-react";
-import { $HomeStore } from "@stores/Home.model";
-import { $LoginStore } from "@stores/Login.model";
 import Voice from "./Voice/Voice";
 import React from "react";
+
+export type IUser = {
+  id: string;
+  avatar: string;
+  name: string;
+  isOnline: boolean;
+};
 
 export const MessageItem = ({
   mine,
@@ -14,17 +18,18 @@ export const MessageItem = ({
   isReaded,
   type,
   id,
+  myUserData,
+  currentUser,
 }: {
   mine: boolean;
+  currentUser: IUser;
+  myUserData: IUser;
   id: string;
   data: string;
   date: string;
   isReaded: boolean;
   type: string;
 }) => {
-  const { currentUser } = useUnit($HomeStore);
-  const { myUserData } = useUnit($LoginStore);
-
   const avatar = mine ? myUserData.avatar : currentUser?.avatar;
 
   if (type && type[0] === "audio") return <Voice url={"http://localhost:8888" + data} key={id} isReaded />;
@@ -32,7 +37,7 @@ export const MessageItem = ({
   return (
     <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">
-        <img className="message__avatar-photo" src={avatar || 'null'} alt="avatar" />
+        <img className="message__avatar-photo" src={avatar || "null"} alt="avatar" />
       </div>
       <div className="message__content-wrapper">
         <div className="message__text">{data}</div>

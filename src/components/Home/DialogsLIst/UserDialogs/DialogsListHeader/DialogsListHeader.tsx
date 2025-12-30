@@ -6,8 +6,7 @@ import people from "@assets/people.svg";
 import { useUnit } from "effector-react";
 
 export const DialogsListHeader = () => {
-  const { isMobileVersion } = useUnit($AppStore);
-  const isUserSearch = useUnit($isUserSearch);
+  const { isMobileVersion, isUserSearch } = useUnit({ isMobileVersion: $AppStore.map((s) => s.isMobileVersion), isUserSearch: $isUserSearch });
 
   return (
     <div className="list-header">

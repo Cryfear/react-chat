@@ -3,7 +3,7 @@ import { useUnit, useGate } from "effector-react";
 import classNames from "classnames";
 import { $AppStore } from "@stores/App.model";
 import { useDebounceDialogsScroll } from "@hooks/useDebounceScroll";
-import { $Show_Hide_ButtonStore } from "./Show-hide-button/Show-hide-button.model";
+import { $isOpenDialogs } from "./Show-hide-button/Show-hide-button.model";
 import { ShowHideButton } from "./Show-hide-button/Show-hide-button";
 import { UsersAndDialogs } from "./UserDialogs/UsersAndDialogs";
 import { DialogsListGate } from "@/gates/DialogListGate";
@@ -13,8 +13,10 @@ import { useMobileSync } from "@/hooks/useMobileSync";
 import { SearchUsers } from "./UserDialogs/SearchUsers/SearchUsers";
 
 export const DialogsList = () => {
-  const { isMobileVersion } = useUnit($AppStore);
-  const { isOpenDialogs } = useUnit($Show_Hide_ButtonStore);
+  const { isMobileVersion, isOpenDialogs } = useUnit({
+    isMobileVersion: $AppStore.map((s) => s.isMobileVersion),
+    isOpenDialogs: $isOpenDialogs,
+  });
 
   const { debouncedScroll, clearDebounce } = useDebounceDialogsScroll();
 

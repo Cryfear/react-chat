@@ -37,9 +37,11 @@ export const useDebounceScroll = () => {
 };
 
 export const useDebounceDialogsScroll = () => {
-  const dialogsStore = useUnit($DialogsListStore);
-  const usersStore = useUnit($UsersListStore);
-  const isUserSearch = useUnit($isUserSearch);
+  const { dialogsSearchPage, usersSearchPage, isUserSearch } = useUnit({
+    dialogsSearchPage: $DialogsListStore.map((s) => s.dialogsSearchPage),
+    usersSearchPage: $UsersListStore.map((s) => s.usersSearchPage),
+    isUserSearch: $isUserSearch,
+  });
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -58,17 +60,17 @@ export const useDebounceDialogsScroll = () => {
 
         if (scrollHeight - scrollTop - clientHeight < 100) {
           if (isUserSearch) {
-            onScrollUsersLoaderFx({ page: usersStore.usersSearchPage });
+            onScrollUsersLoaderFx({ page: usersSearchPage });
           } else {
             loadMoreDialogsFx({
               id: sessionStorage["id"],
-              page: dialogsStore.dialogsSearchPage,
+              page: dialogsSearchPage,
             });
           }
         }
       }, 150);
     },
-    [isUserSearch, usersStore.usersSearchPage, dialogsStore.dialogsSearchPage]
+    [isUserSearch, usersSearchPage, dialogsSearchPage]
   );
 
   const clearDebounce = useCallback(() => {

@@ -13,8 +13,11 @@ import "./styles/normalize.scss";
 import "./styles/index.scss";
 
 export const App = () => {
-  const { isAuth, isChecked } = useUnit($LoginStore);
-  const { isMobileVersion } = useUnit($AppStore);
+  const { isAuth, isChecked, isMobileVersion } = useUnit({
+    isAuth: $LoginStore.map((s) => s.isAuth),
+    isChecked: $LoginStore.map((s) => s.isChecked),
+    isMobileVersion: $AppStore.map((s) => s.isMobileVersion),
+  });
 
   const location = useLocation();
   const allowedPathsWithoutAuth = ["/auth", "/home/profile/"];

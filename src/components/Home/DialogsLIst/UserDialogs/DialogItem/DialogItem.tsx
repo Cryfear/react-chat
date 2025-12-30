@@ -21,9 +21,9 @@ const DialogItem = ({
   _id: string | undefined;
   isOnline: boolean | undefined;
 }) => {
-  const { currentDialog } = useUnit($HomeStore);
+  const { currentDialog } = useUnit({ currentDialog: $HomeStore.map((s) => s.currentDialog) });
 
-  const userName = fullName ? fullName.length > 9 ? fullName.slice(0, 9) + "..." : fullName: 'Loading...';
+  const userName = fullName ? (fullName.length > 9 ? fullName.slice(0, 9) + "..." : fullName) : "Loading...";
   const convertedLastMessage = lastMessage && lastMessage.length > 10 ? lastMessage.substr(0, 9) + "..." : lastMessage;
   const date = new Date(lastMessageDate);
 

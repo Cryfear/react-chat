@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import voice from "@assets/mic.png";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "@stores/Home.model";
 import { $LoginStore } from "@stores/Login.model";
 import { sendVoiceFx } from "@stores/Content.model";
 
@@ -12,8 +11,10 @@ interface SendVoiceParams {
 }
 
 export const VoiceMessage: React.FC = () => {
-  const { currentUser } = useUnit($HomeStore);
-  const { myUserData } = useUnit($LoginStore);
+  const { myUserData, currentUser } = useUnit({
+    myUserData: $LoginStore.map((s) => s.myUserData),
+    currentUser: $LoginStore.map((s) => s.myUserData),
+  });
 
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [audioURL, setAudioURL] = useState<string | null>(null);

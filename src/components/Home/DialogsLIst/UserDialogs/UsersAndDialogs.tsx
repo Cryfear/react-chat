@@ -10,16 +10,16 @@ import { MemoUserItem } from "./UserItem/UserItem";
 import "./UserDialogs.scss";
 
 export const UsersAndDialogs = () => {
-  const { dialogs } = useUnit($DialogsListStore);
-  const { users } = useUnit($UsersListStore);
+  const { dialogs, users, isUserSearch, isLoading } = useUnit({
+    dialogs: $DialogsListStore.map((s) => s.dialogs),
+    users: $UsersListStore.map((s) => s.users),
+    isUserSearch: $isUserSearch,
+    isLoading: $isDialogsLoading,
+  });
 
-  const isUserSearch = useUnit($isUserSearch);
-  const isLoading = useUnit($isDialogsLoading);
-
-  const dialogsComponents = React.useMemo(
-    () =>
-      dialogs?.length > 0 ? (
-        dialogs.map((dialog: IDialog) => {
+  const dialogsComponents =
+    dialogs?.length > 0
+      ? dialogs.map((dialog: IDialog) => {
           return (
             <MemoDialogItem
               unreadCount={dialog.unreadCount}
@@ -33,21 +33,14 @@ export const UsersAndDialogs = () => {
             />
           );
         })
-      ) : (
-        <></>
-      ),
-    [dialogs]
-  );
+      : null;
 
-  const usersComponents = React.useMemo(() => {
-    return users?.length > 0 ? (
-      users.map((userData: usersType) => {
-        return <MemoUserItem {...userData} key={userData.id} />;
-      })
-    ) : (
-      <></>
-    );
-  }, [users]);
+  const usersComponents =
+    users?.length > 0
+      ? users.map((userData: usersType) => {
+          return <MemoUserItem {...userData} key={userData.id} />;
+        })
+      : null;
 
   if (isLoading) return <SkeletonItems />;
 
