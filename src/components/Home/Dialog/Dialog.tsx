@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Content } from "./Content/Content";
 import "./Dialog.scss";
 import { useParams } from "react-router";
-import { $HomeStore, loadDialogFx } from "@stores/Home.model";
 import { useUnit } from "effector-react";
 import dots from "@assets/dots.svg";
 import { HelloDialog } from "./HelloDialog";
+import { $HomeStore, loadDialogFx } from "@/store/home";
 
 export const Dialog = () => {
   const { dialogId } = useParams();

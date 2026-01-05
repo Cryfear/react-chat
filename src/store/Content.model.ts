@@ -2,7 +2,7 @@ import { MessagesApi } from "@api/MessagesApi";
 import { createEffect } from "effector";
 import { createDialogFx } from "./DialogsList.model";
 import { socket } from "@/socket";
-import { initialiseDialogFx } from "./Home.model";
+import { initialiseDialogFx } from "./home";
 
 export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string | null; myId: string; data: string }) => {
   try {
@@ -17,7 +17,7 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
     }
 
     const message = await MessagesApi.create({
-      dialogId: dialogIdRes.data,
+      dialogId: dialogIdRes.data.id,
       myId,
       data,
     });

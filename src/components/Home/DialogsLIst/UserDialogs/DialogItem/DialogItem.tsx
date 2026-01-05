@@ -1,8 +1,9 @@
 import classnames from "classnames";
 import { useUnit } from "effector-react";
 import { Link } from "react-router-dom";
-import { $HomeStore, initialiseDialogFx } from "@/store/Home.model";
 import React from "react";
+import { initialiseDialogFx } from "@/store/home";
+import { $HomeStore } from "@/store/home";
 
 const DialogItem = ({
   avatar,

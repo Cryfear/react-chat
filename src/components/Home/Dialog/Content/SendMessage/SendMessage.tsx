@@ -5,10 +5,10 @@ import photo from "@assets/send-photo.png";
 import send from "@assets/send-message.png";
 import TextareaAutosize from "react-textarea-autosize";
 import { useUnit } from "effector-react";
-import { $HomeStore } from "@stores/Home.model";
 import { sendMessageFx } from "@stores/Content.model";
 import { $LoginStore } from "@stores/Login.model";
 import { VoiceMessage } from "../Messages/MessagesTypes/Voice/VoiceMessage";
+import { $HomeStore } from "@/store/home";
 
 interface SendMessageProps {
   inputValue: string;
@@ -17,8 +17,10 @@ interface SendMessageProps {
 }
 
 export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: SendMessageProps) => {
-  const { currentUser } = useUnit($HomeStore);
-  const { myUserData } = useUnit($LoginStore);
+  const { currentUser, myUserData } = useUnit({
+    currentUser: $HomeStore.map((s) => s.currentUser),
+    myUserData: $LoginStore.map((s) => s.myUserData),
+  });
 
   const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" || e.key === "NumpadEnter") {

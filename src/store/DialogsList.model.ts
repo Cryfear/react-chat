@@ -25,7 +25,6 @@ export const $DialogsListStore = createStore<DialogsListStoreTypes>({
 })
   .on(loadInitialDialogsFx.doneData, (_, { dialogs }) => ({ dialogs, dialogsSearchPage: 1, initialisedDialogs: true }))
   .on(loadMoreDialogsFx.doneData, (state, { dialogs }) => {
-    console.log(dialogs);
     return {
       ...state,
       dialogs: [...state.dialogs, ...dialogs],

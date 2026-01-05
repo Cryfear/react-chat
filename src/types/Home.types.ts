@@ -32,6 +32,14 @@ export type dialogServerType = {
   _id: string;
 };
 
+export type ISocketMessage = {
+  createdAt: string;
+  dialogId: string;
+  from: string;
+  text: string;
+  _id: string;
+};
+
 export type HomeStoreTypes = {
   isDialogFullLoaded: boolean;
   loadedDialog: boolean;

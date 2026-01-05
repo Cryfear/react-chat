@@ -19,10 +19,8 @@ export const MessageItem = ({
   type,
   id,
   myUserData,
-  currentUser,
 }: {
   mine: boolean;
-  currentUser: IUser;
   myUserData: IUser;
   id: string;
   data: string;
@@ -30,14 +28,12 @@ export const MessageItem = ({
   isReaded: boolean;
   type: string;
 }) => {
-  const avatar = mine ? myUserData.avatar : currentUser?.avatar;
-
   if (type && type[0] === "audio") return <Voice url={"http://localhost:8888" + data} key={id} isReaded />;
 
   return (
     <div className={classnames("message", !mine ? "message-reverse" : "")}>
       <div className="message__avatar">
-        <img className="message__avatar-photo" src={avatar || "null"} alt="avatar" />
+        <img className="message__avatar-photo" src={myUserData.avatar || "null"} alt="avatar" />
       </div>
       <div className="message__content-wrapper">
         <div className="message__text">{data}</div>

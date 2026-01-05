@@ -1,8 +1,8 @@
 import { useRef, useCallback } from "react";
 import { useUnit } from "effector-react";
-import { $HomeStore, onScrollLoaderMessages } from "../store/Home.model";
 import { $isUserSearch, $UsersListStore, onScrollUsersLoaderFx } from "@stores/UsersList.model";
 import { $DialogsListStore, loadMoreDialogsFx } from "@stores/DialogsList.model";
+import { $HomeStore, onScrollLoaderMessages } from "@/store/home";
 
 export const useDebounceScroll = () => {
   const { currentDialog, isDialogFullLoaded } = useUnit($HomeStore);

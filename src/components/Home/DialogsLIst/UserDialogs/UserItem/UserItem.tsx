@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-import { readyToCreateDialogFx } from "../../../../../store/Home.model";
+import { readyToCreateDialogFx } from "@/store/home";
 
 const UsersSearchItem = ({
   avatar,

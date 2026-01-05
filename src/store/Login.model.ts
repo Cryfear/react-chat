@@ -18,6 +18,8 @@ export const $LoginStore = createStore<LoginStoreTypes>({
   },
 });
 
+export const $myUserData = $LoginStore.map((s) => s.myUserData);
+
 export const uploadFileFx = createEffect<File | null, { success: boolean; avatar?: string }, Error>(async (file) => {
   if (!file) {
     console.warn("Файл не выбран!");
