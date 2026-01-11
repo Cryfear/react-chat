@@ -19,7 +19,7 @@ sample({
 sample({
   clock: socketMessageReceived,
   source: $HomeStore,
-  filter: (state, message) => state.currentDialog.id === message.dialogId,
+  filter: (state, message) => state.currentDialog.id === message.dialog,
   fn: (state, message) => {
     const mapped = mapSocketMessageToDialog(message);
 

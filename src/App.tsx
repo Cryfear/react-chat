@@ -11,7 +11,7 @@ import { HostRoutes } from "./components/Routes/HostRoutes";
 
 import "./styles/normalize.scss";
 import "./styles/index.scss";
-import { socket } from "./socket";
+import { getSocket } from "./socket";
 
 export const App = () => {
   const { isAuth, isChecked, isMobileVersion } = useUnit({
@@ -22,10 +22,12 @@ export const App = () => {
 
   const location = useLocation();
   const allowedPathsWithoutAuth = ["/auth", "/home/profile/"];
+  const socket = getSocket();
 
   const shouldRedirect = !isAuth && isChecked && !allowedPathsWithoutAuth.some((path) => location.pathname.startsWith(path));
 
   useGate(AppGate);
+  
 
   useEffect(() => {
     if (!isChecked) {
@@ -34,7 +36,7 @@ export const App = () => {
         authToken: sessionStorage.getItem("auth-token"),
       }).then(() => socket.emit("auth", sessionStorage.getItem('id')));
     }
-  }, [isChecked]);
+  }, [isChecked, socket]);
 
   if (!isChecked) {
     return <Loading />;

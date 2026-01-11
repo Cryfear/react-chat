@@ -6,7 +6,7 @@ import { useUnit } from "effector-react";
 import dots from "@assets/dots.svg";
 import { HelloDialog } from "./HelloDialog";
 import { $currentDialog, $currentUser, loadDialogFx } from "@/store/home";
-import { socket } from "@/socket";
+import { getSocket } from "@/socket";
 
 export const Dialog = () => {
   const { dialogId } = useParams();
@@ -23,6 +23,7 @@ export const Dialog = () => {
 
   useEffect(() => {
     if (dialogId) {
+      const socket = getSocket();
       socket.emit("dialog:join", currentDialog.id);
       loadDialogFx(dialogId).then(() => setLoading(false));
     }

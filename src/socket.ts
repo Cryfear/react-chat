@@ -2,6 +2,7 @@ import { createEffect } from "effector";
 import { io } from "socket.io-client";
 import { messageType } from "./types/Home.types";
 import { typingStarted, typingStopped } from "./store/Typing.model";
+import { Socket } from "socket.io-client";
 
 export const socketGetMessage = createEffect((msg: messageType) => {
   if (msg) {
@@ -17,19 +18,22 @@ export const socketGetMessage = createEffect((msg: messageType) => {
   }
 });
 
-export const socket = io("localhost:8888", {
-  withCredentials: true,
-  transports: ["websocket", "polling"]
-});
+let socket: Socket | null = null;
 
-socket.on("private", function (msg) {
-  socketGetMessage(msg);
-});
+export const getSocket = (): Socket => {
+  if (!socket) {
+    socket = io("localhost:8888", {
+      withCredentials: true,
+      transports: ["websocket", "polling"],
+    });
+  }
+  return socket;
+};
 
-socket.on("typing:start", ({ dialogId }) => {
+getSocket().on("typing:start", ({ dialogId }: {dialogId: string}) => {
   typingStarted({ dialogId });
 });
 
-socket.on("typing:stop", ({ dialogId }) => {
+getSocket().on("typing:stop", ({ dialogId }: {dialogId: string}) => {
   typingStopped({ dialogId });
 });

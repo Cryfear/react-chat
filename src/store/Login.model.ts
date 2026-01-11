@@ -1,9 +1,9 @@
 import { createStore } from "effector";
 import { AuthApi } from "@api/AuthApi";
 import { createEffect } from "effector";
-import { socket } from "@/socket";
 import { LoginStoreTypes } from "@/types/Auth.types";
 import { UsersApi } from "@api/UsersApi";
+import { getSocket } from "@/socket";
 
 export const $LoginStore = createStore<LoginStoreTypes>({
   isAuth: false,
@@ -40,7 +40,8 @@ export const isLoginFx = createEffect(async ({ email, authToken }: { email: stri
   if (!isInvalidAuth) {
     return await AuthApi.isLoginNow({ email, authToken }).then(
       (data) => {
-        socket.emit("send-id", sessionStorage["id"]);
+        const socket = getSocket();
+        socket.emit("send-id", sessionStorage.getItem("id"));
         if (data.data.responseCode === "success") return data.data;
         return { responseCode: "failed token auth" };
       }

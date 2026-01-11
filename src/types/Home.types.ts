@@ -34,9 +34,13 @@ export type dialogServerType = {
 
 export type ISocketMessage = {
   createdAt: string;
-  dialogId: string;
-  from: string;
+  creater: string;
   data: string;
+  date: string;
+  dialog: string;
+  enum: [];
+  isReaded: boolean;
+  updatedAt: string;
   _id: string;
 };
 

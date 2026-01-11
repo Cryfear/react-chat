@@ -9,7 +9,7 @@ import { sendMessageFx } from "@stores/Content.model";
 import { $myUserData } from "@stores/Login.model";
 import { VoiceMessage } from "../Messages/MessagesTypes/Voice/VoiceMessage";
 import { $currentDialog, $currentUser } from "@/store/home";
-import { socket } from "@/socket";
+import { getSocket } from "@/socket";
 
 interface SendMessageProps {
   inputValue: string;
@@ -32,6 +32,7 @@ export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: 
           myId: myUserData.id,
           data: inputValue,
           userId: currentUser.id,
+          dialogId: currentDialog.id,
         });
 
         setInputValue("");
@@ -43,7 +44,7 @@ export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: 
 
   const handleTyping = () => {
     if (!currentUser) return;
-
+    const socket = getSocket();
     socket.emit("typing:start", { dialogId: currentDialog.id });
 
     if (typingTimeout) clearTimeout(typingTimeout);
@@ -61,6 +62,7 @@ export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: 
       myId: myUserData.id,
       data: inputValue,
       userId: currentUser.id,
+      dialogId: currentDialog.id,
     });
     setInputValue("");
   };

@@ -4,13 +4,6 @@ import { dateFormatter } from "@utils/dateFormatter";
 import Voice from "./Voice/Voice";
 import React from "react";
 
-export type IUser = {
-  id: string;
-  avatar: string;
-  name: string;
-  isOnline: boolean;
-};
-
 export const MessageItem = ({
   mine,
   data,

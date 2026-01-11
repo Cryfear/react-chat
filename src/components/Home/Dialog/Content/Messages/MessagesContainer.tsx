@@ -6,10 +6,10 @@ import { Messages } from "./Messages";
 import { $myUserData } from "@stores/Login.model";
 import { MemoMessageItem } from "./MessagesTypes/MessageItem";
 import { Loading } from "@/utils/Loading";
-import { socket } from "@/socket";
-import { $currentDialog, $currentDialogMessages, socketMessageReceived } from "@/store/home";
+import { $currentDialog, $currentDialogMessages, $currentUser, socketMessageReceived } from "@/store/home";
 import { ISocketMessage } from "@/types/Home.types";
 import { setIsTyping } from "@/store/Typing.model";
+import { getSocket } from "@/socket";
 
 const TypingComponent = React.memo(() => {
   return <div className="content__messages-typing">Печатает...</div>;
@@ -22,19 +22,20 @@ export const MessagesContainer = ({
   loading: boolean;
   setShowEmojiPicker: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { currentDialogMessages, myUserData, currentDialog } = useUnit({
+  const { currentDialogMessages, myUserData, currentDialog, currentUser } = useUnit({
     currentDialogMessages: $currentDialogMessages,
     myUserData: $myUserData,
     currentDialog: $currentDialog,
+    currentUser: $currentUser
   });
 
   React.useEffect(() => {
-    const handler = (message: ISocketMessage) => {
-      socketMessageReceived(message);
+    const handler = (message: { data: ISocketMessage }) => {
+      socketMessageReceived(message.data);
       setIsTyping({ from: null });
     };
 
-    const handleTypingStart = ({ dialogId, from }: { dialogId: string; from: string }) => {
+    const handleTypingStart = ({ dialogId }: { dialogId: string }) => {
       if (dialogId === currentDialog.id) {
         setIsTyping({ from: true });
       }
@@ -46,13 +47,15 @@ export const MessagesContainer = ({
       }
     };
 
+    const socket = getSocket();
+
     socket.on("message:new", handler);
     socket.on("typing:start", handleTypingStart);
     socket.on("typing:stop", handleTypingStop);
 
     return () => {
-      socket.off("message:new", handleTypingStart);
-      socket.off("typing:start", handleTypingStop);
+      socket.off("message:new", handler);
+      socket.off("typing:start", handleTypingStart);
       socket.off("typing:stop", handleTypingStop);
     };
   }, [currentDialog.id]);
@@ -62,11 +65,12 @@ export const MessagesContainer = ({
   const messages = React.useMemo(() => {
     return currentDialogMessages.map((item) => {
       if (!item) return null;
+      const avatar = item.creater === myUserData.id ? myUserData.avatar : currentUser?.avatar || '';
 
       return (
         <div key={item._id}>
           <MemoMessageItem
-            avatar={myUserData.avatar}
+            avatar={avatar}
             data={item.data}
             date={item.date}
             isReaded={item.isReaded}
@@ -76,7 +80,7 @@ export const MessagesContainer = ({
         </div>
       );
     });
-  }, [currentDialogMessages, myUserData]);
+  }, [currentDialogMessages, myUserData, currentUser.avatar]);
 
   if (loading) {
     return <Loading />;
