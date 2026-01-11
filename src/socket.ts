@@ -1,6 +1,7 @@
 import { createEffect } from "effector";
 import { io } from "socket.io-client";
 import { messageType } from "./types/Home.types";
+import { typingStarted, typingStopped } from "./store/Typing.model";
 
 export const socketGetMessage = createEffect((msg: messageType) => {
   if (msg) {
@@ -23,4 +24,12 @@ export const socket = io("localhost:8888", {
 
 socket.on("private", function (msg) {
   socketGetMessage(msg);
+});
+
+socket.on("typing:start", ({ dialogId }) => {
+  typingStarted({ dialogId });
+});
+
+socket.on("typing:stop", ({ dialogId }) => {
+  typingStopped({ dialogId });
 });

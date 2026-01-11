@@ -5,11 +5,15 @@ import { useParams } from "react-router";
 import { useUnit } from "effector-react";
 import dots from "@assets/dots.svg";
 import { HelloDialog } from "./HelloDialog";
-import { $HomeStore, loadDialogFx } from "@/store/home";
+import { $currentDialog, $currentUser, loadDialogFx } from "@/store/home";
+import { socket } from "@/socket";
 
 export const Dialog = () => {
   const { dialogId } = useParams();
-  const { currentUser } = useUnit({currentUser: $HomeStore.map(s => s.currentUser)});
+  const { currentUser, currentDialog } = useUnit({
+    currentUser: $currentUser,
+    currentDialog: $currentDialog,
+  });
   const [loading, setLoading] = useState(true);
 
   const user = currentUser || {
@@ -18,8 +22,11 @@ export const Dialog = () => {
   };
 
   useEffect(() => {
-    if (dialogId) loadDialogFx(dialogId).then(() => setLoading(false));
-  }, [dialogId]);
+    if (dialogId) {
+      socket.emit("dialog:join", currentDialog.id);
+      loadDialogFx(dialogId).then(() => setLoading(false));
+    }
+  }, [currentDialog.id, dialogId]);
 
   if (!dialogId) return <HelloDialog />;
 

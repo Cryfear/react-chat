@@ -36,7 +36,7 @@ export type ISocketMessage = {
   createdAt: string;
   dialogId: string;
   from: string;
-  text: string;
+  data: string;
   _id: string;
 };
 

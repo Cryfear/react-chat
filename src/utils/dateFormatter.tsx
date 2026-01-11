@@ -3,7 +3,6 @@ import dayOfYear from 'dayjs/plugin/dayOfYear';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import calendar from 'dayjs/plugin/calendar';
 
-// Подключаем плагины
 dayjs.extend(dayOfYear);
 dayjs.extend(relativeTime);
 dayjs.extend(calendar);
@@ -15,7 +14,7 @@ export const dateFormatter = (date: string) => {
   const currentYear = dayjs().year();
 
   if (messageDay === currentDay && messageYear === currentYear) {
-    return 'today, ' + dayjs(date).format("HH:mm"); // HH для 24-часового формата
+    return 'today, ' + dayjs(date).format("HH:mm");
   } 
   else if (currentDay - messageDay === 1 && messageYear === currentYear) {
     return 'yesterday, ' + dayjs(date).format("HH:mm");

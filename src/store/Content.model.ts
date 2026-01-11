@@ -1,7 +1,6 @@
 import { MessagesApi } from "@api/MessagesApi";
 import { createEffect } from "effector";
 import { createDialogFx } from "./DialogsList.model";
-import { socket } from "@/socket";
 import { initialiseDialogFx } from "./home";
 
 export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userId: string | null; myId: string; data: string }) => {
@@ -26,15 +25,6 @@ export const sendMessageFx = createEffect(async ({ userId, myId, data }: { userI
       return console.error("Failed to create message");
     }
 
-    try {
-      socket.emit("socketMessage", {
-        content: message.data,
-        to: message.data.creater === userId ? myId : userId,
-      });
-    } catch (socketError) {
-      return console.error("Socket emit failed:", socketError);
-    }
-
     return message.data;
   } catch (error) {
     console.error("Error sending message:", error);
@@ -55,11 +45,6 @@ export const sendVoiceFx = createEffect(async ({ userId, myId, data }: { userId:
   formData.append("userId", userId);
 
   const message = await MessagesApi.createAudio(formData);
-
-  socket.emit("socketMessage", {
-    content: message.data,
-    to: message.data.creater === userId ? userId : myId,
-  });
 
   return message.data;
 });

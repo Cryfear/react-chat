@@ -4,7 +4,7 @@ import { SendMessage } from "./SendMessage/SendMessage";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import "./Content.scss";
 
-export const Content = ({loading}: {loading: boolean}) => {
+export const Content = ({ loading}: { loading: boolean;}) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [inputValue, setInputValue] = useState("");
 

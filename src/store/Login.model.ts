@@ -32,7 +32,7 @@ export const uploadFileFx = createEffect<File | null, { success: boolean; avatar
   return await UsersApi.changeUserPhoto(formData);
 });
 
-export const isLoginFx = createEffect(async ({ email, authToken }: { email: string, authToken: string }) => {
+export const isLoginFx = createEffect(async ({ email, authToken }: { email: string | null, authToken: string | null }) => {
   const isInvalidAuth =
     (email === "undefined" && authToken === "undefined") ||
     (email === undefined && authToken === undefined) ||

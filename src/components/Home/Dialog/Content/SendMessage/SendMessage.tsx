@@ -6,9 +6,10 @@ import send from "@assets/send-message.png";
 import TextareaAutosize from "react-textarea-autosize";
 import { useUnit } from "effector-react";
 import { sendMessageFx } from "@stores/Content.model";
-import { $LoginStore } from "@stores/Login.model";
+import { $myUserData } from "@stores/Login.model";
 import { VoiceMessage } from "../Messages/MessagesTypes/Voice/VoiceMessage";
-import { $HomeStore } from "@/store/home";
+import { $currentDialog, $currentUser } from "@/store/home";
+import { socket } from "@/socket";
 
 interface SendMessageProps {
   inputValue: string;
@@ -17,9 +18,10 @@ interface SendMessageProps {
 }
 
 export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: SendMessageProps) => {
-  const { currentUser, myUserData } = useUnit({
-    currentUser: $HomeStore.map((s) => s.currentUser),
-    myUserData: $LoginStore.map((s) => s.myUserData),
+  const { currentUser, myUserData, currentDialog } = useUnit({
+    currentUser: $currentUser,
+    myUserData: $myUserData,
+    currentDialog: $currentDialog,
   });
 
   const TextAreaKeyDownFunction = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -35,6 +37,19 @@ export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: 
         setInputValue("");
       }
     }
+  };
+
+  let typingTimeout: NodeJS.Timeout | null = null;
+
+  const handleTyping = () => {
+    if (!currentUser) return;
+
+    socket.emit("typing:start", { dialogId: currentDialog.id });
+
+    if (typingTimeout) clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket.emit("typing:stop", { dialogId: currentDialog.id });
+    }, 3000);
   };
 
   const SendButtonFunction = () => {
@@ -61,7 +76,10 @@ export const SendMessage = ({ inputValue, setInputValue, onToggleEmojiPicker }: 
             name="messagesender"
             maxRows={4}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              handleTyping();
+            }}
             placeholder="Enter message text"
             className="send-form__input"
             onKeyDown={TextAreaKeyDownFunction}

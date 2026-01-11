@@ -17,6 +17,14 @@
     padding-left: 50px;
     padding-right: 50px;
     margin-bottom: auto; 
+
+    &-typing {
+      color: grey;
+      margin-top: 20px;
+      padding-left: 50px;
+    padding-right: 50px;
+    margin-bottom: 10px;
+    }
   }
 
   &__arrow-to-bottom {

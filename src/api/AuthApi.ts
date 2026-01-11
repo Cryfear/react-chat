@@ -1,7 +1,7 @@
 import instance from "./api";
 
 export const AuthApi = {
-  isLoginNow(values: {email: string, authToken: string}) {
+  isLoginNow(values: {email: string | null, authToken: string | null}) {
     return instance
       .post(
         `/login/me`,

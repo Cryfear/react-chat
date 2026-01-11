@@ -5,7 +5,7 @@ export const mapSocketMessageToDialog = (msg: ISocketMessage): dialogServerType 
   createdAt: msg.createdAt,
   updatedAt: msg.createdAt,
   creater: msg.from,
-  data: msg.text,
+  data: msg.data,
   dialog: msg.dialogId,
   enum: "text",
   isReaded: false,

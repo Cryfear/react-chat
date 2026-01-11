@@ -13,9 +13,9 @@ export const $HomeStore = createStore<HomeStoreTypes>({
   currentDialog: {
     // текущий диалог
     id: "", // dialogId
-    isTyping: false, // печатает ли нам собеседник
     page: 0, // страница сообщений
     unreadedPage: 0, // непрочитанные сообщения если есть больше десятка
+    isTyping: false
   },
   currentDialogMessages: [],
   messageSent: false, // флаг для отправки сообщения, чтобы проскролить вниз когда станет true
@@ -25,4 +25,5 @@ export const $currentDialogMessages = $HomeStore.map(
   (s) => s.currentDialogMessages
 );
 
-export const $currentUser = $HomeStore.map((s) => s.currentUser)
+export const $currentUser = $HomeStore.map((s) => s.currentUser);
+export const $currentDialog = $HomeStore.map((s) => s.currentDialog);

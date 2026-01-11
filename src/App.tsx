@@ -11,6 +11,7 @@ import { HostRoutes } from "./components/Routes/HostRoutes";
 
 import "./styles/normalize.scss";
 import "./styles/index.scss";
+import { socket } from "./socket";
 
 export const App = () => {
   const { isAuth, isChecked, isMobileVersion } = useUnit({
@@ -29,9 +30,9 @@ export const App = () => {
   useEffect(() => {
     if (!isChecked) {
       isLoginFx({
-        email: sessionStorage["email"],
-        authToken: sessionStorage["auth-token"],
-      });
+        email: sessionStorage.getItem("email"),
+        authToken: sessionStorage.getItem("auth-token"),
+      }).then(() => socket.emit("auth", sessionStorage.getItem('id')));
     }
   }, [isChecked]);
 

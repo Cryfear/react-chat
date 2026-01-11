@@ -6,7 +6,7 @@ interface MessagesProps {
   setShowEmojiPicker: (value: boolean) => void;
 }
 
-export const Messages: React.FC<MessagesProps> = ({ messages, setShowEmojiPicker }) => {
+export const Messages: React.FC<MessagesProps> = ({ messages, setShowEmojiPicker}) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const debouncedScroll = useDebounceScroll();
 
@@ -17,12 +17,7 @@ export const Messages: React.FC<MessagesProps> = ({ messages, setShowEmojiPicker
   }, [debouncedScroll]);
 
   return (
-    <div
-      className="content__messages"
-      ref={scrollRef}
-      onScroll={handleScroll}
-      onClick={() => setShowEmojiPicker(false)}
-    >
+    <div className="content__messages" ref={scrollRef} onScroll={handleScroll} onClick={() => setShowEmojiPicker(false)}>
       {messages}
     </div>
   );
