@@ -5,3 +5,4 @@ export const clearMessages = createEvent();
 export const dialogLoaded = createEvent();
 export const socketMessageReceived = createEvent<ISocketMessage>();
 export const messageSentSwitcher = createEvent();
+export const messagesRead = createEvent<{ dialogId: string }>();

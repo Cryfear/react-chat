@@ -13,12 +13,10 @@ export const OpenedProfile = ({ isOpen, name, avatar }: OpenedProfileTypes) => {
   const [isChangingName, setIsChangingName] = useState(false);
   const [isChangingPhoto, setIsChangingPhoto] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  // меняется ли в данный момент определенный блок профиля, например, меняется ли имя?
 
   const [changeNameValue, setChangeNameValue] = useState("");
   const [changeOldPasswordValue, setChangeOldPasswordValue] = useState("");
   const [changeNewPasswordValue, setChangeNewPasswordValue] = useState("");
-  // значения инпутов
 
   const changePasswordHandler = () => {
     UsersApi.changeUserPassword({

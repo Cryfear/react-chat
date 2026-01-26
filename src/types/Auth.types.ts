@@ -43,7 +43,6 @@ export type LoginStoreTypes = {
   isChecked: boolean;
   isCorrectLogin: null | boolean;
   myUserData: {
-    // данные самого залогиненного пользователя
     id: string;
     avatar: string;
     name: string;

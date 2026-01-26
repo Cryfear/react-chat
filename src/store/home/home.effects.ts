@@ -37,8 +37,6 @@ export const loadDialogFx = createEffect(async (id: string): Promise<void> => {
   }
 }); 
 
-// нужен, когда мы находимся уже на урле диалога, чтобы зафиксировать и отреагировать на загрузку этого диалога
-
 export const initialiseDialogFx = createEffect(async ({ userId, myId, page }: initDialogTypes) => {
   if (!myId || !userId) return;
 
@@ -87,4 +85,8 @@ export const onScrollLoaderMessages = createEffect(async ({ page, dialogId, myId
     console.error("Error loading messages:", error);
     return null;
   }
+});
+
+export const readDialogFx = createEffect(async ({dialogId, userId}: {dialogId: string, userId: string}) => {
+  await MessagesApi.readDialogMessages({dialogId, userId});
 });

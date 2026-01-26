@@ -10,7 +10,6 @@ export const $LoginStore = createStore<LoginStoreTypes>({
   isChecked: false,
   isCorrectLogin: null,
   myUserData: {
-    // данные самого залогиненного пользователя
     id: "",
     avatar: "",
     name: "",
@@ -68,7 +67,6 @@ $LoginStore.on(LoginFx.done, (state, { result }) => {
       isAuth: true,
       isCorrectLogin: true,
       myUserData: {
-        // данные самого залогиненного пользователя
         id: result.data.id,
         avatar: result.data.avatar,
         name: result.data.fullName,
@@ -89,7 +87,6 @@ $LoginStore.on(LoginFx.done, (state, { result }) => {
       isChecked: true,
 
       myUserData: {
-        // данные самого залогиненного пользователя
         id: data.id,
         avatar: data.avatar,
         name: data.fullName,

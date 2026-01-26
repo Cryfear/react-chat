@@ -38,12 +38,12 @@ $HomeStore
       currentDialog: {
         id: data.currentDialogID,
         isTyping: data.currentDialogTyping,
-        page: 1, // Начинаем с page 1
+        page: 1, 
         unreadedPage: 0,
         opponentId: data.currentDialogOpponentId,
       },
       currentDialogMessages: data.currentDialogMessages,
-      isDialogFullLoaded: false, // Сбрасываем при инициализации нового диалога
+      isDialogFullLoaded: false,
     };
   })
   .on(sendMessageFx.doneData, (state, data) => {

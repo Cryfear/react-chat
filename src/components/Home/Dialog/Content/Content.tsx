@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MessagesContainer } from "./Messages/MessagesContainer";
 import { SendMessage } from "./SendMessage/SendMessage";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import "./Content.scss";
+import { messagesRead, readDialogFx } from "@/store/home";
+import { getSocket } from "@/socket";
 
-export const Content = ({ loading}: { loading: boolean;}) => {
+export const Content = ({ loading, dialogId, userId }: { loading: boolean; dialogId: string; userId: string | null }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
@@ -15,6 +17,17 @@ export const Content = ({ loading}: { loading: boolean;}) => {
   const toggleEmojiPicker = () => {
     setShowEmojiPicker((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (!dialogId || !userId) return;
+
+    const socket = getSocket();
+    socket.on("messages:read", ({ dialogId }) => {
+      messagesRead({ dialogId });
+    });
+
+    readDialogFx({ dialogId, userId });
+  }, [dialogId, userId]);
 
   return (
     <div className="content">

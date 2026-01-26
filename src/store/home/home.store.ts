@@ -11,10 +11,9 @@ export const $HomeStore = createStore<HomeStoreTypes>({
     isOnline: false,
   }, // это собеседник
   currentDialog: {
-    // текущий диалог
-    id: "", // dialogId
-    page: 0, // страница сообщений
-    unreadedPage: 0, // непрочитанные сообщения если есть больше десятка
+    id: "", 
+    page: 0, 
+    unreadedPage: 0, 
     isTyping: false
   },
   currentDialogMessages: [],

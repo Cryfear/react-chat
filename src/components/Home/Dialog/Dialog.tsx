@@ -25,6 +25,7 @@ export const Dialog = () => {
     if (dialogId) {
       const socket = getSocket();
       socket.emit("dialog:join", currentDialog.id);
+
       loadDialogFx(dialogId).then(() => setLoading(false));
     }
   }, [currentDialog.id, dialogId]);
@@ -42,7 +43,7 @@ export const Dialog = () => {
           <img src={dots} alt="dots" />
         </div>
       </div>
-      <Content loading={loading} />
+      <Content dialogId={currentDialog.id} userId={currentUser.id} loading={loading} />
     </div>
   );
 };

@@ -17,14 +17,12 @@ export const Login = ({ errors, handleChange, values, touched }: FormikProps<For
 
   const passwordErrors =
     isCorrectLogin === false
-      ? "Invalid Login Or Password" // если пользователь ввел неправильно логин или пароль
-      : errors.password && touched.password // иначе вывести ошибку из формика если прикоснулся
+      ? "Invalid Login Or Password" 
+      : errors.password && touched.password
       ? errors.password
       : "";
 
   const emailIsErrorClassName = errors.email && touched.email ? "input__error" : touched.email && "input__valid";
-
-  // при классе input__valid добавляется галочка к полю, поэтому нужна проверка на touched
 
   const passwordIsErrorClassName = errors.password && touched.password ? "input__error" : touched.password && "input__valid";
 

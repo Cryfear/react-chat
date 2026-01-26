@@ -29,12 +29,6 @@ export const getUsersBySearch = createEffect(async (values: { page: number; sear
 export const $isUserSearch = createStore(false);
 export const changeUserSearch = createEvent<boolean>();
 
-// sample({
-//   clock: changeUserSearch,
-//   target: $isUserSearch,
-//   fn: (state) => state
-// })
-
 $isUserSearch.on(changeUserSearch, (state, data) => data);
 
 export const $UsersListStore = createStore<UsersListStoreTypes>({

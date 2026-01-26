@@ -41,4 +41,11 @@ export const MessagesApi = {
       .then((data) => data)
       .catch((err) => err);
   },
+  readDialogMessages({dialogId, userId}: {dialogId: string, userId: string}) {
+    return instance.get(`/messages/read/${dialogId}`, {
+      headers: {
+        userId
+      }
+    })
+  }
 };

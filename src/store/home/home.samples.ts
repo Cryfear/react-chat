@@ -1,7 +1,9 @@
+import { $DialogsListStore } from '@stores/DialogsList.model';
 import { $HomeStore } from '@stores/home/home.store';
 import { sample } from "effector";
-import { dialogLoaded, socketMessageReceived } from "./home.events";
+import { dialogLoaded, messagesRead, socketMessageReceived } from "./home.events";
 import { mapSocketMessageToDialog } from './home.mappers';
+import { readDialogFx } from './home.effects';
 
 sample({
   clock: dialogLoaded,
@@ -33,4 +35,54 @@ sample({
     };
   },
   target: $HomeStore,
+});
+
+sample({
+  clock: readDialogFx.done,
+  source: $HomeStore,
+  fn: (state) => ({
+    ...state,
+    currentDialogMessages: state.currentDialogMessages.map((m) =>
+      m.creater === state.currentUser.id
+        ? { ...m, isReaded: true }
+        : m
+    ),
+  }),
+  target: $HomeStore,
+});
+
+sample({
+  clock: messagesRead,
+  source: $HomeStore,
+  filter: (state, { dialogId }) => state.currentDialog.id === dialogId,
+  fn: (state) => ({
+    ...state,
+    currentDialogMessages: state.currentDialogMessages.map((m) =>
+      m.creater !== state.currentUser.id
+        ? { ...m, isReaded: true }
+        : m
+    ),
+  }),
+  target: $HomeStore,
+});
+
+sample({
+  clock: readDialogFx.done,
+  source: {
+    dialogsState: $DialogsListStore,
+    homeState: $HomeStore,
+  },
+  fn: ({ dialogsState, homeState }) => {
+    const currentDialogId = homeState.currentDialog.id;
+
+    return {
+      ...dialogsState,
+      dialogs: dialogsState.dialogs.map((d) =>
+        d._id === currentDialogId
+          ? { ...d, unreadCount: 0 }
+          : d
+      ),
+    };
+  },
+  target: $DialogsListStore,
 });

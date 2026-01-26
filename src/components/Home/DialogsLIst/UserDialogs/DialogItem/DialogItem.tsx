@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { initialiseDialogFx } from "@/store/home";
 import { $HomeStore } from "@/store/home";
+import { formatDialogDate } from "@/utils/dateFormatter";
 
 const DialogItem = ({
   avatar,
@@ -26,7 +27,7 @@ const DialogItem = ({
 
   const userName = fullName ? (fullName.length > 9 ? fullName.slice(0, 9) + "..." : fullName) : "Loading...";
   const convertedLastMessage = lastMessage && lastMessage.length > 10 ? lastMessage.substr(0, 9) + "..." : lastMessage;
-  const date = new Date(lastMessageDate);
+  const convertedDate = formatDialogDate(new Date(lastMessageDate))
 
   return (
     <Link className="dialog__item__wrapper" to={`/dialogs/${_id}`}>
@@ -46,7 +47,7 @@ const DialogItem = ({
         <div className="dialog__item-wrapper">
           <div className="dialog__item-header">
             <span className="dialog__item-name">{userName}</span>
-            <span className="dialog__item-time">{date.toLocaleDateString()}</span>
+            <span className="dialog__item-time">{convertedDate}</span>
           </div>
           <div className="dialog__item-footer">
             <span className="dialog__item-text">{convertedLastMessage}</span>

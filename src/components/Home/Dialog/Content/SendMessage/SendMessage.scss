@@ -27,11 +27,7 @@
     resize: none;
     outline: none !important;
 
-    &-wrapper {
-    }
-
     &:focus {
-      // border: 2px solid #3674ff;
       border: none;
     }
   }
